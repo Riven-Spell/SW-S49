@@ -1,0 +1,463 @@
+Character: SW/S49-T01
+Name "The Jacket Left Behind" Finn
+Image T01
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 The Force Awakens
+*BondDiscard("Attack by the Resistance" Poe)
+EndCard
+
+Character: SW/S49-T02
+Name "Hero" Han Solo
+Image T02
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 The Force Awakens
+Auto: OnAttack
+{
+    TargetLocation Stage
+    NarrowTargets HasTrait The Force Awakens
+    ChooseCharacterFromTargets Choose a character to give +1 Level and +1000 Power for the turn.
+    GainLevel 1
+    GainPower 1000
+}
+Text Auto: When this attacks, choose one of your other <The Force Awakens> characters, and that character gains +1 Level and +1000 Power for the turn.
+EndCard
+
+Character: SW/S49-T03
+Name "Captured Pilot" Poe
+Image T03
+Color Y
+Level 1
+Cost 0
+Power 5500
+Trait1 The Force Awakens
+EndCard
+
+Character: SW/S49-T04
+Name "Attack by the Resistance" Poe
+Image T04
+Color Y
+Level 2
+Cost 1
+Power 2000
+Trait1 The Force Awakens
+Trigger Soul
+Auto: OnUseThisCardsBackup
+{
+    If StageContains 1 HasTrait The Force Awakens
+    {
+        TargetMyCharacterInBattle
+        ChooseCharacterFromTargets Choose 1 of your characters in battle, and that character gains +1000 power for the turn.
+        GainPower 1000
+    }
+}
+Text Auto: When you use this card's BACKUP, if you have a <The Force Awakens> character, choose 1 of your characters in battle, and that character gains +1000 power for the turn.
+Backup 2500
+EndCard
+
+Character: SW/S49-T05
+Name "Stubborn Tracing" Finn
+Image T05
+Color Y
+Level 2
+Cost 1
+Power 4500
+Trait1 The Force Awakens
+Trigger Soul
+*LevelAssist
+Auto: OnClimaxPlay
+{
+    TargetLocation Stage
+    ChooseCharacterFromTargets Choose a character to give +2000 Power for the turn.
+    GainPower 2000
+}
+Text Auto: When you play a climax, choose one of your characters, and give them +2000 power for the turn.
+EndCard
+
+Character: SW/S49-T06
+Name "New Determination Within Him" Han Solo
+Image T06
+Color Y
+Level 2
+Cost 1
+Power 7000
+Trait1 The Force Awakens
+Trigger Soul
+*CannotSideAttack
+Cont: GiveSelf
+{
+    If StageContains 1 Other && NameEquals "New Determination Within Him" Chewbacca
+    {
+        GainPower 2000
+    }
+}
+Text Cont: If '"New Determination Within Him" Chewbacca' is on your stage, this gains +2000 power.
+Auto: OnPlay
+{
+    PayCost Discard 1 HasTrait The Force Awakens
+    {
+        SearchLocationForTargets WaitingRoom 1 1 NameEquals "New Determination Within Him" Chewbacca
+        PlaceOnStage False True True False
+    }
+}
+Text Auto: [Discard a <The Force Awakens> character from your hand] When this is placed from your hand to the stage, you may pay the cost. If you do, choose a '"New Determination Within Him" Chewbacca' in your waiting room and put it in any slot on the stage.
+EndCard
+
+Character: SW/S49-T07
+Name "New Determination Within Him" Chewbacca
+Image T07
+Color Y
+Level 2
+Cost 1
+Power 7000
+Trait1 The Force Awakens
+Trigger Soul
+Cont: GiveSelf
+{
+    If StageContains 1 Other && NameEquals "New Determination Within Him" Han Solo
+    {
+        GainPower 2000
+    }
+}
+Text Cont: If '"New Determination Within Him" Han Solo' is on your stage, this gains +2000 power.
+Auto: OnPlay|PlacedBy "New Determination Within Him" Han Solo
+{
+    SetXToNumberOfCharacters HasTrait The Force Awakens
+    MultiplyXValue 500
+    GainPower X
+}
+Text Auto: When this is placed onto the stage from your hand or by the effect of '"New Determination Within Him" Han Solo', this gains +X power for the turn. X = 500 * # of <The Force Awakens> characters on your stage.
+EndCard
+
+Climax: SW/S49-T08
+Name Duel In the Forest
+Image T08
+*WindClimax
+Trigger Wind
+Color Yellow
+EndCard
+
+Character: SW/S49-T09
+Name "Beginning of Adventure" Rey
+Color B
+Level 0
+Cost 0
+Power 500
+Image T09
+Trait1 The Force Awakens
+Auto: OnAttack
+{
+    Question Mill 1? (If it's a climax, draw one.)
+    If Yes
+    {
+        Mill 1
+        IfTarget IsClimax
+        {
+            DrawCard
+            Discard 1 Any
+        }
+    }
+}
+Text Auto: When this attacks, you may put the top card of your library in the waiting room. If it's a climax card, draw a card, and discard a card from your hand to the waiting room.
+Auto: OnReversed
+{
+    Question Put this card's battle opponent on the bottom of your opponent's deck?
+    If Yes
+    {
+        TargetBattleOpponent
+        If Compare TargetCardsLevel 0 OrLess
+        {
+            MoveCardToBottom OpponentDeck
+        }
+    }
+}
+Text Auto: When this is reversed in battle, if the level of the battle opponent of this is 0 or lower, you may put that character at the bottom of the library.
+EndCard
+
+Character: SW/S49-T10
+Name Lor San Tekka
+Color B
+Level 0
+Cost 0
+Power 500
+Image T10
+Trait1 The Force Awakens
+Cont: GiveAll
+{
+    If NameEquals "Captured Pilot" Poe
+    {
+        GainPower 1000
+    }
+}
+Text Cont: All your other '"Captured Pilot" Poe' gain +1000 power.
+*Bond1("Captured Pilot" Poe)
+EndCard
+
+Character: SW/S49-T11
+Name "To Jakku" BB-8
+Color B
+Level 0
+Cost 0
+Power 1500
+Image T11
+Trait1 The Force Awakens
+Cont: GiveAll
+{
+    If HasTrait The Force Awakens && Other
+    {
+        GainPower 500
+    }
+}
+Text Cont: All your other <The Force Awakens> characters gain +500 Power.
+Act: RestSelf
+{
+    TargetLocation Stage
+    ChooseCharacterFromTargets Choose a character to give +500 power.
+    GainPower 500
+}
+Text Act: [Rest this] Choose one of your characters, and that character gains +500 power for the turn.
+EndCard
+
+Character: SW/S49-T12
+Name "Reunion" C-3PO
+Color B
+Level 0
+Cost 0
+Power 1500
+Image T12
+Trait1 The Force Awakens
+Auto: OnPlay
+{
+    PeekTop Deck
+    Question Place this card on the bottom of your deck?
+    If Yes
+    {
+        MoveCardToBottom Deck
+    }
+    If No
+    {
+        EndPeek Deck
+    }
+}
+Text Auto: When this is placed from hand to the stage, look at the top card of your library, and put it either on top or bottom of your library.
+*Act1RestSelfDrawBrainstorm
+EndCard
+
+Character: SW/S49-T13
+Name "Long Sleep" R2-D2
+Color B
+Level 0
+Cost 0
+Power 2000
+Image T13
+Trait1 The Force Awakens
+Cont: GiveSelf
+{
+    If Not LocationContains CenterStage 1 Other
+    {
+        GainPower 1500
+    }
+}
+Text Cont: If there are no other characters in your front row, this gains +1500 Power.
+Auto: StartOpponentAttackPhase
+{
+    Question Move to an empty front row center slot?
+    If Yes
+    {
+        MoveToOpenPosition True False
+    }
+}
+Text Auto: At the start of your opponent's attack phase, you may move this to an empty front row center slot.
+EndCard
+
+Character: SW/S49-T14
+Name "For a Small Amount of Food" Rey
+Color B
+Level 1
+Cost 0
+Power 4000
+Image T14
+Trait1 The Force Awakens
+Cont: GiveSelf
+{
+    If StageContains 2 HasTrait The Force Awakens
+    {
+        GainPower 2000
+    }
+}
+Text Cont: If you have 2 or more other <The Force Awakens> characters, this gains +2000 power.
+Combo Escape From Jakku
+Auto: OnAttack
+{
+    If Climax Escape from Jakku
+    {
+        PayCost 1
+        {
+            GainPower 2000
+            GainEffect
+            {
+                Auto: OnOpponentReverse
+                {
+                    *OptionalDraw
+                }
+                Text Auto: When this card's battle opponent becomes reversed, you may draw a card.
+            }
+        }
+    }
+}
+Text Auto: CxCombo [(1)] When this attacks, if 'Escape from Jakku' is in your Climax Zone, you may pay. If you do, this gains +2000 power and the following ability until end of turn: "[A] When this card's battle opponent becomes reversed, you may draw a card."
+EndCard
+
+Character: SW/S49-T15
+Name "Scavenger Days" Rey
+Color B
+Level 1
+Cost 1
+Power 6000
+Image T15
+Trait1 The Force Awakens
+Auto: OnOtherAttacks
+{
+    GainPower 1000
+}
+Text Auto: When your other <The Force Awakens> character attacks, this gains +1000 power for the turn.
+*HandEncore
+EndCard
+
+Character: SW/S49-T16
+Name "Something to Protect" Rey
+Color B
+Level 3
+Soul 2
+Cost 2
+Trigger Soul
+Power 10000
+Image T16
+Trait1 The Force Awakens
+Cont: GiveSelf
+{
+    If StageContains 2 HasTrait The Force Awakens
+    {
+        GainPower 1000
+    }
+}
+Text Cont: If you have 2 or more other <The Force Awakens> characters, this gains +1000 power.
+*Healer
+EndCard
+
+Event: SW/S49-T17
+Name BB Unit
+Color B
+Level 2
+Cost 1
+Image T17
+Effect:
+{
+    SearchDeck HasTrait The Force Awakens
+    TargetLocation Stage
+    ChooseCharacterFromTargets Choose a character to give +3000 power.
+    GainPower 3000
+}
+Text Search your library for up to 1 <The Force Awakens> character, reveal it, put it in your hand, then shuffle your library.
+Text Choose 1 of your characters, and that character gains +3000 power for the turn.
+EndCard
+
+Climax: SW/S49-T18
+Name Escape From Jakku
+*BlueStockSoul
+Trigger DoubleSoul
+Image T18
+Color Blue
+EndCard
+
+Climax: SW/S49-T19
+Name Force Wielder
+*2SoulClimax
+Trigger DoubleSoul
+Image T19
+Color Blue
+EndCard
+
+Character: SW/S49-121
+Name "STAR WARS" Chewbacca
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Image 121
+Power 2500
+Backup 3000
+EndCard
+
+Character: SW/S49-122
+Name "STAR WARS" Kylo Ren
+Color R
+Level 0
+Cost 0
+Image 122
+Power 2500
+Auto: OnPlay
+{
+    Mill 2
+    NarrowTargets IsClimax
+    If Compare TargetCount 1 OrMore
+    {
+        TargetSelf
+        GainPower 3000
+    }
+}
+Text Auto: When this is placed from hand to the Stage, put the top 2 cards of your library into the waiting room. If there was at least 1 climax among them, this gains +3000 power until end of turn.
+EndCard
+
+Character: SW/S49-123
+Name "STAR WARS" Stormtrooper
+Color R
+Level 1
+Cost 0
+Image 123
+Power 5000
+Auto: OnAttack
+{
+    TargetLocation Stage
+    NarrowTargets IsColor Red
+    ChooseCharacterFromTargets
+    If HasTarget 
+    {
+        SetXToNumberOfCharacters IsColor Red && Other
+        MultiplyXValue 500
+        GainPower X
+    }
+}
+Text Auto: When this attacks, choose one of your other red characters, that character gains +X power for the turn, where X = # of your other red characters * 500
+EndCard
+
+Character: SW/S49-124
+Name "STAR WARS" Rey
+Color B
+Level 1
+Cost 0
+Backup 1500
+Power 1500
+Image 124
+EndCard
+
+Character: SW/S49-125
+Name "STAR WARS" C-3PO & BB-8 & R2-D2
+Color B
+Level 1
+Cost 0
+Image 125
+Power 5000
+Auto: OnPlay
+{
+    SetXToNumberOfCharacters IsColor Blue
+    MultiplyXValue 500
+    GainPower X
+}
+Text Auto: When this is placed from hand to the stage, this gains +X power for the turn, where X = # of your Blue characters * 500.
+EndCard

@@ -1,0 +1,4 @@
+Series: Star Wars
+Folder: Star Wars/S49
+Prefix: SW/S49
+SetName: Volume 1 (S49)

@@ -360,8 +360,11 @@ Effect:
 {
     SearchDeck HasTrait The Force Awakens
     TargetLocation Stage
-    ChooseCharacterFromTargets Choose a character to give +3000 power.
-    GainPower 3000
+    ChooseCharacterFromTargets_Optional Choose a character to give +3000 power.
+    If HasTarget
+    {
+        GainPower 3000
+    }
 }
 Text Search your library for up to 1 <The Force Awakens> character, reveal it, put it in your hand, then shuffle your library.
 Text Choose 1 of your characters, and that character gains +3000 power for the turn.
@@ -381,6 +384,497 @@ Name Force Wielder
 Trigger DoubleSoul
 Image T19
 Color Blue
+EndCard
+
+Character: SW/S49-001
+Name "Escape From First Order" Finn
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Trait1 The Force Awakens
+Soul 2
+Power 9000
+Image 001
+Cont: InHand
+{
+    If LocationContains Stage 1 NameEquals "Talent of Pilot" Rey
+    {
+        If LocationContains Stage 1 NameEquals "Premonition of Friendship" BB-8
+        {
+            LoseLevel
+        }
+    }
+}
+Text Cont: If you have '"Talent of Pilot" Rey' and '"Premonition of Friendship" BB-8', this gets -1 level while in hand.
+Cont: GiveSelf
+{
+    SetXToNumberOfCharacters Other && HasTrait The Force Awakens
+    MultiplyXValue 500
+    GainPower X
+}
+Text Cont: For each of your other <The Force Awakens> characters, this gains 500 power.
+*Healer
+EndCard
+
+Character: SW/S49-002
+Name "Smuggler" Han Solo
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Trait1 A New Hope
+Soul 2
+Power 10000
+Image 002
+Auto: OnAttack
+{
+    PayCost Discard 1 IsCharacter
+    {
+        GainPower 2000
+        GainSoul 1
+    }
+}
+Text Auto: [Discard a character from your hand] When this attacks, you may pay the cost. If you do, this gains +2000 power and +1 soul for the turn.
+*MusashiEffect
+EndCard
+
+Character: SW/S49-003
+Name "Secret Mission" Leia
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Soul 2
+Power 10000
+Trait1 A New Hope
+Image 003
+*Healer
+Auto: OnClimaxPlay
+{
+    If Climax "Medal Ceremony"
+    {
+        TargetLocation Stage
+        ChooseCharacterFromTargets Choose a character to give +1000 power, +1 soul, and 1 Burn on DC.
+        GainPower 1000
+        GainSoul 1
+        GainEffect
+        {
+            *OnCancelBurn1
+        }
+    }
+}
+Text Auto: CxCombo When "Medal Ceremony" is placed in your Climax Zone, if this is in the front row, choose 1 of your characters, and that character gains +1000 power, +1 soul, and the following ability for the turn. "Auto: This ability activates up to once per turn. When the damage dealt by this is cancelled, you may deal 1 damage to your opponent. (Damage may be cancelled)"
+EndCard
+
+Character: SW/S49-004
+Name "Lightsaber in Hand" Finn
+Color Y
+Level 0
+Cost 0
+Power 500
+Trait1 The Force Awakens
+Image 004
+*OnPlayGivePower(1000,Any)
+Auto: OnReversed
+{
+    If Compare BattleOpponentsLevel 0 OrLess
+    {
+        Question Send battle opponent to their stock? (Places the bottom of the opponent's stock into their WR)
+        If Yes
+        {
+            TargetBattleOpponent
+            MoveCard OpponentStock
+            TargetBottom OpponentStock 1
+            MoveCard OpponentWaitingRoom
+        }
+    }
+}
+Text: Auto: When this becomes reversed in battle, if the opposing character is level 0 or lower, you may put that character in stock. If you do, put the bottom card of your opponent's stock in the waiting room.
+EndCard
+
+Character: SW/S49-005
+Name "Scoundrel" Han Solo
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 A New Hope
+Image 005
+Cont: GiveAll
+{
+	If MyTurn
+	{
+		If InLocation MiddleCenterStage && Other
+		{
+			GainPower 1000
+		}
+	}
+}
+Text Cont: During your turn, your other character in the middle position of the center stage gets +1000 power.
+Act: 1 RestSelf
+{
+    Brainstorm 4
+    TargetBrainstormed
+    NarrowTargets IsClimax
+    SetXValue TargetCount
+    If HasTarget 
+    {
+        TargetLocation Deck
+        ChooseCardsFromTargets 0 X IsCharacter && ColorIs Yellow
+        MoveCard Hand
+        ShuffleLocation Deck
+    }
+}
+Text Act: [(1) Rest this] Flip over the top 4 cards of your library, and put them into your waiting room. For each climax revealed this way, search your library for up to one yellow character, reveal it, put it into your hand, and shuffle your library.
+EndCard
+
+Character SW/S49-006
+Name Han Solo
+Color Y
+Level 0
+Cost 0
+Power 2500
+Image 006
+Trait1 Return of the Jedi
+Auto: OnPlay
+{
+    If LocationContains WaitingRoom 3 IsClimax
+    {
+        TargetTop Deck 1
+        MoveCard Clock
+    }
+}
+Text Auto: When this is played, if there are 3 or more climaxes in your waiting room, put the top card of your library in the clock.
+Auto: StartOpponentAttackPhase
+{
+    MoveToOpenPosition True False
+}
+Text Auto: At the start of your opponent's attack phase, you may move this to an empty slot in the front row.
+EndCard
+
+Character SW/S49-007
+Name "Captain of the Millennium Falcon" Han Solo
+Color Y
+Level 1
+Cost 0
+Power 4000
+Image 007
+Trait1 The Empire Strikes Back
+Cont: GiveSelf
+{
+    If MyTurn
+    {
+        GainPower 2000
+    }
+}
+Text Cont: During your turn, this gains +2000 power.
+Auto: OnReverseOpponent
+{
+    If Climax Mission! &&& LocationContains Stage 1 NameEquals "Reversal of Situation" Chewbacca
+    {
+        RevealUpTo Deck 3
+        ChooseCardsFromTargets 0 1 Any
+        MoveCard Hand
+        EndPeek
+    }
+}
+Text Auto: CxCombo When the battle opponent of this becomes reversed, if 'Mission!' is in your Climax Zone and you have another '"Reversal of Situation" Chewbacca', look at up to 3 cards from the top of your library. Put one in your hand, and the rest in the waiting room.
+EndCard
+
+Character SW/S49-008
+Name "New Name" Finn
+Color Y
+Level 1
+Cost 0
+Power 4500
+Image 008
+Trait1 The Force Awakens
+Cont: GiveSelf
+{
+    If StageContains 2 Other && HasTrait The Force Awakens
+    {
+        GainPower 1000
+    }
+}
+Text Cont: If you have 2 or more other <The Force Awakens> characters, this gains 1000 power.
+Auto: OnReverseOpponent
+{
+    If Climax I can do this!
+    {
+        SearchDeck HasTrait The Force Awakens
+    }
+}
+Text Auto: CxCombo When this card's battle opponent becomes reversed, if 'I can do this!' is in your Climax Zone, search your library for up to 1 <The Force Awakens> character, reveal it, put it in y our hand, and shuffle your library.
+EndCard
+
+Character SW/S49-009
+Name "Starfighter Pilot" Poe
+Color Y
+Level 1
+Cost 0
+Power 4500
+Image 009
+Trait1 The Force Awakens
+*GainPowerForEachOther(500,The Force Awakens)
+EndCard
+
+Character SW/S49-010
+Name "Roar of Wookie" Chewbacca
+Color Y
+Level 1
+Cost 0
+Power 6500
+Image 010
+Trait1 Return of the Jedi
+Cont: GiveSelf
+{
+    If Compare ThatCardsLevel ThisCardsLevel LessThan
+    {
+        GainSpecialEffect CannotFrontalAttack
+    }
+}
+Text: Cont: This card cannot frontal attack if it's opponent is a higher level than it.
+EndCard
+
+Character SW/S49-011
+Name "Bloodline of the Force" Leia
+Color Y
+Level 0
+Cost 0
+Trait1 Return of the Jedi
+Image 011
+Power 1000
+*500Assist
+Act: 1 Clock RestSelf
+{
+    SearchDeck IsCharacter && Compare Level 1 OrLess
+}
+Text Act: [(1) Rest self, clock from the top of your deck] Search your deck for a character level 1 or lower, put it in your hand, and shuffle your deck.
+EndCard
+
+Character: SW/S49-012
+Name "Reversal of Situation" Chewbacca
+Color Y
+Level 0
+Cost 0
+Trait1 Return of the Jedi
+Image 012
+Power 500
+Cont: GiveAll
+{
+    If NameEquals "Captain of the Millennium Falcon" Han Solo
+    {
+        GainPower 1000
+    }
+}
+Text Cont: All your other "Captain of the Millennium Falcon" Han Solo gain +1000 power.
+*Bond1("Captain of the Millennium Falcon" Han Solo)
+EndCard
+
+Character: SW/S49-013
+Name Maz Kanata
+Color Y
+Level 0
+Cost 0
+Power 1500
+Image 013
+Trait1 The Force Awakens
+Cont: GiveAll
+{
+    If MyTurn && HasTrait The Force Awakens
+    {
+        GainPower 500
+    }
+}
+Text Cont: During your turn, give all your other <The Force Awakens> characters +500 power.
+Auto: OnPlay
+{
+    PayCost Discard 1 Any
+    {
+        SearchLocationForTargets WaitingRoom 0 1 NameEquals Lightsaber
+    }
+}
+Text Auto: [Discard a card from your hand to the waiting room] When this is played from your hand to the stage, you may pay the cost. If you do, return a "Lightsaber" from your waiting room to your hand.
+Auto: OnUseEvent
+{
+    TargetLocation Stage
+    ChooseCharacterFromTargets_Optional Choose a character to give +1000 power.
+    GainPower 1000
+}
+TimesPerTurn 1
+Text Auto: This ability activates up to once per turn. When you play an event, choose one of your characters, and give them +1000 power for the turn.
+EndCard
+
+Character: SW/S49-014
+Name "Rescue" Chewbacca
+Color Y
+Level 1
+Cost 0
+Power 4500
+Image 014
+Trait1 The Force Awakens
+Auto: OnPlay
+{
+    If StageContains 2 Other && HasTrait The Force Awakens
+    {
+        GainPower 2000
+    }
+}
+Text Auto: When this is placed from hand to stage, if you have 2 or more other <The Force Awakens> characters, this gains +2000 power for the turn.
+Auto: OnOtherFrontalAttacked
+{
+    If Other && HasTrait The Force Awakens
+    {
+        PayCost SendSelf WaitingRoom
+        {
+            TargetMyCharacterInBattle
+            ChooseCharacterFromTargets Choose 1 of your characters in battle, and that character gains +1000 power for the turn.
+            GainPower 1500
+        }
+    }
+}
+Text Auto: [Put this in the waiting room] When your other <The Force Awakens> character is frontal attacked, you may pay the cost. If so, choose 1 of your characters in battle, and that character gains +1500 power for the turn.
+EndCard
+
+Character: SW/S49-015
+Name Ewoks
+Color Y
+Level 1
+Cost 0
+Power 5000
+Image 015
+Trait1 Return of the Jedi
+Auto: OnAttack
+{
+    If StageContains 3 Other && ColorIs Yellow
+    {
+        GainPower 2000
+    }
+}
+Text Auto: When this attacks, if you have 3 or more other yellow characters, this gains +2000 power for the turn.
+EndCard
+
+Character: SW/S49-016
+Name Lando Calrissian
+Color Y
+Level 1
+Cost 1
+Power 5500
+Image 016
+Trait1 The Empire Strikes Back
+Cont: GiveSelf
+{
+    If StageContains 3 Other && IsColor Yellow
+    {
+        GainPower 2000
+    }
+}
+Text Cont: If you have 3 or more other yellow characters, this gains +2000 power.
+Auto: Encore Discard 1 IsColor Yellow
+{
+}
+Text Auto: Encore [Discard a yellow card from your hand to the waiting room]
+EndCard
+
+Character: SW/S49-017
+Name "Reunion" Poe
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 6500
+Image 017
+Trait1 The Force Awakens
+Auto: OnClimaxPlay
+{
+    If Climax Brilliant Battle
+    {
+        GainEffect
+        {
+            Cont: GiveAll
+            {
+                GainSoul 1
+            }
+            Text Cont: Give all your characters +1 soul
+        }
+    }
+}
+Text Auto: CxCombo When 'Brilliant Battle' is placed into your Climax Zone, reveal the top card of your library. If it's a <The Force Awakens> character, all your characters gain +1 soul for the turn.
+Auto: OnReversed
+{
+    If Compare BattleOpponentsLevel OpponentsLevel GreaterThan
+    {
+        Question Do you want to put the battle opponent in stock? (Sends bottom of stock to WR)
+        If Yes
+        {
+            TargetBattleOpponent
+            MoveCard OpponentStock
+            TargetBottom OpponentStock 1
+            MoveCard OpponentWaitingRoom
+        }
+    }
+}
+Text Auto: When this becomes reversed in battle, if the level of the battle opponent is higher than your opponent's level, you may put that character in stock. If you do, put the bottom card of your opponent's stock in the waiting room.
+EndCard
+
+Character: SW/S49-018
+Name "Thinking of Their Son" Han Solo & Leia
+Color Y
+Level 0
+Cost 0
+Power 1000
+Image 018
+Trait1 The Force Awakens
+Auto: OnPlay
+{
+    Mill 2
+    If TargetsContain 1 IsClimax
+    {
+        GainPower 3000
+    }
+}
+Text Auto: When this is placed from the hand to the stage, put the top 2 cards of your deck into your waiting room, if there was at least one climax among them, this card gains +3000 power for the turn.
+Auto: OnSentFromStageToWaitingRoom
+{
+    PayCost 2
+    {
+        SearchDeck HasTrait The Force Awakens
+    }
+}
+Text Auto: [(2)] When this is placed from the stage to the waiting room, you may pay the cost. If you do, search your library for up to one <The Force Awakens> character, reveal it, put it in your hand, and shuffle your library
+EndCard
+
+Character SW/S49-019
+Name Wicket
+Color Y
+Level 0
+Cost 0
+Power 1500
+Image 019
+Trait1 Return of the Jedi
+Auto: OnPlay
+{
+    GainPower 1500
+}
+Text Auto: When this is placed from your hand to the stage, this gains +1500 power for the turn.
+*BondDiscard("Princess" Leia)
+EndCard
+
+Character SW/S49-020
+Name Nien Nunb
+Color Y
+Level 0
+Cost 0
+Power 2000
+Image 020
+Trait1 Return of the Jedi
+Auto: OnPlay
+{
+    PayCost 1 Discard 1 Any
+    SearchDeck IsCharacter && IsColor Yellow
+}
+Text Auto: [(1) Discard a card from your hand to the waiting room] When this is played from your hand to the stage, you may pay the cost. If you do, search your library for a yellow character, reveal it, put it in your hand, and shuffle your deck.
 EndCard
 
 Character: SW/S49-121
@@ -425,7 +919,7 @@ Auto: OnAttack
 {
     TargetLocation Stage
     NarrowTargets IsColor Red
-    ChooseCharacterFromTargets
+    ChooseCharacterFromTargets Pick a character to give 500 * X power, where X = # of Red characters
     If HasTarget 
     {
         SetXToNumberOfCharacters IsColor Red && Other

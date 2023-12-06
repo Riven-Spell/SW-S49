@@ -548,7 +548,11 @@ Auto: OnPlay
 Text Auto: When this is played, if there are 3 or more climaxes in your waiting room, put the top card of your library in the clock.
 Auto: StartOpponentAttackPhase
 {
-    MoveToOpenPosition True False
+    Question Move to an open slot in the center stage?
+    If Yes
+    {
+        MoveToOpenPosition True False
+    }
 }
 Text Auto: At the start of your opponent's attack phase, you may move this to an empty slot in the front row.
 EndCard
@@ -629,7 +633,8 @@ Image 010
 Trait1 Return of the Jedi
 Cont: GiveSelf
 {
-    If Compare ThatCardsLevel ThisCardsLevel LessThan
+    TargetFacing
+    If Compare ThisCardsLevel TargetCardsLevel LessThan
     {
         GainSpecialEffect CannotFrontalAttack
     }
@@ -648,7 +653,7 @@ Power 1000
 *500Assist
 Act: 1 Clock RestSelf
 {
-    SearchDeck IsCharacter && Compare Level 1 OrLess
+    SearchDeck IsCharacter && Compare ThatCardsLevel 1 OrLess
 }
 Text Act: [(1) Rest self, clock from the top of your deck] Search your deck for a character level 1 or lower, put it in your hand, and shuffle your deck.
 EndCard
@@ -724,12 +729,11 @@ Auto: OnPlay
 Text Auto: When this is placed from hand to stage, if you have 2 or more other <The Force Awakens> characters, this gains +2000 power for the turn.
 Auto: OnOtherFrontalAttacked
 {
-    If Other && HasTrait The Force Awakens
+    TargetMyCharacterInBattle
+    If HasTrait The Force Awakens
     {
         PayCost SendSelf WaitingRoom
         {
-            TargetMyCharacterInBattle
-            ChooseCharacterFromTargets Choose 1 of your characters in battle, and that character gains +1000 power for the turn.
             GainPower 1500
         }
     }
@@ -831,6 +835,7 @@ Auto: OnPlay
     Mill 2
     If TargetsContain 1 IsClimax
     {
+        TargetSelf
         GainPower 3000
     }
 }
@@ -872,7 +877,9 @@ Trait1 Return of the Jedi
 Auto: OnPlay
 {
     PayCost 1 Discard 1 Any
-    SearchDeck IsCharacter && IsColor Yellow
+    {
+        SearchDeck IsCharacter && IsColor Yellow
+    }
 }
 Text Auto: [(1) Discard a card from your hand to the waiting room] When this is played from your hand to the stage, you may pay the cost. If you do, search your library for a yellow character, reveal it, put it in your hand, and shuffle your deck.
 EndCard
@@ -898,8 +905,7 @@ Power 2500
 Auto: OnPlay
 {
     Mill 2
-    NarrowTargets IsClimax
-    If Compare TargetCount 1 OrMore
+    If TargetsContain 1 Climax
     {
         TargetSelf
         GainPower 3000

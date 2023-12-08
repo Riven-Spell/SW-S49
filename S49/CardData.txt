@@ -1,6 +1,5 @@
 Character: SW/S49-T01
 Name "The Jacket Left Behind" Finn
-Image T01
 Color Y
 Level 0
 Cost 0
@@ -11,7 +10,6 @@ EndCard
 
 Character: SW/S49-T02
 Name "Hero" Han Solo
-Image T02
 Color Y
 Level 0
 Cost 0
@@ -30,7 +28,6 @@ EndCard
 
 Character: SW/S49-T03
 Name "Captured Pilot" Poe
-Image T03
 Color Y
 Level 1
 Cost 0
@@ -40,7 +37,6 @@ EndCard
 
 Character: SW/S49-T04
 Name "Attack by the Resistance" Poe
-Image T04
 Color Y
 Level 2
 Cost 1
@@ -62,7 +58,6 @@ EndCard
 
 Character: SW/S49-T05
 Name "Stubborn Tracing" Finn
-Image T05
 Color Y
 Level 2
 Cost 1
@@ -81,7 +76,6 @@ EndCard
 
 Character: SW/S49-T06
 Name "New Determination Within Him" Han Solo
-Image T06
 Color Y
 Level 2
 Cost 1
@@ -110,7 +104,6 @@ EndCard
 
 Character: SW/S49-T07
 Name "New Determination Within Him" Chewbacca
-Image T07
 Color Y
 Level 2
 Cost 1
@@ -136,7 +129,6 @@ EndCard
 
 Climax: SW/S49-T08
 Name Duel In the Forest
-Image T08
 *WindClimax
 Trigger Wind
 Color Yellow
@@ -148,7 +140,6 @@ Color B
 Level 0
 Cost 0
 Power 500
-Image T09
 Trait1 The Force Awakens
 Auto: OnAttack
 {
@@ -185,7 +176,6 @@ Color B
 Level 0
 Cost 0
 Power 500
-Image T10
 Trait1 The Force Awakens
 Cont: GiveAll
 {
@@ -204,7 +194,6 @@ Color B
 Level 0
 Cost 0
 Power 1500
-Image T11
 Trait1 The Force Awakens
 Cont: GiveAll
 {
@@ -229,7 +218,6 @@ Color B
 Level 0
 Cost 0
 Power 1500
-Image T12
 Trait1 The Force Awakens
 Auto: OnPlay
 {
@@ -254,7 +242,6 @@ Color B
 Level 0
 Cost 0
 Power 2000
-Image T13
 Trait1 The Force Awakens
 Cont: GiveSelf
 {
@@ -281,7 +268,6 @@ Color B
 Level 1
 Cost 0
 Power 4000
-Image T14
 Trait1 The Force Awakens
 Cont: GiveSelf
 {
@@ -319,7 +305,6 @@ Color B
 Level 1
 Cost 1
 Power 6000
-Image T15
 Trait1 The Force Awakens
 Auto: OnOtherAttacks
 {
@@ -337,7 +322,6 @@ Soul 2
 Cost 2
 Trigger Soul
 Power 10000
-Image T16
 Trait1 The Force Awakens
 Cont: GiveSelf
 {
@@ -355,7 +339,6 @@ Name BB Unit
 Color B
 Level 2
 Cost 1
-Image T17
 Effect:
 {
     SearchDeck HasTrait The Force Awakens
@@ -374,7 +357,6 @@ Climax: SW/S49-T18
 Name Escape From Jakku
 *BlueStockSoul
 Trigger DoubleSoul
-Image T18
 Color Blue
 EndCard
 
@@ -382,7 +364,6 @@ Climax: SW/S49-T19
 Name Force Wielder
 *2SoulClimax
 Trigger DoubleSoul
-Image T19
 Color Blue
 EndCard
 
@@ -395,7 +376,6 @@ Trigger Soul
 Trait1 The Force Awakens
 Soul 2
 Power 9000
-Image 001
 Cont: InHand
 {
     If LocationContains Stage 1 NameEquals "Talent of Pilot" Rey
@@ -426,7 +406,6 @@ Trigger Soul
 Trait1 A New Hope
 Soul 2
 Power 10000
-Image 002
 Auto: OnAttack
 {
     PayCost Discard 1 IsCharacter
@@ -448,7 +427,6 @@ Trigger Soul
 Soul 2
 Power 10000
 Trait1 A New Hope
-Image 003
 *Healer
 Auto: OnClimaxPlay
 {
@@ -474,7 +452,6 @@ Level 0
 Cost 0
 Power 500
 Trait1 The Force Awakens
-Image 004
 *OnPlayGivePower(1000,Any)
 Auto: OnReversed
 {
@@ -500,7 +477,6 @@ Level 0
 Cost 0
 Power 1000
 Trait1 A New Hope
-Image 005
 Cont: GiveAll
 {
 	If MyTurn
@@ -535,7 +511,6 @@ Color Y
 Level 0
 Cost 0
 Power 2500
-Image 006
 Trait1 Return of the Jedi
 Auto: OnPlay
 {
@@ -563,7 +538,6 @@ Color Y
 Level 1
 Cost 0
 Power 4000
-Image 007
 Trait1 The Empire Strikes Back
 Cont: GiveSelf
 {
@@ -592,7 +566,6 @@ Color Y
 Level 1
 Cost 0
 Power 4500
-Image 008
 Trait1 The Force Awakens
 Cont: GiveSelf
 {
@@ -618,7 +591,6 @@ Color Y
 Level 1
 Cost 0
 Power 4500
-Image 009
 Trait1 The Force Awakens
 *GainPowerForEachOther(500,The Force Awakens)
 EndCard
@@ -629,7 +601,6 @@ Color Y
 Level 1
 Cost 0
 Power 6500
-Image 010
 Trait1 Return of the Jedi
 Cont: GiveSelf
 {
@@ -648,7 +619,6 @@ Color Y
 Level 0
 Cost 0
 Trait1 Return of the Jedi
-Image 011
 Power 1000
 *500Assist
 Act: 1 Clock RestSelf
@@ -664,7 +634,6 @@ Color Y
 Level 0
 Cost 0
 Trait1 Return of the Jedi
-Image 012
 Power 500
 Cont: GiveAll
 {
@@ -683,7 +652,6 @@ Color Y
 Level 0
 Cost 0
 Power 1500
-Image 013
 Trait1 The Force Awakens
 Cont: GiveAll
 {
@@ -717,7 +685,6 @@ Color Y
 Level 1
 Cost 0
 Power 4500
-Image 014
 Trait1 The Force Awakens
 Auto: OnPlay
 {
@@ -747,7 +714,6 @@ Color Y
 Level 1
 Cost 0
 Power 5000
-Image 015
 Trait1 Return of the Jedi
 Auto: OnAttack
 {
@@ -765,7 +731,6 @@ Color Y
 Level 1
 Cost 1
 Power 5500
-Image 016
 Trait1 The Empire Strikes Back
 Cont: GiveSelf
 {
@@ -788,7 +753,6 @@ Level 2
 Cost 1
 Trigger Soul
 Power 6500
-Image 017
 Trait1 The Force Awakens
 Auto: OnClimaxPlay
 {
@@ -828,7 +792,6 @@ Color Y
 Level 0
 Cost 0
 Power 1000
-Image 018
 Trait1 The Force Awakens
 Auto: OnPlay
 {
@@ -856,7 +819,6 @@ Color Y
 Level 0
 Cost 0
 Power 1500
-Image 019
 Trait1 Return of the Jedi
 Auto: OnPlay
 {
@@ -872,7 +834,6 @@ Color Y
 Level 0
 Cost 0
 Power 2000
-Image 020
 Trait1 Return of the Jedi
 Auto: OnPlay
 {
@@ -884,13 +845,469 @@ Auto: OnPlay
 Text Auto: [(1) Discard a card from your hand to the waiting room] When this is played from your hand to the stage, you may pay the cost. If you do, search your library for a yellow character, reveal it, put it in your hand, and shuffle your deck.
 EndCard
 
+Character: SW/S49-021
+Name Lobot
+Color Y
+Level 0
+Cost 0
+Power 3500
+Trait1 The Empire Strikes Back
+Auto: OnReversed
+{
+    If Not StageContains 1 IsColor Yellow
+    {
+        TargetSelf
+        MoveCard Clock
+    }
+}
+Text Auto: When this becomes reversed in battle, if you have 1 or fewer other yellow characters, put this in your clock.
+EndCard
+
+Character: SW/S49-022
+Name "Neck and Neck Battle" Han Solo
+Color Y
+Level 0
+Cost 0
+Power 4000
+Trait1 The Force Awakens
+Auto: OnPlay
+{
+    If LocationContains OpponentWaitingRoom 3 IsClimax
+    {
+        Rest
+    }
+}
+Text Auto: When this is placed from your hand to the stage, if the opponent's waiting room has 3 or more climaxes, rest this.
+EndCard
+
+Character: SW/S49-023
+Name "Princess" Leia
+Color Y
+Level 1
+Cost 0
+Power 2000
+Backup 1000
+*BackupBonus1000(Any)
+EndCard
+
+Character: SW/S49-024
+Name "Rescue Operation" Han Solo
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 4000
+Cont: GiveSelf
+{
+    If StageContains 1 NameEquals "Wookie" Chewbacca
+    {
+        GainPower 3000
+        GainSoul 1
+    }
+}
+Text Cont: If you have another '"Wookie" Chewbacca', this gains +3000 power and +1 soul.
+Cont: GiveSelf
+{
+    If LocationContains Memory 1 NameEquals Millenium Falcon
+    {
+        GainPower 3000
+    }
+}
+Text Cont: RECOLLECTION If 'Millenium Falcon' is in your Memory, this gains +3000 power.
+Auto: OnOtherReversed
+{
+    If Compare BattleOpponentsLevel 2 OrMore
+    {
+        *OptionalBlindStock
+    }
+}
+Text Auto: When a level 2 or higher battle opponent of this becomes reversed, you may put the top card of your deck into your stock.
+EndCard
+
+Character: SW/S49-025
+Name "Wookie" Chewbacca
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 5500
+Cont: GiveSelf
+{
+    If StageContains 1 NameEquals "Rescue Operation" Han Solo
+    {
+        GainPower 3000
+    }
+}
+Text Cont: If you have another '"Rescue Operation" Han Solo', this gains +3000 power.
+Cont: GiveSelf
+{
+    If LocationContains Memory 1 NameEquals Millenium Falcon
+    {
+        GainPower 3000
+    }
+}
+Auto: Encore Discard 1 IsColor Yellow
+{
+
+}
+Text Auto: Encore [Discard a yellow card from your hand]
+EndCard
+
+Character: SW/S49-026
+Name Admiral Ackbar
+Color Y
+Level 2
+Cost 2
+Trigger Soul
+Power 3500
+*1500Assist
+Auto: OnPlay
+{
+    If Compare CardsInHand CardsInOpponentsHand LessThan
+    {
+        *OptionalBlindStock
+    }
+}
+Text Auto: When this is placed from your hand to the stage, if there are fewer cards in your hand than your opponent's, you may put the top card of your library in your stock.
+EndCard
+
+Event: SW/S49-027
+Name Jakku
+Color Y
+Level 2
+Cost 1
+Counter
+Effect:
+{
+    SetXToNumberOfCharacters HasTrait The Force Awakens
+    MultiplyXValue 1000
+    GainPower 1000
+}
+Text Counter: Choose one of your characters, and that character gains +X power for the turn, where X = the # of <The Force Awakens> characters on your stage.
+EndCard
+
+Event: SW/S49-028
+Name Dajarik Holochess
+Color Y
+Level 2
+Cost 1
+Effect:
+{
+    Brainstorm 3
+    TargetBrainstormed
+    If TargetsContain 1 IsClimax
+    {
+        *OptionalDraw
+    }
+    Else
+    {
+        *OptionalDraw
+        *OptionalDraw
+        *OptionalDraw
+    }
+    EndPeek
+}
+Text Brainstorm. Flip over the top 3 cards of your library and put them in the waiting room. If at least 1 Climax was revealed this way, draw one card. Otherwise, draw two cards.
+EndCard
+
+Event: SW/S49-029
+Name X-Wing Starfighter
+Color Y
+Level 1
+Cost 0
+Counter
+Effect:
+{
+    RevealExactly Deck 1
+    TargetLocation ScryArea
+    If TargetsContain 1 IsColor Yellow
+    {
+        MoveCard Hand
+        Discard 1 Any
+    }
+    EndPeek
+
+    TargetLocation Stage
+    ChooseCharacterFromTargets
+    GainEffect
+    {
+        Auto: OnReversed
+        {
+            If Compare BattleOpponentsLevel OpponentsLevel GreaterThan
+            {
+                Question Do you want to put the battle opponent in stock? (Sends bottom of stock to WR)
+                If Yes
+                {
+                    TargetBattleOpponent
+                    MoveCard OpponentStock
+                    TargetBottom OpponentStock 1
+                    MoveCard OpponentWaitingRoom
+                }
+            }
+        }
+        Text Auto: When this becomes reversed in battle, if the level of the battle opponent is higher than the level of your opponent, you may put that character in stock. If you do, put the bottom card of your opponent's stock in their waiting room.
+    }
+}
+Text [Counter] Reveal the top card of your library. If it's a yellow character, put  it in your hand and discard a card from your hand to the waiting room.
+Text Choose one of your characters, and that character gains the following ability for the rest of the turn. "Auto: When this becomes reversed in battle, if the level of the battle opponent is higher than the level of your opponent, you may put that character in stock. If you do, put the bottom card of your opponent's stock in their waiting room."
+EndCard
+
+Event: SW/S49-030
+Name Millennium Falcon
+Color Y
+Level 2
+Cost 2
+Effect:
+{
+    TargetLocation Deck
+    ChooseCardsFromTargets 0 1 NameEquals "Rescue Operation" Han Solo
+    PlaceOnStage False True True False
+    TargetLocation Deck
+    ChooseCardsFromTargets 0 1 NameEquals "Wookie" Chewbacca
+    PlaceOnStage False True True False
+}
+ActivationRequirement StageContains 1 IsColor Yellow
+Text If you have no yellow characters, this cannot be played from your hand.
+Text Search your deck for up to one '"Rescue Operation" Han Solo' and '"Wookie" Chewbacca', put them in separate slots on the stage, and shuffle your library. Send this to memory.
+EndCard
+
+Climax: SW/S49-031
+Name Mission!
+Color Y
+*ShotClimax
+EndCard
+
+Climax: SW/S49-032
+Name Medal Ceremony
+*YellowStockSoul
+EndCard
+
+Climax: SW/S49-033
+Name I can do this!
+Color Y
+*WindClimax
+EndCard
+
+Climax: SW/S49-034
+Name Brilliant Battle
+Color Y
+Trigger DoubleSoul
+*2K1Climax
+EndCard
+
+Character: SW/S49-035
+Name "Boushh's True Form" Leia
+Color G
+Level 0
+Cost 0
+Trait1 Return of the Jedi
+Power 1000
+Auto: OnPlay
+{
+    PayCost 1 Discard 1 Any
+    {
+        TargetLocation Clock
+        ChooseCardsFromTargets 1 1 Any
+        MoveCard Hand
+        TargetTop Deck 1
+        MoveCard Clock
+    }
+}
+Text Auto: [(1) Discard a card from your hand] When this is placed from your hand to the stage, you may pay the cost. If you do, choose a card in your clock and return it to your hand, then send the top card of your deck to the clock.
+Auto: OnReversed
+{
+    Question Send the battle opponent to the clock? (Replaces the top card)
+    If Yes
+    {
+        TargetTop OpponentClock
+        MoveCard OpponentWaitingRoom
+        TargetBattleOpponent
+        MoveCard OpponentClock
+    }
+}
+Text Auto: When this becomse reversed, if the level of the battle opponent is 0 or lower, you may put the top card of your opponent's clock in the waiting room. If you do, replace it with the opposing character.
+EndCard
+
+Character: SW/S49-036
+Name Jabba the Hut
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Trait1 A New Hope
+Power 3500
+Soul 2
+Cont: Assist
+{
+    If IsColor Green
+    {
+        GainEffect
+        {
+            Auto: OnThisTriggerCheck
+            {
+                IfOther IsClimax
+                {
+                    TargetSelf
+                    GainPower 4000
+                    GainSoul 1
+                }
+            }
+        }
+    }
+}
+Text Cont: Assist. All your green characters in front of this gain +2000 power and the following ability. "Auto: When the trigger check of this character reveals a climax, this character gains +4000 power and +1 soul until end of turn."
+*Healer
+Auto: StartMyEncoreStep
+{
+    PayCost 4
+    {
+        TargetLocation Stage
+        NarrowTargets Other
+        ChooseCharacterFromTargets_Optional Choose up to 4 other characters on your stage. Send them to the waiting room, and deal X damage, where X = the number selected. This damage may be cancelled.
+        SetXValue TargetCount
+        MoveCard WaitingRoom
+        Burn X
+    }
+}
+Text Auto: [(4)] On the start of your encore phase, you may pay the cost. If you do, choose up to 4 of your other characters and put them into the waiting room. Then deal X damage to your opponent, where X is the # of characters put into the WR by this effect.
+EndCard
+
+Character: SW/S49-037
+Name Boba Fett
+Color G
+Level 3
+Cost 2
+Trigger Soul
+Trait1 The Empire Strikes Back
+Power 9000
+Soul 2
+Cont: GiveSelf
+{
+    If StageContains 1 Compare ThatCardsLevel 3 OrMore
+    {
+        GainPower 2000
+    }
+}
+Text Cont: If you have another 3 or higher character, this gains +2000 Power
+Auto: OnPlay
+{
+    *OptionalDraw
+    *OptionalDraw
+    Discard 1 Any
+}
+Text Auto: When this is played from the hand to the stage, draw up to 2 cards, then discard one from your hand.
+Auto: OnClimaxPlay
+{
+    If InLocation CenterStage && Climax Bounty Hunter
+    {
+        PayCost 2 Discard 1 Any
+        {
+            GainEffect
+            {
+                GainSpecialEffect CanAttackBackstage
+                Auto: OnOpponentReverse
+                {
+                    TargetBattleOpponent
+                    MoveCard OpponentClock
+                }
+                Text Auto: When the battle opponent of this becomes reversed, you may put that character in your opponent's clock.
+            }
+        }
+    }
+}
+Text Auto: Cx Combo [(2) Discard a card from your hand] When 'Bounty Hunter' is placed in your climax zone, you may pay the cost. If you do, this gains the following two abilities until end of turn. "Cont: When this attacks, you may instead choose a character on your opponent's backstage." "Auto: When the battle opponent of this card becomes reversed, you may put that character in your opponent's clock."
+EndCard
+
+Character: SW/S49-038
+Name "Message And Present" Jabba
+Color G
+Level 0
+Cost 0
+Power 500
+Trait1 Return of the Jedi
+Auto: OnPlay
+{
+    TargetLocation OpponentCenterStage
+    ChooseCharacterFromTargets Give a character -1000 power.
+    LosePower 1000
+}
+Text Auto: When this card is played from your hand to your stage, choose one of your opponent's characters, and they lose -1000 power until end of turn.
+Act: 1 RestSelf
+{
+    Brainstorm 4
+    TargetBrainstormed
+    NarrowTargets IsClimax
+    SetXValue TargetCount
+    If HasTarget 
+    {
+        TargetLocation Deck
+        ChooseCardsFromTargets 0 X IsCharacter && ColorIs Green
+        MoveCard Hand
+        ShuffleLocation Deck
+    }
+}
+Text Auto: Brainstorm [(1) Rest self] Flip over the top 4 cards of your library, then place them in the waiting room. For each climax card revealed this way, search your library for up to 1 green character, reveal it, and put it in your hand, then shuffle your library
+EndCard
+
+Character: SW/S49-039
+Name Bib Fortuna
+Color G
+Level 0
+Cost 0
+Power 500
+Trait1 Return of the Jedi
+Cont: GiveAll
+{
+    If Other && IsColor Green
+    {
+        GainPower 500
+    }
+}
+Text Cont: all your other green characters gain +500 power.
+Act: 2 RestSelf
+{
+    SearchDeck IsCharacter && IsColor Green
+}
+Text Act: [(2) Rest this] Search your library for up to 1 green character, reveal it, put it in your hand, and shuffle your library.
+EndCard
+
+Character: SW/S49-040
+Name "Crime Lord of the Desert" Jabba
+Color G
+Level 1
+Cost 0
+Power 5000
+Trait1 Return of the Jedi
+Auto: OnClimaxPlay
+{
+    If Climax Jabba's Palace
+    {
+        PayCost 1 Clock SendSelf WaitingRoom
+        {
+            TargetLocation Deck
+            ChooseCardsFromTargets 0 3 NameEquals Gamorrean ||| NameEquals Max Rebo Band
+            ForEachTarget
+            {
+                PlaceOnStage False True True False
+            }
+
+            ShuffleLocation Deck
+
+            TargetLocation Stage
+            ChooseCharacterFromTargets Choose a character to give +2000 power.
+            GainPower 2000
+        }
+    }
+}
+Text Auto: CxCombo [(1) Put the top card of your library in the clock, put this in the waiting room] When 'Jabba's Palace' is placed in your climax zone, you may pay the cost. If you do, search your library for up to 3 cards named 'Gamorrean' or 'Max Rebo Band' and put them in separate slots on the stage. Then, shuffle your library, choose one of your characters, and they gain +2000 power until end of turn.
+EndCard
+
 Character: SW/S49-121
 Name "STAR WARS" Chewbacca
 Color Y
 Level 2
 Cost 1
 Trigger Soul
-Image 121
 Power 2500
 Backup 3000
 EndCard
@@ -900,7 +1317,6 @@ Name "STAR WARS" Kylo Ren
 Color R
 Level 0
 Cost 0
-Image 122
 Power 2500
 Auto: OnPlay
 {
@@ -919,7 +1335,6 @@ Name "STAR WARS" Stormtrooper
 Color R
 Level 1
 Cost 0
-Image 123
 Power 5000
 Auto: OnAttack
 {
@@ -943,7 +1358,6 @@ Level 1
 Cost 0
 Backup 1500
 Power 1500
-Image 124
 EndCard
 
 Character: SW/S49-125
@@ -951,7 +1365,6 @@ Name "STAR WARS" C-3PO & BB-8 & R2-D2
 Color B
 Level 1
 Cost 0
-Image 125
 Power 5000
 Auto: OnPlay
 {

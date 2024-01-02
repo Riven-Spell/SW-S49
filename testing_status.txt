@@ -1,0 +1,65 @@
+todo: add ActivationRequirements
+todo: AI hints
+todo: validate soul count of all cards
+todo: validate trigger of all cards
+
+001 - Cannot test reduced level (yet)
+002 - WORKING
+003 - WORKING
+004 - WORKING
+005 - WORKING
+006 - WORKING
+007 - WORKING
+008 - WORKING
+009 - WORKING
+010 - WORKING
+011 - WORKING
+012 - WORKING
+013 - Can't test "Lightsaber" auto, otherwise WORKING
+014 - WORKING
+015 - WORKING
+016 - WORKING
+017 - WORKING
+018 - WORKING
+019 - WORKING
+020 - WORKING
+021 - WORKING
+022 - WORKING
+023 - WORKING
+024 - WORKING
+025 - WORKING
+026 - WORKING
+027 - WORKING
+028 - WORKING
+029 - WORKING
+030 - WORKING
+031 - WORKING
+032 - WORKING
+033 - WORKING
+034 - WORKING
+035 - WORKING
+036 - WORKING
+037 - syntax error RETEST
+038 - WORKING
+039 - WORKING
+040 - WORKING
+041 - WORKING
+042 - WORKING
+043 - WORKING
+044 - WORKING
+045 - WORKING
+046 - WORKING
+047 - WORKING
+048 - WORKING
+049 - WORKING
+050 - WORKING
+051 - WORKING
+052 - WORKING
+053 - WORKING, haven't tested damage cancel
+054 -
+055 -
+056 -
+057 -
+058 -
+059 -
+060 - WORKING, can't test cxcombo

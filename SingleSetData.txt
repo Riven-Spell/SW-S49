@@ -2,3 +2,7 @@ Series: Star Wars
 Folder: Star Wars/S49
 Prefix: SW/S49
 SetName: Volume 1 (S49)
+
+Folder: Star Wars/SE39
+Prefix: SW/SE39
+SetName: Premium Booster (WE39)

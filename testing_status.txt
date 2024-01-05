@@ -1,7 +1,5 @@
 todo: add ActivationRequirements
 todo: AI hints
-todo: validate soul count of all cards
-todo: validate trigger of all cards
 
 001 - Cannot test reduced level (yet)
 002 - WORKING
@@ -39,7 +37,7 @@ todo: validate trigger of all cards
 034 - WORKING
 035 - WORKING
 036 - WORKING
-037 - syntax error RETEST
+037 - WORKING
 038 - WORKING
 039 - WORKING
 040 - WORKING
@@ -56,10 +54,36 @@ todo: validate trigger of all cards
 051 - WORKING
 052 - WORKING
 053 - WORKING, haven't tested damage cancel
-054 -
-055 -
-056 -
-057 -
-058 -
-059 -
+054 - WORKING
+055 - can't test cxcombo, otherwise working
+056 - WORKING
+057 - WORKING
+058 - WORKING
+059 - WORKING
 060 - WORKING, can't test cxcombo
+061 -
+062 -
+063 -
+064 -
+065 -
+066 -
+067 -
+068 -
+069 -
+070 -
+071 -
+072 -
+073 -
+074 -
+075 -
+076 -
+077 -
+078 -
+079 -
+080 -
+081 -
+082 -
+083 -
+084 -
+085 -
+086 -

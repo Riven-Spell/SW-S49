@@ -1,5 +1,6 @@
 todo: add ActivationRequirements
 todo: AI hints
+todo: reimplement brainstorms to use a loop
 
 001 - Cannot test reduced level (yet)
 002 - WORKING
@@ -55,35 +56,35 @@ todo: AI hints
 052 - WORKING
 053 - WORKING, haven't tested damage cancel
 054 - WORKING
-055 - can't test cxcombo, otherwise working
+055 - WORKING
 056 - WORKING
 057 - WORKING
 058 - WORKING
 059 - WORKING
-060 - WORKING, can't test cxcombo
-061 -
-062 -
-063 -
-064 -
-065 -
-066 -
-067 -
-068 -
-069 -
-070 -
-071 -
-072 -
-073 -
-074 -
-075 -
-076 -
-077 -
-078 -
-079 -
-080 -
-081 -
-082 -
-083 -
-084 -
-085 -
-086 -
+060 - WORKING
+061 - WORKING
+062 - WORKING
+063 - WORKING
+064 - WORKING
+065 - WORKING
+066 - WORKING
+067 - WORKING
+068 - WORKING
+069 - WORKING
+070 - WORKING
+071 - WORKING
+072 - WORKING
+073 - WORKING
+074 - WORKING
+075 - WORKING
+076 - WORKING
+077 - WORKING
+078 - WORKING
+079 - WORKING
+080 - WORKING
+081 - WORKING
+082 - WORKING
+083 - WORKING
+084 - WORKING
+085 - WORKING
+086 - WORKING

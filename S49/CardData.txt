@@ -1808,28 +1808,32 @@ Cont: GiveSelf
 Text Cont: If you have 3 or more other red characters, this gets the following ability: "Auto: When this card becomes reversed, if this card's battle opponent's level is 1 or lower, you may reverse that character."
 Auto: StartClimaxPhase
 {
-    PayCost Discard 1 IsCharacter && IsColor Red
+    If LocationContains Facing 1 Any &&& LocationContains OpponentStage 1 Not InLocation Facing && Compare ThatCardsLevel 1 OrLess
     {
-        TriggerCustomEvent Force
+        PayCost Discard 1 IsCharacter && IsColor Red
+        {
+            TriggerCustomEvent Force
 
-        TargetBattleOpponent
-        SaveTargets
+            TargetLocation Facing
+            SaveTargets
 
-        TargetLocation OpponentStage
-        // Trim battle opponent, because it's our other target
-        NarrowTargets Not InSavedTargets
-        NarrowTargets Compare ThatCardsLevel 1 OrLess
+            TargetLocation OpponentStage
+            // Trim battle opponent, because it's our other target
+            NarrowTargets Not InSavedTargets
+            NarrowTargets Compare ThatCardsLevel 1 OrLess
 
-        ChooseCharacterFromTargets Choose a character to swap with this card's battle opponent
-        // Restore the battle opponent to the target list
-        AddSavedToCurrentTargets
+            ChooseCharacterFromTargets Choose a character to swap with this card's battle opponent
+            // Restore the battle opponent to the target list
+            AddSavedToCurrentTargets
 
-        // Swap & stand
-        Exchange
-        Stand
+            // Swap & stand
+            Exchange
+            Stand
+        }
     }
 }
 Text Auto: FORCE [Discard a red character] At the start of your climax phase, you may pay the cost. If you do, choose the opposing character of this card and one of your opponent's other level 1 or lower characters, then stand and swap them.
+ActivationRequirement LocationContains Facing 1 Any &&& LocationContains OpponentStage 1 Not InLocation Facing && Compare ThatCardsLevel 1 OrLess
 EndCard
 
 Character: SW/S49-059
@@ -1856,28 +1860,32 @@ Auto: OnReversed
 Text Auto: When this card is reversed, your opponent may choose a character in your waiting room and put it on top of your deck.
 Auto: StartClimaxPhase
 {
-    PayCost Discard 1 IsCharacter && IsColor Red
+    If LocationContains Facing 1 Any &&& LocationContains OpponentStage 1 Not InLocation Facing && Compare ThatCardsLevel 1 OrLess
     {
-        TriggerCustomEvent Force
+        PayCost Discard 1 IsCharacter && IsColor Red
+        {
+            TriggerCustomEvent Force
 
-        TargetBattleOpponent
-        SaveTargets
+            TargetLocation Facing
+            SaveTargets
 
-        TargetLocation OpponentStage
-        // Trim battle opponent, because it's our other target
-        NarrowTargets Not InSavedTargets
-        NarrowTargets Compare ThatCardsLevel 1 OrLess
+            TargetLocation OpponentStage
+            // Trim battle opponent, because it's our other target
+            NarrowTargets Not InSavedTargets
+            NarrowTargets Compare ThatCardsLevel 1 OrLess
 
-        ChooseCharacterFromTargets Choose a character to swap with this card's battle opponent
-        // Restore the battle opponent to the target list
-        AddSavedToCurrentTargets
+            ChooseCharacterFromTargets Choose a character to swap with this card's battle opponent
+            // Restore the battle opponent to the target list
+            AddSavedToCurrentTargets
 
-        // Swap & stand
-        Exchange
-        Stand
+            // Swap & stand
+            Exchange
+            Stand
+        }
     }
 }
 Text Auto: FORCE [Discard a red character] At the start of your climax phase, you may pay the cost. If you do, choose the opposing character of this card and one of your opponent's other level 1 or lower characters, then stand and swap them.
+ActivationRequirement LocationContains Facing 1 Any &&& LocationContains OpponentStage 1 Not InLocation Facing && Compare ThatCardsLevel 1 OrLess
 EndCard
 
 Character: SW/S49-060
@@ -1951,7 +1959,11 @@ Cont: Assist
             {
                 If MyTurn 
                 {
-                    *Scry
+                    Question_Obvious Look at the top card of your deck and put it either on back on top of your deck or in the waiting room?
+                    If Yes
+                    {
+                        *Scry
+                    }
                 }
             }
             Text Auto: During your turn, when this card's battle opponent becomes reversed, you may look at the top card of your deck and put it on top of your deck or in the waiting room.
@@ -2035,28 +2047,32 @@ Cont: GiveSelf
 Text Cont: If all your characters are red, this gets +2000 power.
 Auto: StartClimaxPhase
 {
-    PayCost Discard 1 IsCharacter && IsColor Red
+    If LocationContains Facing 1 Any && LocationContains OpponentStage 2 Any
     {
-        TriggerCustomEvent Force
+        PayCost Discard 1 IsCharacter && IsColor Red
+        {
+            TriggerCustomEvent Force
 
-        TargetBattleOpponent
-        SaveTargets
+            TargetLocation Facing
+            SaveTargets
 
-        TargetLocation OpponentStage
-        // Trim battle opponent, because it's our other target
-        NarrowTargets Not InSavedTargets
-        NarrowTargets Compare ThatCardsLevel 0 OrLess
+            TargetLocation OpponentStage
+            // Trim battle opponent, because it's our other target
+            NarrowTargets Not InSavedTargets
+            NarrowTargets Compare ThatCardsLevel 0 OrLess
 
-        ChooseCharacterFromTargets Choose a character to swap with this card's battle opponent
-        // Restore the battle opponent to the target list
-        AddSavedToCurrentTargets
+            ChooseCharacterFromTargets Choose a character to swap with this card's battle opponent
+            // Restore the battle opponent to the target list
+            AddSavedToCurrentTargets
 
-        // Swap & stand
-        Exchange
-        Stand
+            // Swap & stand
+            Exchange
+            Stand
+        }
     }
 }
 Text Auto: FORCE [Discard a red character] At the start of your climax phase, you may pay the cost. If you do, choose the opposing character of this card and one of your opponent's other level 0 or lower characters, then stand and swap them.
+ActivationRequirement LocationContains Facing 1 Any && LocationContains OpponentStage 1 Not InLocation Facing
 EndCard
 
 Character: SW/S49-066
@@ -2071,7 +2087,7 @@ Auto: OnPlay
     Question Put the top three cards of your deck into the waiting room?
     If Yes
     {
-        TargetTop 3 Deck
+        Mill 3
     }
 }
 Text Auto: When this card is placed from your hand to the stage, you may put the top three cards of your deck in the waiting room.
@@ -2116,7 +2132,7 @@ Auto: OnUseThisCardsBackup
 {
     If LocationContains OpponentStage 1 Compare ThatCardsLevel OpponentsLevel GreaterThan
     {
-        PayCost 2 Send 1 WaitingRoom Any
+        PayCost 2 Send 1 WaitingRoom Not CardPosition Reverse
         {
             *SendEarlyPlayToWaitingRoom
         }
@@ -2144,9 +2160,13 @@ Auto: OnOpponentReverse
             TargetLocation WaitingRoom
             ChooseCardsFromTargets 0 1 IsCharacter
             MoveCard Hand
+            ClearTargets
             TargetLocation Hand
-            ChooseCardsFromTargets NameContains Kylo Ren
-            Change
+            ChooseCardsFromTargets 0 1 NameContains Kylo Ren
+            If HasTarget
+            {
+                Change
+            }
         }
     }
 }
@@ -2176,17 +2196,21 @@ Cost 0
 Power 1000
 Auto: OnSentFromStageToWaitingRoom
 {
-    PayCost 1
+    If LocationContains Deck 1 NameEquals "New Name" Finn
     {
-        TargetLocation Deck
-        ChooseCardsFromTargets 0 1 IsCharacter && NameEquals "New Name" Finn
-        MoveToOpenPosition True True
-        PlaceOnStage False True True True
+        PayCost 1
+        {
+            TargetLocation Deck
+            ChooseCardsFromTargets 0 1 IsCharacter && NameEquals "New Name" Finn
+            MoveToOpenPosition True True
+            PlaceOnStage False True True True
 
-        ShuffleLocation Deck
+            ShuffleLocation Deck
+        }
     }
 }
 Text Auto: [(1)] When this card is placed from the stage into the waiting room, you may pay the cost. If you do, search your deck for up to 1 '"New Name" Finn' and put it rested in any stage position, then shuffle your deck.
+ActivationRequirement LocationContains Deck 1 NameEquals "New Name" Finn
 EndCard
 
 Character: SW/S49-071
@@ -2270,11 +2294,12 @@ Auto: OnPlay
         GainPower X
     }
 }
-Text Auto: When this card is played from your hand to the stage, choose one of your other red characters, and that character gains +X power until end of turn, where X is the number of your red characters multiplied by 500.
+Text Auto: When this card is played from your hand to the stage, choose one of your other red characters, and that character gains +X power until end of turn, where X is the number of your other red characters multiplied by 500.
 EndCard
 
 Character: SW/S49-075
 Name "New Vanguard" Stormtrooper
+Color R
 Level 1
 Cost 0
 Power 4500
@@ -2286,11 +2311,12 @@ Auto: OnAttack
     MultiplyXValue 500
     GainPower X
 }
-Text Auto: When this card attacks, it gets +X power until end of turn, where X is the number of your other red characters.
+Text Auto: When this card attacks, it gets +X power until end of turn, where X is the number of your other red characters multiplied by 500.
 EndCard
 
 Character: SW/S49-076
 Name Scout Trooper
+Color R
 Level 1
 Cost 0
 Power 4500
@@ -2302,7 +2328,7 @@ Auto: OnAttack
     MultiplyXValue 500
     GainPower X
 }
-Text Auto: When this card attacks, it gets +X power until end of turn, where X is the number of your other red characters.
+Text Auto: When this card attacks, it gets +X power until end of turn, where X is the number of your other red characters multiplied by 500.
 EndCard
 
 Character: SW/S49-077
@@ -2345,27 +2371,31 @@ Auto: OnAttack
 Text Auto: When this card attacks, if it's battle opponent is level 3 or higher, this card gets +X power until end of turn, where X is 1000 times the number of your red characters.
 Auto: StartClimaxPhase
 {
-    PayCost Discard 1 IsCharacter && IsColor Red
+    If LocationContains Facing 1 Any && LocationContains OpponentStage 2 Any
     {
-        TriggerCustomEvent Force
+        PayCost 1 Discard 1 IsCharacter && IsColor Red
+        {
+            TriggerCustomEvent Force
 
-        TargetBattleOpponent
-        SaveTargets
+            TargetLocation Facing
+            SaveTargets
 
-        TargetLocation OpponentStage
-        // Trim battle opponent, because it's our other target
-        NarrowTargets Not InSavedTargets
+            TargetLocation OpponentStage
+            // Trim battle opponent, because it's our other target
+            NarrowTargets Not InSavedTargets
 
-        ChooseCharacterFromTargets Choose a character to swap with this card's battle opponent
-        // Restore the battle opponent to the target list
-        AddSavedToCurrentTargets
+            ChooseCharacterFromTargets Choose a character to swap with this card's battle opponent
+            // Restore the battle opponent to the target list
+            AddSavedToCurrentTargets
 
-        // Swap & stand
-        Exchange
-        Stand
+            // Swap & stand
+            Exchange
+            Stand
+        }
     }
 }
-Text Auto: FORCE [Discard a red character] At the start of your climax phase, you may pay the cost. If you do, choose the opposing character of this card and one of your opponent's other characters, then stand and swap them.
+Text Auto: FORCE [(1) Discard a red character] At the start of your climax phase, you may pay the cost. If you do, choose the opposing character of this card and one of your opponent's other characters, then stand and swap them.
+ActivationRequirement LocationContains Facing 1 Any && LocationContains OpponentStage 1 Not InLocation Facing
 EndCard
 
 Event: SW/S49-079
@@ -2385,6 +2415,7 @@ Effect:
     }
 }
 Text Choose two of your standing characters and rest them.\nIf you rest two characters this way, choose up to 2 cost 0 or lower characters with 'Trooper' in the name in your waiting room, and put them in separate locations on the stage.\nAll your characters get +1000 power until end of turn.
+ActivationRequirement StageContains 2 CardPosition Stand
 EndCard
 
 Event: SW/S49-080
@@ -2396,7 +2427,7 @@ Counter
 Effect:
 {
     TargetLocation WaitingRoom
-    NarrowTargets IsClimax && NameEquals 'Starkiller'
+    NarrowTargets IsClimax && NameEquals Starkiller
     SetXValue TargetCount
     Burn X
 
@@ -2462,6 +2493,13 @@ Name Show me
 Color R
 Trigger DoubleSoul
 *DrawClimax
+EndCard
+
+Climax: SW/S49-086
+Name Starkiller
+Color R
+Trigger DoubleSoul
+*2SoulClimax
 EndCard
 
 Character: SW/S49-121

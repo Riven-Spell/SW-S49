@@ -4,4 +4,4 @@
 
 Place in `Weiss Schwarz_Data/StreamingAssets/Cards/Star Wars`
 
-Currently incomplete, features only TD cards and 121-125.
+Currently incomplete, features all of S49, but not SE39. Testing is incomplete.

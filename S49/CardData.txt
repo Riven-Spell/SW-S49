@@ -519,7 +519,7 @@ Auto: OnPlay
         MoveCard Clock
     }
 }
-Text Auto: When this is played, if there are 3 or more climaxes in your waiting room, put the top card of your deck in the clock.
+Text Auto: When this card is placed on the stage from your hand, if there are 3 or more climaxes in your waiting room, put the top card of your deck in the clock.
 Auto: StartOpponentAttackPhase
 {
     Question Move to an open position in the center stage?
@@ -669,7 +669,7 @@ Auto: OnPlay
         SearchLocationForTargets WaitingRoom 0 1 NameEquals Lightsaber
     }
 }
-Text Auto: [Discard a card from your hand to the waiting room] When this card is played from your hand to the stage, you may pay the cost. If you do, return a card named "Lightsaber" from your waiting room to your hand.
+Text Auto: [Discard a card from your hand to the waiting room] When this card is placed onto the stage from your hand, you may pay the cost. If you do, return a card named "Lightsaber" from your waiting room to your hand.
 Auto: OnUseEvent
 {
     TargetLocation Stage
@@ -846,7 +846,7 @@ Auto: OnPlay
         SearchDeck IsCharacter && IsColor Yellow
     }
 }
-Text Auto: [(1) Discard a card] When this is played from your hand to the stage, you may pay the cost. If you do, search your deck for a yellow character, reveal it, put it in your hand, and shuffle your deck.
+Text Auto: [(1) Discard a card] When this is placed onto the stage from your hand, you may pay the cost. If you do, search your deck for a yellow character, reveal it, put it in your hand, and shuffle your deck.
 EndCard
 
 Character: SW/S49-021
@@ -1005,7 +1005,7 @@ Effect:
     ChooseCharacterFromTargets Choose character to give +X power
     GainPower X
 }
-Text Counter: Choose one of your characters, and that character gets +X power until end of turn, where X is the number of <The Force Awakens> characters on your stage multiplied by 1000.
+Text COUNTER Choose one of your characters, and that character gets +X power until end of turn, where X is the number of <The Force Awakens> characters on your stage multiplied by 1000.
 EndCard
 
 Event: SW/S49-028
@@ -1259,7 +1259,7 @@ Auto: OnPlay
     ChooseCharacterFromTargets Give a character -1000 power.
     LosePower 1000
 }
-Text Auto: When this card is played from your hand to the stage, choose one of your opponent's characters, and they get -1000 power until end of turn.
+Text Auto: When this card is placed onto the stage from your hand, choose one of your opponent's characters, and they get -1000 power until end of turn.
 Act: 1 RestSelf
 {
     Brainstorm 4
@@ -1545,7 +1545,7 @@ Effect:
     TargetBattleOpponent
     DontStand
 }
-Text Counter: Choose one of your characters, and they get the following ability until end of turn: "Auto: When this card is placed from the stage to the waiting room, you may return this card to the stage rested in it's original stage position."\nChoose one of your opponent's characters in battle. That character does not stand during your opponent's next stand phase.
+Text COUNTER Choose one of your characters, and they get the following ability until end of turn: "Auto: When this card is placed from the stage to the waiting room, you may return this card to the stage rested in it's original stage position."\nChoose one of your opponent's characters in battle. That character does not stand during your opponent's next stand phase.
 EndCard
 
 Event: SW/S49-050
@@ -1561,7 +1561,7 @@ Effect:
     ChooseCharacterFromTargets Choose a green character to get +3500 power until end of turn.
     GainPower 3500
 }
-Text Counter: Choose one of your green characters, and that character gets +3500 until end of turn.
+Text COUNTER Choose one of your green characters, and that character gets +3500 until end of turn.
 EndCard
 
 Climax: SW/S49-051
@@ -1598,10 +1598,13 @@ Cont: GiveSelf
     If StageContains 3 Other && IsColor Red
     {
         GainPower 1500
-        GainSpecialEffect ReceiveNoDamageFromAutoEffects
+        If InBattle
+        {
+            GainSpecialEffect ReceiveNoDamageFromAutoEffects
+        }
     }
 }
-Text Cont: If you have 3 or more other red characters, this gets +1500 power and you do not take damage from effects of your opponent's character's Auto abilities during battles involving this card.
+Text Cont: If you have 3 or more other red characters, this gets +1500 power and you do not receive damage from effects of your opponent's character's Auto abilities during battles involving this card.
 *Healer
 Auto: OnFrontalAttacked
 {
@@ -1651,6 +1654,7 @@ Auto: StartClimaxPhase
             TriggerCustomEvent Force
             TargetLocation OpponentStage
             ChooseCharactersFromTargets 2 2 Choose two characters to swap.
+            Stand
             Exchange
         }
     }
@@ -1709,11 +1713,12 @@ Auto: StartClimaxPhase
             TriggerCustomEvent Force
             TargetLocation OpponentStage
             ChooseCharactersFromTargets 2 2 Choose two characters to swap.
+            Stand
             Exchange
         }
     }
 }
-Text Auto: FORCE [(1) Discard a character] At the start of your climax phase, you may pay the cost. If you do, choose two of your opponent's characters and swap their positions.
+Text Auto: FORCE [(1) Discard a character] At the start of your climax phase, you may pay the cost. If you do, choose two of your opponent's characters, then stand them and swap their positions.
 ActivationRequirement LocationContains OpponentStage 2 IsCharacter
 EndCard
 
@@ -1899,7 +1904,7 @@ Auto: OnPlay
 {
     GainPower 1500
 }
-Text Auto: When this card is played, this card gets +1500 power until end of turn.
+Text Auto: When this card is placed onto the stage from your hand, this card gets +1500 power until end of turn.
 Auto: OnOpponentReverse
 {
     If Climax You are beaten.
@@ -1928,7 +1933,8 @@ Auto: OnPlay
         SearchWaitingRoom With Auto: FORCE ||| With Act: FORCE
     }
 }
-Text Auto: [Discard a climax] When this card is placed from your hand to the stage, you may pay the cost. If you do, choose a character with a FORCE ability in your waiting room and return it to your hand.
+Text Auto: [Discard a climax] When this card is placed onto the stage from your hand, you may pay the cost. If you do, choose a character with a FORCE ability in your waiting room and return it to your hand.
+ActivationRequirement LocationContains WaitingRoom 1 With Auto: FORCE ||| With Act: FORCE
 EndCard
 
 Character: SW/S49-062
@@ -2261,7 +2267,7 @@ Auto: OnPlay
         SearchDeck IsCharacter && IsColor Red
     }
 }
-Text Auto: [(1) Discard a card] When this card is played from your hand to the stage, you may pay the cost. If so, search your deck for up to one red character, and put it in your hand, then shuffle your library.
+Text Auto: [(1) Discard a card] When this card is placed onto the stage from your hand, you may pay the cost. If so, search your deck for up to one red character, and put it in your hand, then shuffle your deck.
 Auto: OnSentFromStageToWaitingRoom
 {
     PayCost Discard 1 Any
@@ -2294,7 +2300,7 @@ Auto: OnPlay
         GainPower X
     }
 }
-Text Auto: When this card is played from your hand to the stage, choose one of your other red characters, and that character gains +X power until end of turn, where X is the number of your other red characters multiplied by 500.
+Text Auto: When this card is placed onto the stage from your hand, choose one of your other red characters, and that character gains +X power until end of turn, where X is the number of your other red characters multiplied by 500.
 EndCard
 
 Character: SW/S49-075
@@ -2436,7 +2442,7 @@ Effect:
     ChooseCharacterFromTargets Choose a character to get +2000 power until end of turn.
     GainPower 2000
 }
-Text Counter: CxCombo Deal X damage to your opponent, where X is the number of climax cards named 'Starkiller' in your waiting room.\nChoose one of your red characters, and that character gets +2000 power until end of turn.
+Text COUNTER CxCombo Deal X damage to your opponent, where X is the number of climax cards named 'Starkiller' in your waiting room.\nChoose one of your red characters, and that character gets +2000 power until end of turn.
 EndCard
 
 Event: SW/S49-081
@@ -2500,6 +2506,898 @@ Name Starkiller
 Color R
 Trigger DoubleSoul
 *2SoulClimax
+EndCard
+
+Character: SW/S49-087
+Name R2-D2
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 A New Hope
+Auto: OnPlay
+{
+    PayCost 1 Clock
+    {
+        SearchDeck Compare ThatCardsLevel 1 OrLess
+    }
+}
+Text Auto: [(1) Put the top card of your deck in your clock] When this card is placed onto the stage from your hand, you may pay the cost. If you do, search your deck for up to 1 level 1 or lower character, reveal it, put it in your hand, and shuffle your deck.
+Auto: OnAttack
+{
+    TargetLocation Stage
+    ChooseCharacterFromTargets Choose a character to get +500 power until end of turn.
+    GainPower 500
+}
+Text Auto: When this card attacks, choose one of your characters, and that character gets +500 power until end of turn.
+EndCard
+
+Character: SW/S49-088
+Name "Awakening" Rey
+Color B
+Level 3
+Cost 2
+Power 9500
+Trigger Soul
+Soul 2
+Trait1 The Force Awakens
+Cont: GiveSelf
+{
+    If LocationContains Marker 1 Any
+    {
+        TargetOwner
+        GainPower 2000
+        TargetFacing
+        LoseSoul 1
+    }
+}
+Text Cont: If there is a marker underneath this card, this card gets +2000 power, and the character opposite it gets -1 soul.
+Auto: OnPlay
+{
+    TargetLocation WaitingRoom
+    ChooseCardsFromTargets 0 1 NameEquals Lightsaber
+    If HasTarget
+    {
+        Marker_FaceUp
+    }
+}
+Text Auto: When this card is placed onto the stage from your hand, you may choose a card named 'Lightsaber' in your waiting room, and put it face-up underneath this card as a marker.
+ActivationRequirement LocationContains WaitingRoom 1 NameEquals Lightsaber
+Auto: OnAttack
+{
+    If Climax The Force Awakens
+    {
+        Peek Deck 2
+        If HasTarget 
+        {
+            ChooseCardsFromTargets 0 1 Any
+            MoveCard Hand
+
+            TargetLocation ScryArea
+            MoveCard WaitingRoom
+        }
+
+        TargetSelf
+        UntilEndOfOpponentsTurn
+        GainEffect
+        {
+            Cont: GiveFacing
+            {
+                LoseSoul 1
+            }
+            Text Cont: Opposing character gets -1 soul.
+        }
+    }
+}
+Text Auto: When this card attacks, if 'The Force Awakens' is in your climax zone, look at up to the top two cards of your deck, pick one, put it in your hand, and send the rest to your waiting room. This card gains the following ability until the end of your opponent's next turn: "Cont: Opposing character gets -1 soul."
+EndCard
+
+Character: SW/S49-089
+Name "Dream-Chasing Youth" Luke
+Color B
+Level 3
+Cost 2
+Power 10000
+Trigger Soul
+Soul 2
+Trait1 A New Hope
+*Healer
+Auto: OnPlay
+{
+    TargetLocation WaitingRoom
+    ChooseCardsFromTargets 0 1 NameEquals Lightsaber
+    If HasTarget
+    {
+        Marker_FaceUp
+    }
+}
+Text Auto: When this card is placed onto the stage from your hand, you may choose a card named 'Lightsaber' in your waiting room, and put it face-up underneath this card as a marker.
+ActivationRequirement LocationContains WaitingRoom 1 NameEquals Lightsaber
+Auto: OnOpponentReverse
+{
+    If Climax A New Hope &&& LocationContains Marker 1 OrMore
+    {
+        PayCost 2 Discard 1 IsCharacter && IsColor Blue
+        {
+            TargetSelf
+            Stand
+        }
+    }
+}
+Text Auto: [(2) Discard a blue character] This ability activates up to once per turn. If 'A New Hope' is in your climax zone and this card has a marker underneath it, you may pay the cost. If you do, stand this card.
+ActivationRequirement Climax A New Hope &&& LocationContains Marker 1 OrMore
+TimesPerTurn 1
+EndCard
+
+Character: SW/S49-090
+Name "Jedi Training" Luke
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 The Empire Strikes Back
+Auto: OnCustomEvent Force
+{
+    TargetLocation Stage
+    ChooseCharacterFromTargets_Optional Choose a character to get +2000 power until end of turn.
+    If HasTarget 
+    {
+        GainPower 2000
+    }
+}
+Text Auto: When you use a FORCE ability, choose one of your character, and that character gets +2000 power until end of turn.
+Act: 1 RestSelf
+{
+    Brainstorm 4
+    PerClimax
+    {
+        SearchDeck IsCharacter && IsColor Blue
+    }
+}
+Text Act: BRAINSTORM [(1) Rest this] Reveal the top 4 cards of your deck and put them into your waiting room. For each climax revealed this way, search your deck for up to 1 blue character, reveal it, put it in your hand, and shuffle your deck.
+EndCard
+
+Character: SW/S49-091
+Name "Talent of Pilot" Rey
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 The Force Awakens
+*GiveMiddlePower(1000, Any)
+Act: 1 RestSelf
+{
+    Brainstorm 4
+    PerClimax
+    {
+        SearchDeck IsCharacter && HasTrait The Force Awakens
+    }
+}
+Text Act: BRAINSTORM [(1) Rest this] Reveal the top 4 cards of your deck and put them into your waiting room. For each climax revealed this way, search your deck for up to 1 <<The Force Awakens>> character, reveal it, put it in your hand, and shuffle your deck.
+EndCard
+
+Character: SW/S49-092
+Name "Brave Supporter" C-3PO
+Color B
+Level 0
+Cost 0
+Power 2500
+Trait1 The Empire Strikes Back
+*CannotSideAttack
+Auto: OnPlay
+{
+    UntilEndOfOpponentsTurn
+    GainPower 1500
+}
+Text Auto: When this card is placed to the stage from your hand, this card gets +1500 power until the end of your opponent's turn.
+EndCard
+
+Character: SW/S49-093
+Name "Astromech Droid" R2-D2
+Color B
+Level 1
+Cost 0
+Power 2500
+Trait1 A New Hope
+*500Assist
+Auto: OnUseEvent
+{
+    If CardPosition Stand
+    {
+        PayCost RestSelf
+        {
+            TargetLocation Stage
+            NarrowTargets Other
+            ChooseCharacterFromTargets Choose a character to get +1500 power.
+            GainPower 1500
+        }
+    }
+}
+Text Auto: [Rest this card] When you play an event, if this card is standing, you may pay the cost. If you do, choose one of your characters, and that character gets +1500 power until end of turn.
+ActivationRequirement CardPosition Stand
+Act: RestSelf
+{
+    TargetLocation Stage
+    NarrowTargets NameEquals "Dream-Chasing Youth" Luke
+    ChooseCharacterFromTargets Choose a character to gain +2000 power until end of turn, and you may add a 'Lightsaber' card from your waiting room underneath it face-up as a marker.
+
+    GainPower 2000
+    SaveTargets
+
+    If Compare MarkersUnderThis 0 Exactly
+    {
+        TargetLocation WaitingRoom
+        ChooseCardsFromTargets 0 1 NameEquals Lightsaber
+        If HasTarget
+        {
+            MarkerTargetsUnderSavedTarget_FaceUp
+        }
+    }
+}
+ActivationRequirement StageContains 1 NameEquals "Dream-Chasing Youth" Luke
+Text Act: [Rest this card] Choose one of your characters named '"Dream-Chasing Youth" Luke' and that character gets +2000 power until end of turn. If that character does not have a marker
+EndCard
+
+Character: SW/S49-094
+Name "Moment of Counterattack" Luke
+Color B
+Level 1
+Cost 0
+Power 4500
+Trait1 Return of the Jedi
+*OnPlayGainPower(1500)
+Auto: OnAttack
+{
+    If Climax Return of the Jedi
+    {
+        RevealExactly Deck 1
+        If IsCharacter && IsColor Blue ||| NameEquals Lightsaber
+        {
+            MoveCard Hand
+        }
+        EndPeek
+    }
+}
+Text Auto: CxCombo When this card attacks, if 'Return of the Jedi' is in the climax zone, reveal the top card of your deck. If it is either a blue character or a card named 'Lightsaber', put it into your hand. (Otherwise, return it to the top of your deck)
+ActivationRequirement Climax Return of the Jedi
+Combo Return of the Jedi
+EndCard
+
+Character: SW/S49-095
+Name Yoda
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Soul 2
+Power 5000
+Trait1 The Empire Strikes Back
+Cont: Assist
+{
+    If IsColor Blue
+    {
+        GainPower 2000
+        GainSpecialEffect NoBackupOnAttack
+    }
+}
+Text Cont: ASSIST All your blue characters in front of this card gain +2000 power and the following ability until end of turn: "Cont: During battles involving this card, your opponent cannot play backup cards from hand."
+Auto: OnPlay
+{
+    SetXToNumberOfCharacters IsColor Blue
+    Peek Deck X
+    ChooseCardsFromTargets 0 1 Any
+    MoveCard Hand
+    TargetLocation ScryArea
+    MoveCard WaitingRoom
+}
+Text Auto: When this card is placed onto the stage from your hand, look at up to X cards from the top of your deck. Choose up to one among them, put it into your hand, and the rest into the waiting room. X is the number of your blue characters.
+Auto: OnCustomEvent Force
+{
+    TargetLocation Stage
+    ChooseCharacterFromTargets Choose a character to get +1000 power until end of turn.
+    UntilEndOfOpponentsTurn
+    GainPower 1000
+}
+Text Auto: When you use a FORCE ability, choose one of your characters, and they get +1000 power until the end of your opponent's turn.
+EndCard
+
+Character: SW/S49-096
+Name "Teaching of the Sage" Obi-Wan
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Soul 2
+Power 6500
+Trait1 A New Hope
+Cont: GiveSelf
+{
+    TargetFacing
+    SetXValue ThatCardsLevel
+    MultiplyXValue 1000
+    TargetSelf
+    GainPower X
+}
+Text Cont: This card gets +X power, where X is 1000 multiplied by the level of the opposing character.
+Cont: GiveSelf
+{
+    If Not MyTurn && StageContains 3 Other && IsColor Blue
+    {
+        GainEffect
+        {
+            Auto: OnOpponentReverse
+            {
+                Question_Obvious Deal 1 damage to your opponent?
+                If Yes
+                {
+                    Burn 1
+                }
+            }
+            Text Auto: When this card's battle opponent becomes reversed, you may deal 1 damage to your opponent.
+        }
+    }
+}
+Text Cont: During your opponent's turn, if you have 3 or more other blue characters, this card gains the following ability: "Text Auto: When this card's battle opponent becomes reversed, you may deal 1 damage to your opponent."
+Auto: StartOpponentDrawPhase
+{
+    If InLocation CenterStage
+    {
+        TargetLocation Stage
+        ChooseCharacterFromTargets Choose a character to gain +4000 power until end of turn.
+        GainPower 4000
+    }
+}
+Text Auto: At the start of your opponent's draw phase, if this card is in your center stage, choose one of your characters. That character gets +4000 power until end of turn.
+EndCard
+
+Character: SW/S49-097
+Name "Encounter of Fate" Luke
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Soul 2
+Power 9500
+Trait1 A New Hope
+Cont: InHand
+{
+    If LocationContains Clock 1 NameEquals R2-D2
+    {
+        LoseLevel 1
+    }
+}
+Text Cont: If your clock contains 'R2-D2', this card gets -1 level while in hand.
+Cont: GiveSelf
+{
+    If InBattle
+    {
+        GainSpecialEffect ReceiveNoDamageFromAutoEffects
+    }
+}
+Text Cont: During battles involving this card, you receive no damage from auto effects.
+*OnPlayDraw2Discard2BlindStock
+Auto: StartClimaxPhase
+{
+    If LocationContains OpponentStage 2 IsCharacter
+    {
+        PayCost 1 Discard 1 Any
+        {
+            TriggerCustomEvent Force
+            TargetLocation OpponentStage
+            ChooseCharactersFromTargets 2 2 Choose two characters to swap.
+            Stand
+            Exchange
+        }
+    }
+}
+Text Auto: FORCE [(1) Discard a character] At the start of your climax phase, you may pay the cost. If you do, choose two of your opponent's characters, then stand them and swap their positions.
+ActivationRequirement LocationContains OpponentStage 2 IsCharacter
+EndCard
+
+Character: SW/S49-098
+Name "Desert Hermit" Ben Kenobi
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 A New Hope
+Auto: OnPlay
+{
+    PayCost 1
+    {
+        SearchWaitingRoom NameEquals Lightsaber
+    }
+}
+Text Auto: [(1)] When this card is placed onto the stage from your hand, you may pay the cost. If you do, choose a 'Lightsaber' in your waiting room and return it to your hand.
+*BondDiscard("Moment of Counterattack" Luke)
+EndCard
+
+Character: SW/S49-099
+Name "The Good News Bringer" R2-D2
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 The Force Awakens
+*OnPlayCheckTopAddDiscard(The Force Awakens)
+*BondDiscard("Jedi Master" Luke)
+EndCard
+
+Character: SW/S49-100
+Name "Beloved Partner" C-3PO
+Color B
+Level 0
+Cost 0
+Power 4000
+Trait1 The Force Awakens
+*OnPlayMill2RestIfClimax
+EndCard
+
+Character: SW/S49-101
+Name Obi-Wan Kenobi
+Color B
+Level 1
+Cost 1
+Power 4500
+Trait1 A New Hope
+Cont: GiveSelf
+{
+    If StageContains 3 Other && IsColor Blue
+    {
+        GainPower 1000
+    }
+}
+Text Cont: If you have 3 or more other blue characters, this card gets +1000 power.
+Cont: GiveSelf
+{
+    TargetFacing
+    If Compare ThatCardsCost 0 OrLess
+    {
+        GainSpecialEffect CannotBeReversed
+    }
+}
+Text Cont: If the cost of the card this card is facing is 0 or lower, this card cannot be reversed.
+Auto: StartClimaxPhase
+{
+    If LocationContains Facing 1 Any &&& LocationContains OpponentStage 1 Not InLocation Facing && Compare ThatCardsLevel 1 OrLess
+    {
+        PayCost Discard 1 IsCharacter && IsColor Blue
+        {
+            TriggerCustomEvent Force
+
+            TargetLocation Facing
+            SaveTargets
+
+            TargetLocation OpponentStage
+            // Trim battle opponent, because it's our other target
+            NarrowTargets Not InSavedTargets
+            NarrowTargets Compare ThatCardsLevel 1 OrLess
+
+            ChooseCharacterFromTargets Choose a character to swap with this card's battle opponent
+            // Restore the battle opponent to the target list
+            AddSavedToCurrentTargets
+
+            // Swap & stand
+            Exchange
+            Stand
+        }
+    }
+}
+Text Auto: FORCE [Discard a blue character] At the start of your climax phase, you may pay the cost. If you do, choose the opposing character of this card and one of your opponent's other level 1 or lower characters, then stand and swap them.
+ActivationRequirement LocationContains Facing 1 Any &&& LocationContains OpponentStage 1 Not InLocation Facing && Compare ThatCardsLevel 1 OrLess
+EndCard
+
+Character: SW/S49-102
+Name "Jedi Master" Luke
+Color B
+Level 1
+Cost 1
+Power 5500
+Trait1 The Force Awakens
+*GainPowerWithEnoughCharacters(2000, 2, The Force Awakens)
+Auto: StartClimaxPhase
+{
+    If LocationContains Facing 1 Any &&& LocationContains OpponentStage 1 Not InLocation Facing && Compare ThatCardsLevel 1 OrLess
+    {
+        PayCost Discard 1 IsCharacter && HasTrait The Force Awakens
+        {
+            TriggerCustomEvent Force
+
+            TargetLocation Facing
+            SaveTargets
+
+            TargetLocation OpponentStage
+            // Trim battle opponent, because it's our other target
+            NarrowTargets Not InSavedTargets
+            NarrowTargets Compare ThatCardsLevel 1 OrLess
+
+            ChooseCharacterFromTargets Choose a character to swap with this card's battle opponent
+            // Restore the battle opponent to the target list
+            AddSavedToCurrentTargets
+
+            // Swap & stand
+            Exchange
+            Stand
+        }
+    }
+}
+Text Auto: FORCE [Discard a <<The Force Awakens>> character] At the start of your climax phase, you may pay the cost. If you do, choose the opposing character of this card and one of your opponent's other level 1 or lower characters, then stand and swap them.
+ActivationRequirement LocationContains Facing 1 Any &&& LocationContains OpponentStage 1 Not InLocation Facing && Compare ThatCardsLevel 1 OrLess
+EndCard
+
+Character: SW/S49-103
+Name "Premonition of Friendship" BB-8
+Color B
+Level 2
+Cost 1
+Power 6000
+Trigger Soul
+Trait1 The Force Awakens
+*Level3Assist
+Auto: OnPlay
+{
+    RevealExactly Deck 1
+    If Compare ThatCardsLevel 1 OrLess
+    {
+        MoveCard Stock
+    }
+    EndPeek
+}
+Text Auto: When this card is placed onto the stage from your hand, reveal the top card of your deck. If it's level 1 or lower, put it in your stock.
+EndCard
+
+Character: SW/S49-104
+Name "Jedi Master" Yoda
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 The Empire Strikes Back
+Auto: OnPlay
+{
+    PayCost Discard 1 IsClimax
+    {
+        // Just in case there *is* a force Act.
+        SearchDeck With Auto: FORCE ||| With Act: FORCE
+    }
+}
+Text Auto: [Discard a climax] When this card is placed onto the stage from your hand, you may pay the cost. If you do, choose a character with a FORCE ability in your deck and return it to your hand.
+EndCard
+
+Character: SW/S49-105
+Name "Jedi Knight" Luke
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 Return of the Jedi
+Cont: GiveAll
+{
+    If Other && IsColor Blue
+    {
+        GainPower 500
+    }
+}
+Text Cont: All of your other blue characters gain +500 power.
+Auto: OnCustomEvent Force
+{
+    *OptionalDrawDiscard
+}
+Text Auto: When you use a FORCE ability, you may draw a card. If you do, discard a card.
+EndCard
+
+Character: SW/S49-106
+Name "Comrade" BB-8
+Color B
+Level 0
+Cost 0
+Power 500
+Trait1 The Force Awakens
+Auto: OnAttack
+{
+    SetXToNumberOfCharacters Other && HasTrait The Force Awakens
+    MultiplyXValue 500
+    GainPower X
+}
+Text Auto: When this card attacks, it gets +X power until end of turn, where X is 500 times your other <<The Force Awakens>> characters.
+*Bond1("Starfighter Pilot" Poe)
+EndCard
+
+Character: SW/S49-107
+Name "Light Side" Luke
+Color B
+Level 0
+Cost 0
+Power 2000
+Trait1 Return of the Jedi
+Auto: OnOpponentReverse
+{
+    If LocationContainsOrLess Stock 3 Any
+    {
+        TargetLocation Stage
+        NarrowTargets Other
+        ChooseCharacterFromTargets Choose a character to move to the back stage, rested.
+        Rest
+        MoveToOpenPosition False True
+    }
+}
+Text Auto: When this card's battle opponent becomes reversed, if there are 3 or fewer cards in your stock, choose one of your other characters, rest them, and move them to an open back stage slot.
+ActivationRequirement LocationContainsOrLess Stock 3 Any &&& LocationContains Stage 1 Other
+Auto: StartClimaxPhase
+{
+    If LocationContains Facing 1 Any &&& LocationContains OpponentStage 1 Not InLocation Facing && Compare ThatCardsLevel 1 OrLess
+    {
+        PayCost Discard 1 IsCharacter && IsColor Blue
+        {
+            TriggerCustomEvent Force
+
+            TargetLocation Facing
+            SaveTargets
+
+            TargetLocation OpponentStage
+            // Trim battle opponent, because it's our other target
+            NarrowTargets Not InSavedTargets
+            NarrowTargets Compare ThatCardsLevel 0 OrLess
+
+            ChooseCharacterFromTargets Choose a character to swap with this card's battle opponent
+            // Restore the battle opponent to the target list
+            AddSavedToCurrentTargets
+
+            // Swap & stand
+            Exchange
+            Stand
+        }
+    }
+}
+Text Auto: FORCE [Discard a blue character] At the start of your climax phase, you may pay the cost. If you do, choose the opposing character of this card and one of your opponent's other level 0 or lower characters, then stand and swap them.
+ActivationRequirement LocationContains Facing 1 Any &&& LocationContains OpponentStage 1 Not InLocation Facing && Compare ThatCardsLevel 0 OrLess
+EndCard
+
+Character: SW/S49-108
+Name Luke Skywalker
+Color B
+Level 1
+Cost 0
+Power 6500
+Trait1 A New Hope
+*CannotSideAttack
+Cont: GiveSelf
+{
+    If LocationContainsOrLess Backstage 1 Any
+    {
+        GainSpecialEffect CannotFrontalAttack
+        GainSpecialEffect CannotSideAttack
+    }
+}
+Text Auto: If there is 1 or less characters in your backstage, this card cannot attack.
+EndCard
+
+Character: SW/S49-109
+Name C-3PO
+Color B
+Level 2
+Cost 1
+Power 500
+Trigger Soul
+Trait1 The Empire Strikes Back
+*OnPlayGivePower(1000, Any)
+Backup 3000
+EndCard
+
+Character: SW/S49-110
+Name "Sudden Attack" Luke
+Color B
+Level 2
+Cost 1
+Power 7000
+Trait1 The Empire Strikes Back
+Trigger Soul
+*GainPowerWhenAttackingLevel3(6000)
+Auto: StartClimaxPhase
+{
+    If LocationContains Facing 1 Any &&& LocationContains OpponentStage 1 Not InLocation Facing
+    {
+        PayCost 1 Discard 1 Any
+        {
+            TriggerCustomEvent Force
+
+            TargetLocation Facing
+            SaveTargets
+
+            TargetLocation OpponentStage
+            // Trim battle opponent, because it's our other target
+            NarrowTargets Not InSavedTargets
+
+            ChooseCharacterFromTargets Choose a character to swap with this card's battle opponent
+            // Restore the battle opponent to the target list
+            AddSavedToCurrentTargets
+
+            // Swap & stand
+            Exchange
+            Stand
+        }
+    }
+}
+Text Auto: FORCE [(1) Discard a card] At the start of your climax phase, you may pay the cost. If you do, choose the opposing character of this card and one of your opponent's other characters, then stand and swap them.
+ActivationRequirement LocationContains Facing 1 Any &&& LocationContains OpponentStage 1 Not InLocation Facing
+EndCard
+
+Character: SW/S49-111
+Name "Shooting Skill" Rey
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 7000
+Trait1 The Force Awakens
+*OnPlayGainPowerForEach(1000, The Force Awakens)
+Auto: OnOpponentReverse
+{
+    If Compare BattleOpponentsLevel 2 OrMore
+    {
+        PayCost 1
+        {
+            SearchDeck HasTrait The Force Awakens
+        }
+    }
+}
+Text Auto: [(1)] When this card reverses a level 2 or higher battle opponent, you may pay the cost. If you do, search your deck for a <<The Force Awakens>> character, reveal it, put it in your hand, and shuffle your deck.
+EndCard
+
+Character: SW/S49-112
+Name "Jedi Master" Obi-wan
+Color B
+Level 2
+Cost 2
+Trigger Soul
+Power 6000
+Soul 2
+Trait1 A New Hope
+Cont: GiveSelf
+{
+    If Compare CardsInStock 5 OrMore
+    {
+        GainPower 2500
+        GainEffect
+        {
+            Auto: Encore Discard 1 IsColor Blue
+            {
+            }
+            Text Auto: ENCORE [Discard a blue character]
+        }
+    }
+}
+Text Cont: If you have 5 or more cards in your stock, this card gets +2500 power and the following effect until end of turn: "Auto: ENCORE [Discard a blue card]"
+Auto: OnAttack
+{
+    SetXValue BattleOpponentsLevel
+    MultiplyXValue 1000
+    GainPower X
+}
+Text Auto: When this card attacks, gain X power until end of turn. X is 1000 multiplied by the battle opponent's level.
+Auto: OnAttack
+{
+    If Climax Great Mentor
+    {
+        TargetLocation WaitingRoom
+        ChooseCardsFromTargets 0 2 IsCharacter && IsColor Blue
+        MoveCard Stock
+        UntilEndOfOpponentsTurn
+        TargetSelf GainPower 2000
+    }
+}
+EndCard
+
+Event: SW/S49-113
+Name Lightsaber
+Color B
+Level 1
+Cost 0
+Counter
+Effect:
+{
+    Question_Obvious Draw 2 discard 2?
+    If Yes
+    {
+        TargetTop Deck 2
+        MoveCard Hand
+        Discard 2 Any
+    }
+
+    TargetLocation Stage
+    ChooseCharacterFromTargets Choose a character to get +2000 power until end of turn.
+    GainPower 2000
+}
+ActivationRequirement StageContains 2 IsCharacter && IsColor Blue
+Text COUNTER If you have two or fewer blue characters, this card cannot be played.\nYou may draw two cards, and if you do, discard two cards.\nChoose one of your characters, and that character gets +2000 power until end of turn.
+EndCard
+
+Event: SW/S49-114
+Name Lightsaber
+Color B
+Level 1
+Cost 0
+Counter
+Effect:
+{
+    Question_Obvious Draw 2 discard 2?
+    If Yes
+    {
+        TargetTop Deck 2
+        MoveCard Hand
+        Discard 2 Any
+    }
+
+    TargetLocation Stage
+    ChooseCharacterFromTargets Choose a character to get +2000 power until end of turn.
+    GainPower 2000
+}
+ActivationRequirement StageContains 2 IsCharacter && HasTrait The Force Awakens
+Text COUNTER If you have two or fewer <<The Force Awakens>> characters, this card cannot be played.\nYou may draw two cards, and if you do, discard two cards.\nChoose one of your characters, and that character gets +2000 power until end of turn.
+EndCard
+
+Event: SW/S49-115
+Name AT-AT
+Color B
+Level 2
+Cost 1
+Effect:
+{
+    TargetLocation Stage
+    ChooseCharactersFromTargets 0 1 Any
+    GainPower 1500
+
+    Mill 1
+    If Compare TargetCardsLevel 1 OrMore
+    {
+        TargetLocation OpponentStage
+        ChooseCharacterFromTargets Choose a character to put at the bottom of your opponent's deck.
+        MoveCardToBottom OpponentDeck
+    }
+}
+Text Choose one of your characters. That character gets +1500 power until end of turn.\nPut the top card of your deck into your waiting room. If it is level 1 or higher, choose one of your opponent's characters, and put it on the bottom of their deck.
+EndCard
+
+Event: SW/S49-116
+Name Rey's Speeder
+Color B
+Level 2
+Cost 2
+Effect:
+{
+    TargetLocation Clock
+    ChooseCardsFromTargets 1 1 Any
+    MoveCard Hand
+
+    TargetSelf
+    MoveCard Memory
+}
+Text If you have no <<The Force Awakens>> characters, this card cannot be played.\nChoose a card in your clock and return it to your hand. Send this card to memory.
+ActivationRequirement StageContains 1 HasTrait The Force Awakens
+EndCard
+
+Climax: SW/S49-117
+Name A New Hope
+Color B
+*GateClimax
+EndCard
+
+Climax: SW/S49-118
+Name The Force Awakens
+Color B
+*GateClimax
+EndCard
+
+Climax: SW/S49-119
+Name Great Mentor
+Color B
+*BookClimax
+EndCard
+
+Climax: SW/S49-120
+Name Return of the Jedi
+Color B
+*BlueStockSoul
 EndCard
 
 Character: SW/S49-121

@@ -467,6 +467,7 @@ Auto: OnReversed
     }
 }
 Text: Auto: When this card becomes reversed in battle, if it's battle opponent is level 0 or lower, you may put that character in stock. If you do, send the bottom card of your opponent's stock in the waiting room.
+ActivationRequirement Compare BattleOpponentsLevel 0 OrLess && Compare CardsInOpponentsStock 1 OrMore
 EndCard
 
 Character: SW/S49-005
@@ -1068,6 +1069,7 @@ Effect:
             }
         }
         Text Auto: When this becomes reversed in battle, if the level of this card's battle opponent is higher than the level of your opponent, you may put that character in stock. If you do, put the bottom card of your opponent's stock in their waiting room.
+        ActivationRequirement Compare BattleOpponentsLevel OpponentsLevel GreaterThan && Compare CardsInOpponentsStock 1 OrMore
     }
 }
 Text [Counter] Reveal the top card of your deck. If it's a yellow character, put it in your hand and discard a card.\nChoose one of your characters, that character gets the following ability until end of turn. "Auto: When this card becomes reversed in battle, if the level of this card's battle opponent is higher than the level of your opponent's level, you may send the bottom of their stock to the waiting room. If you do, send that battle opponent to the waiting room.
@@ -1136,9 +1138,10 @@ Auto: OnPlay
     }
 }
 Text Auto: [(1) Discard a card from your hand] When this card is placed from your hand to the stage, you may pay the cost. If you do, choose a card in your clock and return it to your hand, then send the top card of your deck to the clock.
+ActivationRequirement LocationContains Clock 1 OrMore
 Auto: OnReversed
 {
-    If Compare BattleOpponentsLevel 0 OrLess && Compare CardsInOpponentsStock 1 OrMore
+    If Compare BattleOpponentsLevel 0 OrLess && Compare CardsInOpponentsClock 1 OrMore
     {
         Question Send this card's battle opponent to the clock? (Replaces the top card)
         If Yes
@@ -1150,7 +1153,7 @@ Auto: OnReversed
         }
     }
 }
-ActivationRequirement Compare BattleOpponentsLevel 0 OrLess
+ActivationRequirement Compare BattleOpponentsLevel 0 OrLess && Compare CardsInOpponentsClock 1 OrMore
 Text Auto: When this card becomse reversed, if the level of this card's battle opponent is 0 or lower, you may put the top card of your opponent's clock in the waiting room. If you do, replace it with this card's battle opponent.
 EndCard
 
@@ -1453,6 +1456,7 @@ Auto: OnReversed
     }
 }
 Text Auto: When this becomes reversed, if the cost of this card's battle opponent is 0 or lower, you may put the top card of your opponent's clock in the waiting room. If you do, put this card's battle opponent in the waiting room.
+ActivationRequirement TargetCardsCost 0 OrLess && LocationContains OpponentClock 1 Any
 EndCard
 
 Character: SW/S49-046
@@ -2414,7 +2418,7 @@ Effect:
     PayCost Rest 2 CardPosition Stand
     {
         TargetLocation WaitingRoom
-        ChooseCardsFromTargets 0 2 IsCharacter && NameContains Stormtrooper || NameEquals Scout Trooper
+        ChooseCardsFromTargets 0 2 IsCharacter && NameContains Stormtrooper ||| IsCharacter && NameEquals Scout Trooper
         PlaceOnStage False True True False
         TargetLocation Stage
         GainPower 1000

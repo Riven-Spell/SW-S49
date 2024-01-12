@@ -1,0 +1,757 @@
+Character: SW/SE39-001
+Name Jyn Erso & Cassian Andor & K-2SO
+Color Y
+Level 0
+Cost 0
+Power 500
+Trait1 Rogue One
+Auto: OnAttack
+{
+    TargetLocation Stage
+    ChooseCharacterFromTargets Choose a character to gain +X power, where X is that character's soul multiplied by 1000.
+    SetXValue TotalSoul
+    MultiplyXValue 1000
+    GainPower X
+}
+Text Auto: When this card attacks, choose another character, and they gain +X power, where X is that card's soul multiplied by 1000.
+ActivationRequirement StageContains 1 Other
+Auto: OnReversed
+{
+    PayCost StockClock SendSelf Memory
+    {
+        TargetLocation WaitingRoom
+        NarrowTargets IsCharacter
+        ChooseCardsFromTargets 0 1 IsColor Yellow || HasTrait Rogue One
+
+        If HasTarget
+        {
+            MoveCard Hand
+        }
+    }
+}
+Text Auto: [Put one card from the top of your stock into your clock, send this card to memory] When this card becomes reversed in battle, you may pay the cost. If you do, Search your waiting room for a yellow or <<Rogue One>> character.
+EndCard
+
+Character: SW/SE39-002
+Name "Reliable Man With a Heart of Fury" Han Solo
+Color Y
+Level 0
+Cost 0
+Power 1500
+Trait1 A New Hope
+Auto: OnPlay
+{
+    *OptionalDrawDiscard
+}
+Text Auto: When this card is placed onto the stage from your hand, if you have two or more other yellow or <<A New Hope>> characters, you may draw one card. If you do, discard one card.
+ActivationRequirement StageContains 2 Other &&& IsColor Yellow || HasTrait A New Hope
+Act: 1 SendSelf WaitingRoom
+{
+    Peek Deck 4
+    ChooseCardsFromTargets 0 1 Compare ThatCardsLevel 1 OrMore
+    MoveCard Hand
+    TargetLocation ScryArea
+    MoveCard WaitingRoom
+}
+Text Act: [(1) Send this card to the waiting room] Look at up to the top four cards of your deck. Choose a level 1 or higher card, and put it into your hand. Put the rest into your waiting room.
+EndCard
+
+Character: SW/SE39-003
+Name "Courageous Leader" Poe Dameron
+Color Y
+Level 0
+Cost 0
+Power 2000
+Trait1 The Last Jedi
+Auto: OnPlay
+{
+    TargetLocation Stage
+    NarrowTargets Other
+    ChooseCharacterFromTargets Choose a character to get +X power, where X is their level multiplied by 500
+    SetXValue ThatCardsLevel
+    MultiplyXValue 500
+    GainPower X
+}
+Text Auto: When this card is placed onto the stage from your hand, choose one of your other characters. That character gets +X power until end of turn, where X is their level multiplied by 500.
+Auto: OnPlay
+{
+    TargetLocation Stage
+    NarrowTargets Other
+    ChooseCharacterFromTargets Choose a character to get +1 level
+    GainLevel 1
+}
+Text Auto: When this card is placed onto the stage from your hand, choose one of your other characters. That character gets +1 level until end of turn.
+EndCard
+
+Character: SW/SE39-004
+Name "Resistance" Finn
+Color Y
+Level 0
+Cost 0
+Power 2500
+Trait1 The Last Jedi
+Auto: OnPlay
+{
+    PayCost Discard 1 Any
+    {
+        SearchWaitingRoom NameEquals Lightsaber
+    }
+}
+Text Auto: [Discard a card] When this card is placed onto the stage from your hand, you may pay the cost. If you do, search your waiting room for a card named 'Lightsaber', and put it into your hand.
+ActivationRequirement LocationContains WaitingRoom 1 NameEquals Lightsaber
+EndCard
+
+Character: SW/SE39-005
+Name "Legendary Wookie Warrior" Chewbacca
+Color Y
+Level 0
+Cost 0
+Power 4000
+Trait1 Return of the Jedi
+*GiveAllOpponentsEncore2
+EndCard
+
+Character: SW/SE39-006
+Name "Always By Your Side" C-3PO & R2-D2
+Color Y
+Level 1
+Cost 0
+Power 1500
+Trait1 Return of the Jedi
+Cont: InHand
+{
+    GainSpecialEffect IgnoreColorRequirement
+}
+Text Cont: This card can be played from hand without fulfilling color requirements.
+Act: Discard 1 Any SendSelf WaitingRoom
+{
+    SearchWaitingRoom IsCharacter
+}
+Text Act: [Discard a card, send this card to the waiting room] Choose a character in your waiting room and return it to your hand.
+*RestGivePower(1000, Any)
+EndCard
+
+Character: SW/SE39-007
+Name "Strong Leader" Leia
+Color Y
+Level 1
+Cost 0
+Power 2500
+Trait1 The Empire Strikes Back
+Cont: GiveSelf
+{
+    If StageContains 1 NameEquals "Scoundrel" Han Solo
+    {
+        GainPower 4000
+    }
+}
+Text Cont: If you have another character named '"Scoundrel" Han Solo', this card gets +4000 power.
+Auto: OnAttack
+{
+    PayCost 1
+    {
+        GainSpecialEffect DoubleTrigger
+    }
+}
+Text Auto: [(1)] When this card attacks, you may pay the cost. If you do, do the trigger check twice.
+EndCard
+
+Character: SW/SE39-008
+Name "Rebel Alliance General" Han Solo
+Color Y
+Level 2
+Cost 1
+Trigger Soul
+Power 4000
+Trait1 Return of the Jedi
+*LevelAssist
+*BondDiscard("Secret Mission" Leia)
+Act: RestSelf
+{
+    TargetLocation Stage
+    NarrowTargets NameEquals "Secret Mission" Leia
+    ChooseCardsFromTargets Choose a '"Secret Mission" Leia' to get +2500 power.
+    GainPower 2500
+}
+Text Act: [Rest this card] Choose one of your characters named '"Secret Mission" Leia'. They get +2500 power until end of turn.
+ActivationRequirement StageContains 1 "Secret Mission" Leia
+EndCard
+
+Character: SW/SE39-009
+Name "Crime Lord of Tatooine"
+Color G
+Level 0
+Cost 0
+Power 1500
+Trait1 Return of the Jedi
+Cont: GiveAll
+{
+    If Other
+    {
+        If IsColor Green || HasTrait Return of the Jedi
+        {
+            GainPower 500
+        }
+    }
+}
+Text Cont: All your other green or <<Return of the Jedi>> characters gain +500 power.
+Act: RestSelf
+{
+    TargetLocation Stage
+    NarrowTargets Other
+    ChooseCharacterFromTargets Choose a character to gain the following ability until end of turn: "Auto: When this card's battle opponent becomse reversed, you may put the top card of your opponent's clock in the waiting room. If you do, replace it with this card's battle opponent."
+    GainEffect
+    {
+        Auto: OnOpponentReverse
+        {
+            If Compare CardsInOpponentsClock 1 OrMore
+            {
+                Question Send this card's battle opponent to the clock? (Replaces the top card)
+                If Yes
+                {
+                    TargetTop OpponentClock
+                    MoveCard OpponentWaitingRoom
+                    TargetBattleOpponent
+                    MoveCard OpponentClock
+                }
+            }
+        }
+        ActivationRequirement Compare BattleOpponentsLevel 0 OrLess
+        Text Auto: When this card's battle opponent becomse reversed, you may put the top card of your opponent's clock in the waiting room. If you do, replace it with this card's battle opponent.
+    }
+}
+Text Act: [Rest this card] Choose one of your other characters. It gets the following ability until end of turn: "Auto: When this card's battle opponent becomes reversed, you may put the top card of their clock into their waiting room. If you do, put that character into their clock."
+EndCard
+
+Character: SW/SE39-010
+Name "Superior Fighting Ability" Darth Maul
+Color R
+Level 0
+Cost 0
+Power 1000
+Trait1 Phantom Menace
+Cont: GiveSelf
+{
+    If StageContains 1 Other && IsColor Red || Other && HasTrait Phantom Menace
+    {
+        GainPower 3000
+    }
+}
+Text Cont: If you have any other red or <<Phantom Menace>> characters, this card gets +3000 power.
+Auto: OnAttack
+{
+    PayCost 1
+    {
+        GainSpecialEffect DoubleTrigger
+    }
+}
+Text Auto: [(1)] When this card attacks, you may pay the cost. If you do, do the trigger check twice.
+EndCard
+
+Character: SW/SE39-011
+Name "Descendant of Skywalker" Kylo Ren
+Color R
+Level 0
+Cost 0
+Power 1500
+Trait1 The Rise Of Skywalker
+Auto: OnReversed
+{
+    PayCost 1 SendSelf WaitingRoom Discard 1 Any
+    {
+        SearchDeck NameContains Rey ||| NameContains Leia
+    }
+}
+Text Auto: [(1) Discard a card, send this card to memory] When this card becomes reversed in battle, you may pay the cost. If you do, search your deck for one character who's name contains 'Rey' or 'Leia', show it to your opponent, add it to your hand, and shuffle your deck.
+EndCard
+
+Character: SW/SE39-012
+Name "Ultimate Evil" Darth Vader
+Color R
+Level 1
+Cost 0
+Power 4000
+Trait1 Return of the Jedi
+Cont: GiveSelf
+{
+    If MyTurn
+    {
+        GainPower 1000
+    }
+}
+Text Cont: During your turn, this card gets +1000 power.
+Auto: OnSentFromStageToWaitingRoom
+{
+    Peek Deck 4
+    ChooseCardsFromTargets 0 1 IsClimax
+
+    If HasTarget
+    {
+        MoveCard Hand
+        Discard 1 Any
+    }
+
+    TargetLocation ScryArea
+    MoveCard WaitingRoom
+}
+Text Auto: When this card is sent from the stage to the waiting room, you may look at the top four cards of your deck. If you do, choose up to one climax card, and put it into your hand. If you put a climax card into your hand, discard a card.
+EndCard
+
+Character: SW/SE39-013
+Name "The Chosen One" Anakin
+Color B
+Level 1
+Cost 0
+Power 4500
+Trait1 Attack of the Clones
+*OnPlayGainPower(1500)
+Auto: OnClimaxPlay
+{
+    If StageContains 3 Other
+    {
+        GainEffect
+        {
+            Auto: OnAttack
+            {
+                PayCost 1
+                {
+                    GainSpecialEffect DoubleTrigger
+                }
+            }
+            Text Auto: [(1)] When this card attacks, you may pay the cost. If you do, do the trigger check twice.
+        }
+
+        GainEffect
+        {
+            Auto: OnEndOfAttack
+            {
+                RevealExactly Deck 1
+                SetXValue TargetCardsLevel
+                SearchWaitingRoom Compare ThatCardsLevel X OrLess
+                EndPeek
+            }
+            Text Auto: At the end of this card's attack, you may reveal a card from the top of your deck, and choose a card level X or lower in your waiting room, and return it to your hand. X is the level of the revealed card. Return the revealed card to the top of your deck.
+        }
+    }
+}
+Text Auto: CxCombo When 'Attack of the Clones' is placed into your climax zone, if you have 3 or more other characters, this card gains the following two abilities until end of turn:\n"Auto: [(1)] When this card attacks, you may pay the cost. If you do, do the trigger check twice."\n"Auto: At the end of this card's attack, you may reveal a card from the top of your deck, and choose a card level X or lower in your waiting room, and return it to your hand. X is the level of the revealed card. Return the revealed card to the top of your deck."
+EndCard
+
+Character: SW/SE39-014
+Name "Commander of the Empire" Darth Vader
+Color R
+Level 1
+Cost 1
+Trigger Soul
+Power 3500
+Trait1 Revenge of the Sith
+Cont: GiveAll
+{
+    If NameEquals Scout Trooper
+    {
+        GainPower 1000
+    }
+}
+Text Cont: All of your characters named 'Scout Trooper' get +1000 power.
+Cont: Assist
+{
+    If IsColor Red || HasTrait Revenge of the Sith
+    {
+        SetXValue TargetCardsLevel
+        MultiplyXValue 500
+        GainPower X
+    }
+}
+Text Cont: ASSIST All of your red or <<Revenge of the Sith>> characters in front of this card get +X power, where X is 500 multiplied by that card's level.
+Act: RestSelf
+{
+    TargetLocation Stage
+    NarrowTargets NameContains Stormtrooper ||| NameEquals Scout Trooper
+    ChooseCharacterFromTargets Choose a character to send to stock.
+
+    If HasTarget
+    {
+        MoveCard Stock
+    }
+}
+Text Act: [Rest this card] Choose a character who's name contains 'Trooper', and send that character to your stock.
+EndCard
+
+Character: SW/SE39-015
+Name "Thirst for Power" Anakin
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Soul 2
+Power 9000
+Trait1 Revenge of the Sith
+Cont: GiveSelf
+{
+    If StageContains 3 Other
+    {
+        GainPower 1500
+        GainEffect
+        {
+            Auto: OnOpponentReverse
+            {
+                Question_Obvious Send the battle opponent to memory?
+                If Yes
+                {
+                    TargetBattleOpponent
+                    MoveCard OpponentMemory
+                }
+            }
+            Text Auto: When this card's battle opponent is reversed, you may send that card to memory.
+        }
+    }
+}
+Text Cont: If you have 3 or more other characters, this card gets +1500 power and the following ability: "Auto: When this card's battle opponent is reversed, you may send that card to memory."
+*Healer
+Auto: OnAttack
+{
+    PayCost 3 Discard 1 Any
+    {
+        GainPower 2000
+        MillOpponentBottom 5
+        NarrowTargets IsClimax
+        SetXValue TargetCount
+        Burn X
+    }
+}
+Text Auto: [(3) Discard a card] When this card attacks, you may pay the cost. If you do, it gets +2000 power until end of turn, and you send the bottom 5 cards of your opponent's deck to their waiting room. Deal X damage to your opponent, where X is the number of climax cards sent to the waiting room.
+EndCard
+
+Climax: SW/SE39-016
+Name Attack of the Clones
+Color R
+*DoorClimax
+EndCard
+
+Character: SW/SE39-017
+Name "Grand Master" Yoda
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Revenge of the Sith
+Auto: OnPlay
+{
+    If LocationContainsOrLess OpponentCenterStage 1 Any
+    {
+        TargetLocation OpponentCenterStage
+        NarrowTargets Compare ThatCardsCost 0 OrLess
+        ChooseCharacterFromTargets Choose a character to send to the bottom of your opponent's deck.
+
+        If HasTarget
+        {
+            MoveCardToBottom OpponentDeck
+        }
+    }
+}
+Text Auto: When this card is placed onto the stage from your hand, if there is 1 or fewer characters in your opponent's center stage, you may choose a cost 0 or lower character and put them onto the bottom of your deck.
+Auto: StartOpponentDrawPhase
+{
+    RevealExactly Deck 1
+    If Compare TargetCardsLevel 1 OrMore
+    {
+        Question Return this card to your hand?
+        If Yes
+        {
+            TargetSelf
+            MoveCard Hand
+        }
+    }
+    EndPeek
+}
+Text Auto: At the beginning of your opponent's draw phase, reveal a card from the top of your deck. If that card is level 1 or higher, you may return this card to your hand.
+EndCard
+
+Character: SW/SE39-018
+Name "Strong Loyalty" BB-8
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 The Force Awakens
+Auto: OnPlay
+{
+    PayCost Discard 1 Any
+    {
+        RevealExactly Deck 1
+        SetXValue TargetCardsLevel
+
+        SearchWaitingRoom IsCharacter && Compare ThatCardsLevel X OrLess
+    }
+}
+Text Auto: [Discard a card] When this card is placed onto the stage from your hand, you may pay the cost. If you do, reveal the top card of your deck. Then, choose a character level X or lower from your waiting room, and return it to your hand. X is the level of the revealed card.
+EndCard
+
+Character: SW/SE39-019
+Name "Recluse" Yoda
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 The Empire Strikes Back
+Cont: Memory
+{
+    If NameEquals "Dream-Chasing Youth" Luke
+    {
+        GainPower 500
+    }
+}
+Text Cont: If this card is in your memory, all of your characters named '"Dream-Chasing Youth" Luke' get +500 power.
+Act: 1 SendSelf Memory
+{
+    SearchWaitingRoom NameEquals "Dream-Chasing Youth" Luke
+}
+Text Act [(1) Send this card to memory] If this card is standing, you may pay the cost. If you pay the cost, search your waiting room for a card named '"Dream-Chasing Youth" Luke' and return it to your hand.
+ActivationRequirement CardPosition Stand
+EndCard
+
+Character: SW/SE39-020
+Name "Connection With the Force" Rey
+Color B
+Level 0
+Cost 0
+Trait1 The Last Jedi
+Power 1500
+*ClimaxExchange
+Act: Rest 2 IsCharacter && IsColor Blue || IsCharacter && HasTrait The Last Jedi
+{
+    TargetLocation Stage
+    ChooseCharacterFromTargets Choose a character to get +2000 power until end of turn.
+    GainPower 2000
+}
+Text Act: [Rest two blue or <<The Last Jedi>> characters] Choose one of your characters, that character gets +2000 power until end of turn.
+EndCard
+
+Character: SW/SE39-021
+Name "Living Force" Qui-Gon Jinn
+Color B
+Level 1
+Cost 0
+Trait1 Phantom Menace
+Trigger Soul
+Power 3500
+Cont: GiveSelf
+{
+    If MyTurn
+    {
+        SetXToNumberOfCharacters Other && NameContains Anakin
+        MultiplyXValue 1000
+        GainPower X
+    }
+}
+Text Cont: For each of your other characters with 'Anakin' in their name, this card gets +1000 power.
+EndCard
+
+Character: SW/SE39-022
+Name "Truth of the Force" Luke
+Color B
+Level 1
+Cost 0
+Trait1 Return of the Jedi
+Power 4500
+Auto: OnAttack
+{
+    TargetLocation Stage
+    NarrowTargets Other && IsColor Blue || Other && HasTrait Return of the Jedi
+    ChooseCharacterFromTargets Choose a character to get +X power until end of turn, where X is 500 times the number of your other blue or <<Return of the Jedi>> characters
+
+    SetXToNumberOfCharacters Not ThisIsTargeted && IsColor Blue || Not ThisIsTargeted && HasTrait Return of the Jedi
+    MultiplyXValue 500
+    GainPower X
+}
+Text Auto: When this card attacks, choose one of your other blue or <<Return of the Jedi>> characters. That character gets +X power until end of turn, where X is 500 multiplied by the number of other blue or <<Return of the Jedi>> characters
+ActivationRequirement StageContains 1 Other && IsColor Blue || Other && HasTrait Return of the Jedi
+Auto: OnAttack
+{
+    TargetLocation Stage
+    GainEffect
+    {
+        Auto: OnTriggerCheckClimax
+        {
+            SearchWaitingRoom IsCharacter && IsColor Blue || IsCharacter && HasTrait Return of the Jedi
+        }
+    }
+}
+Text Auto: When this card attacks, give all your characters the following ability until end of turn: "Auto: [Discard a climax] When this card's trigger check hits a climax, you may pay the cost. If you do, choose a blue or <<Return of the Jedi>> character in your waiting room and return it to your hand."
+EndCard
+
+Character: SW/SE39-023
+Name Rey Skywalker
+Color B
+Level 1
+Cost 0
+Power 4500
+Trait1 The Rise of Skywalker
+Auto: OnAttack
+{
+    If StageContains 2 Other && IsColor Blue || Other && HasTrait The Rise of Skywalker
+    {
+        GainPower 2000
+    }
+}
+Text Auto: When this card attacks, if you have two or more other blue or <<The Rise of Skywalker>> characters, this card gets +2000 power.
+Auto: OnOpponentReverse
+{
+    If LocationContains Climax 1 IsClimax
+    {
+        *OptionalBlindStock
+    }
+}
+Text Auto: When this card's battle opponent becomes reversed, if there is a climax in your climax zone, you may put the top card of your deck into your stock.
+EndCard
+
+Character: SW/SE39-024
+Name "Master of Solace" Obi-Wan
+Color B
+Level 2
+Cost 1
+Trait1 Attack of the Clones
+Trigger Soul
+Power 2500
+Auto: OnUseThisCardsBackup
+{
+    PayCost 2
+    {
+        Refresh
+    }
+}
+Text Auto: [(2)] When you use this card's backup, you may pay the cost. If you do, shuffle your waiting room back into your deck.
+Backup 2500
+EndCard
+
+Character: SW/SE39-025
+Name "Living Myth" Luke
+Color B
+Level 2
+Cost 1
+Trigger Soul
+Power 4000
+Trait1 The Last Jedi
+*Level3Assist
+Act: RestSelf
+{
+    DrawCard
+    Discard 1 Any
+}
+Text Act: [Rest this card] Draw a card, then discard a card.
+EndCard
+
+Character: SW/SE39-026
+Name Chirrut & Baze
+Color B
+Level 2
+Cost 2
+Trigger Soul
+Power 7000
+Soul 2
+Trait1 Rogue One
+Cont: GiveSelf
+{
+    If InBattle
+    {
+        GainSpecialEffect ReceiveNoDamageFromAutoEffects
+    }
+}
+Text Cont: During this card's battles, you receive no damage from your opponent's characters' auto effects.
+Cont: GiveSelf
+{
+    If StageContains 2 Other && IsColor Blue || Other && HasTrait Rogue One
+    {
+        GainPower 2500
+        GainEffect
+        {
+            Auto: Encore Discard 1 IsColor Blue || HasTrait Rogue One
+            {
+            }
+            Text Auto: ENCORE [Discard 1 blue or <<Rogue One>> character]
+        }
+    }
+}
+Text Cont: If you have two or more othre blue or <<Rogue One>> characters, this card gets +2500 power and the following ability: "Auto: ENCORE [Discard 1 blue or <<Rogue One>> character]"
+EndCard
+
+Character: SW/SE39-027
+Name "Determination to Become a Jedi" Luke
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Soul 2
+Power 9000
+Trait1 A New Hope
+*EarlyPlay2OrLessClimax
+Cont: GiveSelf
+{
+    SetXToNumberOfCharacters Other && IsColor Blue || Other && HasTrait A New Hope
+    MultiplyXValue 500
+    GainPower X
+}
+Text Cont: For each of your other blue or <<A New Hope>> characters, this card gets +500 power.
+*StockHealer
+EndCard
+
+Character: SW/SE39-028
+Name "Legendary Jedi" Obi-Wan
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Soul 2
+Power 10000
+Trait1 Revenge of the Sith
+Auto: OnPlay
+{
+    Peek Deck 3
+    ChooseCardsFromTargets 0 1 Any
+    MoveCard Hand
+    TargetLocation ScryArea
+    MoveCard WaitingRoom
+}
+Auto: OnAttack
+{
+    If Climax Duel on Mustafar
+    {
+        PayCost 1
+        {
+            GainSpecialEffect DoubleTrigger
+            GainEffect
+            {
+                Auto: OnThisTriggerCheck
+                {
+                    If LocationContains Trigger 1 HasTrigger Soul
+                    {
+                        Burn 3
+                    }
+                }
+            }
+        }
+    }
+}
+Text Auto: CxCombo [(1)] When this card attacks, if 'Duel on Mustafar' is in your climax zone, you may pay the cost. If you do, this card makes two trigger checks in the trigger step, and gets the following ability until end of turn: "Auto: When this card's trigger check reveals a card with a soul trigger icon, you may deal 3 damage to your opponent."
+Combo Duel on Mustafar
+EndCard
+
+Event: SW/SE39-029
+Name Lightsaber
+Color B
+Level 1
+Cost 0
+Effect:
+{
+    Mill 2
+    SetXValue TotalLevel
+    SearchWaitingRoom IsColor Blue && Compare ThatCardsLevel X OrLess
+}
+Text Place the top two cards of your deck into the waiting room.\nChoose up to 1 blue character of level X or lower character from your waiting room, and return it to your hand.\nX is equal to the sum of the levels of the cards placed into the waiting room by this effect.
+EndCard
+
+Climax: SW/SE39-030
+Name Duel on Mustafar
+Color B
+*GateClimax
+EndCard

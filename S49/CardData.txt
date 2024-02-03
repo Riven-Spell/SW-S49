@@ -20,10 +20,13 @@ Auto: OnAttack
     TargetLocation Stage
     NarrowTargets HasTrait The Force Awakens
     ChooseCharacterFromTargets Choose a character to give +1 Level and +1000 Power until end of turn.
-    GainLevel 1
-    GainPower 1000
+    If HasTarget
+    {
+        GainLevel 1
+        GainPower 1000
+    }
 }
-Text Auto: When this card attacks, choose one of your other <The Force Awakens> characters, and that character gets +1 Level and +1000 Power until end of turn.
+Text Auto: When this card attacks, choose one of your <The Force Awakens> characters, and that character gets +1 Level and +1000 Power until end of turn.
 EndCard
 
 Character: SW/S49-T03
@@ -48,11 +51,11 @@ Auto: OnUseThisCardsBackup
     If StageContains 1 HasTrait The Force Awakens
     {
         TargetMyCharacterInBattle
-        ChooseCharacterFromTargets Choose 1 of your characters in battle, and that character gets +1000 power until end of turn.
         GainPower 1000
     }
 }
-Text Auto: When you use this card's BACKUP, if you have a <The Force Awakens> character, choose 1 of your characters in battle, and that character gets +1000 power until end of turn.
+Text Auto: When you use this card's BACKUP, if you have a <The Force Awakens> character, target your character in battle, and that character gets +1000 power until end of turn.
+ActivationRequirement StageContains 1 HasTrait The Force Awakens
 Backup 2500
 EndCard
 
@@ -69,9 +72,12 @@ Auto: OnClimaxPlay
 {
     TargetLocation Stage
     ChooseCharacterFromTargets Choose a character to give +2000 Power until end of turn.
-    GainPower 2000
+    If HasTarget
+    {
+        GainPower 2000
+    }
 }
-Text Auto: When you play a climax, choose one of your characters, and give them +2000 power until end of turn.
+Text Auto: When you play a climax, choose one of your characters, and that character gets +2000 power until end of turn.
 EndCard
 
 Character: SW/S49-T06
@@ -100,6 +106,7 @@ Auto: OnPlay
     }
 }
 Text Auto: [Discard a <The Force Awakens> character from your hand] When this card is placed from your hand to the stage, you may pay the cost. If you do, choose a card named '"New Determination Within Him" Chewbacca' in your waiting room and place it in any position on your stage.
+ActivationRequirement LocationContains Hand 1 HasTrait The Force Awakens &&& LocationContains WaitingRoom 1 NameEquals "New Determination Within Him" Chewbacca
 EndCard
 
 Character: SW/S49-T07
@@ -130,8 +137,6 @@ EndCard
 Climax: SW/S49-T08
 Name Duel In the Forest
 *WindClimax
-Trigger Wind
-Trigger Soul
 Color Yellow
 EndCard
 
@@ -169,6 +174,7 @@ Auto: OnReversed
     }
 }
 Text Auto: When this card is reversed in battle, if the level of this card's battle opponent is 0 or lower, you may put that character at the bottom of your opponent's deck.
+ActivationRequirement Compare BattleOpponentsLevel 0 OrLess
 EndCard
 
 Character: SW/S49-T10
@@ -220,20 +226,7 @@ Level 0
 Cost 0
 Power 1500
 Trait1 The Force Awakens
-Auto: OnPlay
-{
-    PeekTop Deck
-    Question Place this card on the bottom of your deck?
-    If Yes
-    {
-        MoveCardToBottom Deck
-    }
-    If No
-    {
-        EndPeek Deck
-    }
-}
-Text Auto: When this card is placed from hand to the stage, look at the top card of your deck, and put it either on top or bottom of your deck.
+*OnPlayScryToBottom
 *Act1RestSelfDrawBrainstorm
 EndCard
 
@@ -261,6 +254,7 @@ Auto: StartOpponentAttackPhase
     }
 }
 Text Auto: At the start of your opponent's attack phase, you may move this card to an empty center stage position.
+ActivationRequirement LocationContainsOrLess CenterStage 2 Any
 EndCard
 
 Character: SW/S49-T14
@@ -272,16 +266,15 @@ Power 4000
 Trait1 The Force Awakens
 Cont: GiveSelf
 {
-    If StageContains 2 HasTrait The Force Awakens
+    If StageContains 2 Other && HasTrait The Force Awakens
     {
         GainPower 2000
     }
 }
 Text Cont: If you have 2 or more other <The Force Awakens> characters, this card gets +2000 power.
-Combo Escape From Jakku
 Auto: OnAttack
 {
-    If Climax Escape from Jakku
+    If Climax Escape From Jakku
     {
         PayCost 1
         {
@@ -298,6 +291,7 @@ Auto: OnAttack
     }
 }
 Text Auto: CxCombo [(1)] When this card attacks, if 'Escape from Jakku' is in your Climax Zone, you may pay the cost. If you do, this card gets +2000 power and the following ability until end of turn: "Auto: When this card's battle opponent becomes reversed, you may draw a card."
+Combo Escape From Jakku
 EndCard
 
 Character: SW/S49-T15
@@ -309,7 +303,12 @@ Power 6000
 Trait1 The Force Awakens
 Auto: OnOtherAttacks
 {
-    GainPower 1000
+    TargetMyCharacterInBattle
+    If HasTrait The Force Awakens
+    {
+        TargetSelf
+        GainPower 1000
+    }
 }
 Text Auto: When your other <The Force Awakens> character attacks, this card gets +1000 power until end of turn.
 *HandEncore
@@ -326,7 +325,7 @@ Power 10000
 Trait1 The Force Awakens
 Cont: GiveSelf
 {
-    If StageContains 2 HasTrait The Force Awakens
+    If StageContains 2 Other && HasTrait The Force Awakens
     {
         GainPower 1000
     }
@@ -344,7 +343,7 @@ Effect:
 {
     SearchDeck HasTrait The Force Awakens
     TargetLocation Stage
-    ChooseCharacterFromTargets_Optional Choose a character to give +3000 power.
+    ChooseCharacterFromTargets Choose a character to give +3000 power.
     If HasTarget
     {
         GainPower 3000
@@ -356,8 +355,6 @@ EndCard
 Climax: SW/S49-T18
 Name Escape From Jakku
 *BlueStockSoul
-Trigger DoubleSoul
-Color Blue
 EndCard
 
 Climax: SW/S49-T19
@@ -382,7 +379,7 @@ Cont: InHand
     {
         If LocationContains Stage 1 NameEquals "Premonition of Friendship" BB-8
         {
-            LoseLevel
+            LoseLevel 1
         }
     }
 }
@@ -415,6 +412,7 @@ Auto: OnAttack
     }
 }
 Text Auto: [Discard a character from your hand] When this card attacks, you may pay the cost. If you do, this card gets +2000 power and +1 soul until end of turn.
+ActivationRequirement LocationContains Hand 1 IsCharacter
 *MusashiEffect
 EndCard
 
@@ -431,17 +429,21 @@ Trait1 A New Hope
 Combo Medal Ceremony
 Auto: OnSpecificClimaxPlay Medal Ceremony
 {
-    TargetLocation Stage
-    ChooseCharacterFromTargets Choose a character to give +1000 power, +1 soul, and the ability until end of turn.
-    GainPower 1000
-    GainSoul 1
-    GainEffect
+    If InLocation CenterStage
     {
-        *OnCancelBurn1
-        TimesPerTurn 1
+        TargetLocation Stage
+        ChooseCharacterFromTargets Choose a character to give +1000 power, +1 soul, and the ability until end of turn.
+        GainPower 1000
+        GainSoul 1
+        GainEffect
+        {
+            *OnCancelBurn1
+            TimesPerTurn 1
+        }
     }
 }
-Text Auto: CxCombo When "Medal Ceremony" is placed in your Climax Zone, if this is in the front row, choose 1 of your characters, and that character gets +1000 power, +1 soul, and the following ability until end of turn. "Auto: This ability activates up to once per turn. When the damage dealt by this card is cancelled, you may deal 1 damage to your opponent. (Damage may be cancelled)"
+Text Auto: CxCombo When "Medal Ceremony" is placed in your Climax Zone, if this is in the center stage, choose 1 of your characters, and that character gets +1000 power, +1 soul, and the following ability until end of turn. "Auto: This ability activates up to once per turn. When the damage dealt by this card is cancelled, you may deal 1 damage to your opponent."
+ActivationRequirement InLocation CenterStage
 EndCard
 
 Character: SW/S49-004
@@ -452,22 +454,7 @@ Cost 0
 Power 500
 Trait1 The Force Awakens
 *OnPlayGivePower(1000,Any)
-Auto: OnReversed
-{
-    If Compare BattleOpponentsLevel 0 OrLess && Compare CardsInOpponentsStock 1 OrMore
-    {
-        Question Send this card's battle opponent to their stock? (Places the bottom of the opponent's stock into their waiting room)
-        If Yes
-        {
-            TargetBattleOpponent
-            MoveCard OpponentStock
-            TargetBottom OpponentStock 1
-            MoveCard OpponentWaitingRoom
-        }
-    }
-}
-Text: Auto: When this card becomes reversed in battle, if it's battle opponent is level 0 or lower, you may put that character in stock. If you do, send the bottom card of your opponent's stock in the waiting room.
-ActivationRequirement Compare BattleOpponentsLevel 0 OrLess && Compare CardsInOpponentsStock 1 OrMore
+*YellowLevel0Bomb
 EndCard
 
 Character: SW/S49-005
@@ -491,15 +478,9 @@ Text Cont: During your turn, your other character in the middle position of the 
 Act: 1 RestSelf
 {
     Brainstorm 4
-    TargetBrainstormed
-    NarrowTargets IsClimax
-    SetXValue TargetCount
-    If HasTarget 
+    PerClimax
     {
-        TargetLocation Deck
-        ChooseCardsFromTargets 0 X IsCharacter && ColorIs Yellow
-        MoveCard Hand
-        ShuffleLocation Deck
+        SearchDeck IsCharacter && ColorIs Yellow
     }
 }
 Text Act: BRAINSTORM [(1) Rest this] Flip over the top 4 cards of your deck, and put them into your waiting room. For each climax revealed this way, search your deck for up to one yellow character, reveal it, put it into your hand, and shuffle your deck.
@@ -521,6 +502,7 @@ Auto: OnPlay
     }
 }
 Text Auto: When this card is placed on the stage from your hand, if there are 3 or more climaxes in your waiting room, put the top card of your deck in the clock.
+ActivationRequirement LocationContains WaitingRoom 3 IsClimax
 Auto: StartOpponentAttackPhase
 {
     Question Move to an open position in the center stage?
@@ -530,6 +512,7 @@ Auto: StartOpponentAttackPhase
     }
 }
 Text Auto: At the start of your opponent's attack phase, you may move this to an empty center stage position.
+ActivationRequirement LocationContainsOrLess CenterStage 2 Any
 EndCard
 
 Character SW/S49-007
@@ -546,7 +529,7 @@ Cont: GiveSelf
         GainPower 2000
     }
 }
-Text Cont: During your turn, this gets +2000 power.
+Text Cont: During your turn, this card gets +2000 power.
 Auto: OnReverseOpponent
 {
     If Climax Mission! &&& LocationContains Stage 1 NameEquals "Reversal of Situation" Chewbacca
@@ -554,10 +537,12 @@ Auto: OnReverseOpponent
         RevealUpTo Deck 3
         ChooseCardsFromTargets 0 1 Any
         MoveCard Hand
-        EndPeek
+        TargetLocation ScryArea
+        MoveCard WaitingRoom
     }
 }
 Text Auto: CxCombo When this card's battle opponent becomes reversed, if 'Mission!' is in your Climax Zone and you have another '"Reversal of Situation" Chewbacca', look at up to 3 cards from the top of your deck. Put one in your hand, and the rest in the waiting room.
+ActivationRequirement Climax Mission! &&& LocationContains Stage 1 NameEquals "Reversal of Situation" Chewbacca
 Combo Mission!
 EndCard
 
@@ -575,7 +560,7 @@ Cont: GiveSelf
         GainPower 1000
     }
 }
-Text Cont: If you have 2 or more other <The Force Awakens> characters, this gets 1000 power.
+Text Cont: If you have 2 or more other <The Force Awakens> characters, this card gets 1000 power.
 Auto: OnReverseOpponent
 {
     If Climax I can do this!
@@ -584,6 +569,7 @@ Auto: OnReverseOpponent
     }
 }
 Text Auto: CxCombo When this card's battle opponent becomes reversed, if 'I can do this!' is in your Climax Zone, search your deck for up to 1 <The Force Awakens> character, reveal it, put it in y our hand, and shuffle your deck.
+ActivationRequirement Climax I can do this!
 Combo I can do this!
 EndCard
 
@@ -667,10 +653,11 @@ Auto: OnPlay
 {
     PayCost Discard 1 Any
     {
-        SearchLocationForTargets WaitingRoom 0 1 NameEquals Lightsaber
+        SearchWaitingRoom NameEquals Lightsaber
     }
 }
 Text Auto: [Discard a card from your hand to the waiting room] When this card is placed onto the stage from your hand, you may pay the cost. If you do, return a card named "Lightsaber" from your waiting room to your hand.
+ActivationRequirement LocationContains WaitingRoom 1 NameEquals Lightsaber
 Auto: OnUseEvent
 {
     TargetLocation Stage
@@ -696,13 +683,14 @@ Auto: OnPlay
     }
 }
 Text Auto: When this card is placed from your hand to the stage, if you have 2 or more other <The Force Awakens> characters, this gets +2000 power until end of turn.
+ActivationRequirement StageContains 2 Other && HasTrait The Force Awakens
 Auto: OnOtherFrontalAttacked
 {
-    TargetMyCharacterInBattle
-    If HasTrait The Force Awakens
+    IfOther HasTrait The Force Awakens
     {
         PayCost SendSelf WaitingRoom
         {
+            TargetOther
             GainPower 1500
         }
     }
@@ -724,7 +712,8 @@ Auto: OnAttack
         GainPower 2000
     }
 }
-Text Auto: When this card attacks, if you have 3 or more other yellow characters, this gets +2000 power until end of turn.
+Text Auto: When this card attacks, if you have 3 or more other yellow characters, this card gets +2000 power until end of turn.
+ActivationRequirement StageContains 3 Other && ColorIs Yellow
 EndCard
 
 Character: SW/S49-016
@@ -756,7 +745,6 @@ Cost 1
 Trigger Soul
 Power 6500
 Trait1 The Force Awakens
-Combo Brilliant Battle
 Auto: OnSpecificClimaxPlay Brilliant Battle
 {
     RevealExactly Deck 1
@@ -772,23 +760,11 @@ Auto: OnSpecificClimaxPlay Brilliant Battle
             Text Cont: Give all your characters +1 soul
         }
     }
+    EndPeek
 }
-Text Auto: CxCombo When 'Brilliant Battle' is placed into your Climax Zone, reveal the top card of your deck. If it's a <The Force Awakens> character, all your characters get +1 soul until end of turn.
-Auto: OnReversed
-{
-    If Compare BattleOpponentsLevel OpponentsLevel GreaterThan && Compare CardsInOpponentsStock 1 OrMore
-    {
-        Question Do you want to put this card's battle opponent in stock? (Sends bottom of stock to WR)
-        If Yes
-        {
-            TargetBattleOpponent
-            MoveCard OpponentStock
-            TargetBottom OpponentStock 1
-            MoveCard OpponentWaitingRoom
-        }
-    }
-}
-Text Auto: When this card becomes reversed in battle, if the level of this card's battle opponent is higher than your opponent's level, you may put the bottom card of your opponent's stock in the waiting room. If you do, place this card's battle opponent on top of your opponent's stock.
+Text Auto: CxCombo When 'Brilliant Battle' is placed into your Climax Zone, reveal the top card of your deck. If it's a <The Force Awakens> character, all your characters get +1 soul until end of turn. Return that card back to the top of your deck.
+Combo Brilliant Battle
+*YellowEarlyPlayBomb
 EndCard
 
 Character: SW/S49-018
@@ -825,11 +801,7 @@ Level 0
 Cost 0
 Power 1500
 Trait1 Return of the Jedi
-Auto: OnPlay
-{
-    GainPower 1500
-}
-Text Auto: When this card is placed from your hand to the stage, this card gets +1500 power until end of turn.
+*OnPlayGainPower(1500)
 *BondDiscard("Princess" Leia)
 EndCard
 
@@ -866,6 +838,7 @@ Auto: OnReversed
     }
 }
 Text Auto: When this card is reversed in battle, if you have 1 or fewer other yellow characters, put this card in your clock.
+ActivationRequirement Not StageContains 1 Other && IsColor Yellow
 EndCard
 
 Character: SW/S49-022
@@ -1026,9 +999,7 @@ Effect:
     {
         *OptionalDraw
         *OptionalDraw
-        *OptionalDraw
     }
-    EndPeek
 }
 Text BRAINSTORM Reveal the top 3 cards of your deck and put them in the waiting room. If at least 1 Climax was revealed this way, draw one card. Otherwise, draw two cards.
 EndCard
@@ -1266,15 +1237,9 @@ Text Auto: When this card is placed onto the stage from your hand, choose one of
 Act: 1 RestSelf
 {
     Brainstorm 4
-    TargetBrainstormed
-    NarrowTargets IsClimax
-    SetXValue TargetCount
-    If HasTarget 
+    PerClimax
     {
-        TargetLocation Deck
-        ChooseCardsFromTargets 0 X IsCharacter && ColorIs Green
-        MoveCard Hand
-        ShuffleLocation Deck
+        SearchDeck IsCharacter && ColorIs Green
     }
 }
 Text Auto: BRAINSTORM [(1) Rest self] Reveal the top 4 cards of your deck, then place them in the waiting room. For each climax card revealed this way, search your deck for up to 1 green character, reveal it, and put it in your hand, then shuffle your deck.
@@ -1743,9 +1708,7 @@ Text Auto: When one of your other characters gets reversed in battle, choose one
 Act: 1 RestSelf
 {
     Brainstorm 4
-    TargetBrainstormed
-    NarrowTargets IsClimax
-    ForEachTarget
+    PerClimax
     {
         SearchWaitingRoom IsCharacter
     }
@@ -2677,7 +2640,7 @@ Act: 1 RestSelf
         SearchDeck IsCharacter && HasTrait The Force Awakens
     }
 }
-Text Act: BRAINSTORM [(1) Rest this] Reveal the top 4 cards of your deck and put them into your waiting room. For each climax revealed this way, search your deck for up to 1 <<The Force Awakens>> character, reveal it, put it in your hand, and shuffle your deck.
+Text Act: BRAINSTORM [(1) Rest this] Reveal the top 4 cards of your deck and put them into your waiting room. For each climax revealed this way, search your deck for up to 1 <The Force Awakens> character, reveal it, put it in your hand, and shuffle your deck.
 EndCard
 
 Character: SW/S49-092
@@ -3025,7 +2988,7 @@ Auto: StartClimaxPhase
         }
     }
 }
-Text Auto: FORCE [Discard a <<The Force Awakens>> character] At the start of your climax phase, you may pay the cost. If you do, choose the opposing character of this card and one of your opponent's other level 1 or lower characters, then stand and swap them.
+Text Auto: FORCE [Discard a <The Force Awakens> character] At the start of your climax phase, you may pay the cost. If you do, choose the opposing character of this card and one of your opponent's other level 1 or lower characters, then stand and swap them.
 ActivationRequirement LocationContains Facing 1 Any &&& LocationContains OpponentStage 1 Not InLocation Facing && Compare ThatCardsLevel 1 OrLess
 EndCard
 
@@ -3103,7 +3066,7 @@ Auto: OnAttack
     MultiplyXValue 500
     GainPower X
 }
-Text Auto: When this card attacks, it gets +X power until end of turn, where X is 500 times your other <<The Force Awakens>> characters.
+Text Auto: When this card attacks, it gets +X power until end of turn, where X is 500 times your other <The Force Awakens> characters.
 *Bond1("Starfighter Pilot" Poe)
 EndCard
 
@@ -3245,7 +3208,7 @@ Auto: OnOpponentReverse
         }
     }
 }
-Text Auto: [(1)] When this card reverses a level 2 or higher battle opponent, you may pay the cost. If you do, search your deck for a <<The Force Awakens>> character, reveal it, put it in your hand, and shuffle your deck.
+Text Auto: [(1)] When this card reverses a level 2 or higher battle opponent, you may pay the cost. If you do, search your deck for a <The Force Awakens> character, reveal it, put it in your hand, and shuffle your deck.
 EndCard
 
 Character: SW/S49-112
@@ -3337,7 +3300,7 @@ Effect:
     GainPower 2000
 }
 ActivationRequirement StageContains 2 IsCharacter && HasTrait The Force Awakens
-Text COUNTER If you have two or fewer <<The Force Awakens>> characters, this card cannot be played.\nYou may draw two cards, and if you do, discard two cards.\nChoose one of your characters, and that character gets +2000 power until end of turn.
+Text COUNTER If you have two or fewer <The Force Awakens> characters, this card cannot be played.\nYou may draw two cards, and if you do, discard two cards.\nChoose one of your characters, and that character gets +2000 power until end of turn.
 EndCard
 
 Event: SW/S49-115
@@ -3376,7 +3339,7 @@ Effect:
     TargetSelf
     MoveCard Memory
 }
-Text If you have no <<The Force Awakens>> characters, this card cannot be played.\nChoose a card in your clock and return it to your hand. Send this card to memory.
+Text If you have no <The Force Awakens> characters, this card cannot be played.\nChoose a card in your clock and return it to your hand. Send this card to memory.
 ActivationRequirement StageContains 1 HasTrait The Force Awakens
 EndCard
 
@@ -3448,12 +3411,14 @@ Auto: OnAttack
     ChooseCharacterFromTargets Pick a character to give 500 * X power, where X = # of Red characters
     If HasTarget 
     {
+        // The math works out; "other" is just -1 effectively.
         SetXToNumberOfCharacters IsColor Red && Other
         MultiplyXValue 500
         GainPower X
     }
 }
 Text Auto: When this card attacks, choose one of your other red characters, that character gets +X power until end of turn, where X is the number of your other red characters multiplied by 500.
+ActivationRequirement StageContains 1 Other && IsColor Red
 EndCard
 
 Character: SW/S49-124

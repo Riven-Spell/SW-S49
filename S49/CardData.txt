@@ -868,7 +868,6 @@ Backup 1000
 Trait1 The Empire Strikes Back
 Auto: OnUseThisCardsBackup
 {
-    TargetLocation Stock
     If Compare CardsInStock 4 OrMore
     {
         TargetLocation Stage
@@ -895,7 +894,7 @@ Cont: GiveSelf
         GainSoul 1
     }
 }
-Text Cont: If you have another character named '"Wookie" Chewbacca', this gets +3000 power and +1 soul until end of turn.
+Text Cont: If you have another character named '"Wookie" Chewbacca', this card gets +3000 power and +1 soul.
 Cont: GiveSelf
 {
     If LocationContains Memory 1 NameEquals Millennium Falcon
@@ -903,7 +902,7 @@ Cont: GiveSelf
         GainPower 3000
     }
 }
-Text Cont: MEMORY If a card named 'Millennium Falcon' is in your Memory, this gets +3000 power.
+Text Cont: MEMORY If a card named 'Millennium Falcon' is in your Memory, this card gets +3000 power.
 Auto: OnReverseOpponent
 {
     If Compare BattleOpponentsLevel 2 OrMore
@@ -929,7 +928,7 @@ Cont: GiveSelf
         GainPower 3000
     }
 }
-Text Cont: If you have another character named '"Rescue Operation" Han Solo', this gets +3000 power.
+Text Cont: If you have another character named '"Rescue Operation" Han Solo', this card gets +3000 power.
 Cont: GiveSelf
 {
     If LocationContains Memory 1 NameEquals Millennium Falcon
@@ -937,10 +936,9 @@ Cont: GiveSelf
         GainPower 3000
     }
 }
-Text Cont: MEMORY If a card named 'Millennium Falcon' is in your Memory, this gets +3000 power.
+Text Cont: MEMORY If a card named 'Millennium Falcon' is in your Memory, this card gets +3000 power.
 Auto: Encore Discard 1 IsColor Yellow
 {
-
 }
 Text Auto: ENCORE [Discard a yellow card from your hand]
 EndCard
@@ -979,7 +977,7 @@ Effect:
     ChooseCharacterFromTargets Choose character to give +X power
     GainPower X
 }
-Text COUNTER Choose one of your characters, and that character gets +X power until end of turn, where X is the number of <The Force Awakens> characters on your stage multiplied by 1000.
+Text COUNTER Choose one of your characters, and that character gets +X power until end of turn, where X is the number of your <The Force Awakens> characters multiplied by 1000.
 EndCard
 
 Event: SW/S49-028
@@ -1022,25 +1020,10 @@ Effect:
     EndPeek
 
     TargetLocation Stage
-    ChooseCharacterFromTargets Pick a character to get the ability "Auto: When this card becomes reversed in battle, if the level of this card's battle opponent is higher than the level of your opponent's level, you may send the bottom of their stock to the waiting room. If you do, send that battle opponent to the waiting room.
+    ChooseCharacterFromTargets Pick a character to get the ability.
     GainEffect
     {
-        Auto: OnReversed
-        {
-            If Compare BattleOpponentsLevel OpponentsLevel GreaterThan && Compare CardsInOpponentsStock 1 OrMore
-            {
-                Question Do you want to put this card's battle opponent in stock? (Sends bottom of stock to WR)
-                If Yes
-                {
-                    TargetBattleOpponent
-                    MoveCard OpponentStock
-                    TargetBottom OpponentStock 1
-                    MoveCard OpponentWaitingRoom
-                }
-            }
-        }
-        Text Auto: When this becomes reversed in battle, if the level of this card's battle opponent is higher than the level of your opponent, you may put that character in stock. If you do, put the bottom card of your opponent's stock in their waiting room.
-        ActivationRequirement Compare BattleOpponentsLevel OpponentsLevel GreaterThan && Compare CardsInOpponentsStock 1 OrMore
+        *YellowEarlyPlayBomb
     }
 }
 Text [Counter] Reveal the top card of your deck. If it's a yellow character, put it in your hand and discard a card.\nChoose one of your characters, that character gets the following ability until end of turn. "Auto: When this card becomes reversed in battle, if the level of this card's battle opponent is higher than the level of your opponent's level, you may send the bottom of their stock to the waiting room. If you do, send that battle opponent to the waiting room.
@@ -1055,9 +1038,11 @@ Effect:
 {
     TargetLocation Deck
     ChooseCardsFromTargets 0 1 NameEquals "Rescue Operation" Han Solo
-    PlaceOnStage False True True False
+    SaveTargets
     TargetLocation Deck
     ChooseCardsFromTargets 0 1 NameEquals "Wookie" Chewbacca
+    AddSavedToCurrentTargets
+    LoadTargets
     PlaceOnStage False True True False
     TargetSelf
     MoveCard Memory
@@ -1110,22 +1095,7 @@ Auto: OnPlay
 }
 Text Auto: [(1) Discard a card from your hand] When this card is placed from your hand to the stage, you may pay the cost. If you do, choose a card in your clock and return it to your hand, then send the top card of your deck to the clock.
 ActivationRequirement LocationContains Clock 1 OrMore
-Auto: OnReversed
-{
-    If Compare BattleOpponentsLevel 0 OrLess && Compare CardsInOpponentsClock 1 OrMore
-    {
-        Question Send this card's battle opponent to the clock? (Replaces the top card)
-        If Yes
-        {
-            TargetTop OpponentClock
-            MoveCard OpponentWaitingRoom
-            TargetBattleOpponent
-            MoveCard OpponentClock
-        }
-    }
-}
-ActivationRequirement Compare BattleOpponentsLevel 0 OrLess && Compare CardsInOpponentsClock 1 OrMore
-Text Auto: When this card becomse reversed, if the level of this card's battle opponent is 0 or lower, you may put the top card of your opponent's clock in the waiting room. If you do, replace it with this card's battle opponent.
+*GreenLevel0Bomb
 EndCard
 
 Character: SW/S49-036
@@ -1184,7 +1154,7 @@ Power 9000
 Soul 2
 Cont: GiveSelf
 {
-    If StageContains 1 Compare ThatCardsLevel 3 OrMore
+    If StageContains 1 Other && Compare ThatCardsLevel 3 OrMore
     {
         GainPower 2000
     }
@@ -1196,7 +1166,6 @@ Auto: OnPlay
     *OptionalDraw
     Discard 1 Any
 }
-Combo Bounty Hunter
 Text Auto: When this card is placed from the hand to the stage, draw up to 2 cards, then discard one from your hand.
 Auto: OnSpecificClimaxPlay Bounty Hunter
 {
@@ -1218,6 +1187,7 @@ Auto: OnSpecificClimaxPlay Bounty Hunter
     }
 }
 Text Auto: Cx Combo [(2) Discard a card from your hand] When 'Bounty Hunter' is placed in your climax zone, you may pay the cost. If you do, this gets the following two abilities until end of turn. "Cont: When this card attacks, you may instead target a character on your opponent's back stage." "Auto: When this card's battle opponent becomes reversed, you may put that character in your opponent's clock."
+Combo Bounty Hunter
 EndCard
 
 Character: SW/S49-038

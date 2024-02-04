@@ -294,6 +294,53 @@ Text Auto: CxCombo [(1)] When this card attacks, if 'Escape from Jakku' is in yo
 Combo Escape From Jakku
 EndCard
 
+Character: SW/S49-T14re
+Name "For a Small Amount of Food" Rey
+Color B
+Level 1
+Cost 0
+Power 4500
+Trait1 The Force Awakens
+Cont: GiveSelf
+{
+    If StageContains 2 Other && IsColor Blue
+    {
+        GainPower 2000
+    }
+}
+Text Cont: If you have 2 or more other blue characters, this card gets +2000 power.
+Auto: OnSpecificClimaxPlay Escape from Jakku
+{
+    If StageContains 1 Other && IsColor Blue
+    {
+        GainEffect
+        {
+            Auto: OnAttack
+            {
+                PayCost 1
+                {
+                    GainSpecialEffect DoubleTrigger
+                }
+            }
+            Text Auto: [(1)] When this card attacks, you may pay the cost. If you do, perform the trigger check twice.
+        }
+        GainEffect
+        {
+            Auto: OnFrontalAttacked
+            {
+                Question Return this card to your hand?
+                If Yes
+                {
+                    TargetSelf
+                    MoveCard Hand
+                }
+            }
+            Text Auto: When this card is frontal attacked, you may return it to your hand.
+        }
+    }
+}
+EndCard
+
 Character: SW/S49-T15
 Name "Scavenger Days" Rey
 Color B
@@ -355,6 +402,11 @@ EndCard
 Climax: SW/S49-T18
 Name Escape From Jakku
 *BlueStockSoul
+EndCard
+
+Climax: SW/S49-T18re
+Name Escape From Jakku
+*GateClimax
 EndCard
 
 Climax: SW/S49-T19
@@ -446,6 +498,40 @@ Text Auto: CxCombo When "Medal Ceremony" is placed in your Climax Zone, if this 
 ActivationRequirement InLocation CenterStage
 EndCard
 
+Character: SW/S49-003re
+Name "Secret Mission" Leia
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Soul 2
+Power 10000
+Trait1 A New Hope
+*Healer
+Combo Medal Ceremony
+Auto: OnSpecificClimaxPlay Medal Ceremony
+{
+    TargetLocation Stage
+    ChooseCharacterFromTargets Choose a character to give +1 soul, and the ability until end of turn.
+    GainSoul 1
+    GainEffect
+    {
+        Auto: OnDamageCancel
+        {
+            Question_Obvious Deal 2 damage to your opponent?
+            If Yes
+            {
+                Burn 2
+            }
+        }
+        TimesPerTurn 1
+        Text Auto: Once per turn, when damage dealt by this card is canceled, you may deal 2 damage to your opponent.
+    }
+}
+Text Auto: CxCombo When "Medal Ceremony" is placed in your Climax Zone, choose 1 of your characters, and that character gets +1 soul, and the following ability until end of turn. "Auto: This ability activates up to once per turn. When the damage dealt by this card is cancelled, you may deal 2 damage to your opponent."
+ActivationRequirement InLocation CenterStage
+EndCard
+
 Character: SW/S49-004
 Name "Lightsaber in Hand" Finn
 Color Y
@@ -484,6 +570,35 @@ Act: 1 RestSelf
     }
 }
 Text Act: BRAINSTORM [(1) Rest this] Flip over the top 4 cards of your deck, and put them into your waiting room. For each climax revealed this way, search your deck for up to one yellow character, reveal it, put it into your hand, and shuffle your deck.
+EndCard
+
+Character: SW/S49-005re
+Name "Scoundrel" Han Solo
+Color Y
+Level 0
+Cost 0
+Power 1000
+Trait1 A New Hope
+Cont: GiveAll
+{
+	If MyTurn
+	{
+		If InLocation MiddleCenterStage && Other
+		{
+			GainPower 1000
+		}
+	}
+}
+Text Cont: During your turn, your other character in the middle position of the center stage gets +1000 power.
+Act: 1 RestSelf
+{
+    Brainstorm 4
+    PerClimax
+    {
+        SearchDeck IsCharacter
+    }
+}
+Text Act: BRAINSTORM [(1) Rest this] Flip over the top 4 cards of your deck, and put them into your waiting room. For each climax revealed this way, search your deck for up to one character, reveal it, put it into your hand, and shuffle your deck.
 EndCard
 
 Character SW/S49-006
@@ -599,6 +714,34 @@ Cont: GiveSelf
     }
 }
 Text: Cont: This card cannot frontal attack if it's battle opponent is a higher level than it.
+EndCard
+
+Character SW/S49-010re
+Name "Roar of Wookie" Chewbacca
+Color Y
+Level 3
+Cost 2
+Trigger Soul
+Soul 2
+Power 9000
+Trait1 Return of the Jedi
+Cont: InHand
+{
+    If LocationContainsOrLess WaitingRoom 2 Climax
+    {
+        LoseLevel 1
+    }
+}
+Text Cont: If you have two or fewer climaxes in your waiting room, this card has -1 level while in your hand.
+Cont: GiveSelf
+{
+    If StageContains 1 NameEquals "Scoundrel" Han Solo
+    {
+        GainPower 2000
+    }
+}
+Text Cont: If you have another "Scoundrel" Han Solo, this card gets +2000 power.
+*Healer
 EndCard
 
 Character SW/S49-011
@@ -1062,6 +1205,11 @@ Name Medal Ceremony
 *YellowStockSoul
 EndCard
 
+Climax: SW/S49-032re
+Name Medal Ceremony
+*ChoiceClimax
+EndCard
+
 Climax: SW/S49-033
 Name I can do this!
 Color Y
@@ -1186,7 +1334,7 @@ Auto: OnSpecificClimaxPlay Bounty Hunter
         }
     }
 }
-Text Auto: Cx Combo [(2) Discard a card from your hand] When 'Bounty Hunter' is placed in your climax zone, you may pay the cost. If you do, this gets the following two abilities until end of turn. "Cont: When this card attacks, you may instead target a character on your opponent's back stage." "Auto: When this card's battle opponent becomes reversed, you may put that character in your opponent's clock."
+Text Auto: Cx Combo [(2) Discard a card from your hand] When 'Bounty Hunter' is placed in your climax zone, if this card is in your center stage, you may pay the cost. If you do, this card gets the following two abilities until end of turn. "Cont: When this card attacks, you may instead target a character on your opponent's back stage." "Auto: When this card's battle opponent becomes reversed, you may put that character in your opponent's clock."
 Combo Bounty Hunter
 EndCard
 
@@ -1244,7 +1392,6 @@ Level 1
 Cost 0
 Power 5000
 Trait1 Return of the Jedi
-Combo Jabba's Palace
 Auto: OnSpecificClimaxPlay Jabba's Palace
 {
     PayCost 1 Clock SendSelf WaitingRoom
@@ -1264,6 +1411,7 @@ Auto: OnSpecificClimaxPlay Jabba's Palace
     }
 }
 Text Auto: CxCombo [(1) Put the top card of your deck in the clock, put this card in the waiting room] When 'Jabba's Palace' is placed in your climax zone, you may pay the cost. If you do, search your deck for up to 3 characters named 'Gamorrean' or 'Max Rebo Band' and put them in separate stage positions. Then, shuffle your deck, choose one of your characters, and they get +2000 power until end of turn.
+Combo Jabba's Palace
 EndCard
 
 Character: SW/S49-041
@@ -1375,23 +1523,7 @@ Cost 0
 Power 3000
 Trait1 Return of the Jedi
 DeckLimit 13
-Auto: OnReversed
-{
-    TargetBattleOpponent
-    If Compare TargetCardsCost 0 OrLess && LocationContains OpponentClock 1 Any
-    {
-        Question Send battle opponent to opponent's clock? (Puts top card of clock in their waiting room)
-        If Yes
-        {
-            TargetTop OpponentClock 1
-            MoveCard OpponentWaitingRoom
-            TargetBattleOpponent
-            MoveCard OpponentClock
-        }
-    }
-}
-Text Auto: When this becomes reversed, if the cost of this card's battle opponent is 0 or lower, you may put the top card of your opponent's clock in the waiting room. If you do, put this card's battle opponent in the waiting room.
-ActivationRequirement TargetCardsCost 0 OrLess && LocationContains OpponentClock 1 Any
+*GreenCost0Bomb
 EndCard
 
 Character: SW/S49-046
@@ -1413,11 +1545,7 @@ Act: Rest 2 Any
     ChooseCharacterFromTargets 1 1
     GainEffect
     {
-        Auto: OnReverseOpponent
-        {
-            *OptionalBlindStock
-        }
-        Text Auto: When this card's battle opponent becomes reversed, you may put the top card of your deck into your stock.
+        *OnReverseBlindStock
     }
 }
 Text Act: [Rest 2 characters] Choose one of your characters. That character gets the following ability until end of turn: "Auto: When this card's battle opponent becomes reversed, you may put the top card of your deck into your stock."
@@ -1478,7 +1606,14 @@ Effect:
     ChooseCharacterFromTargets Choose a character to get the following ability until end of turn: "Auto: When this card is placed from the stage to the waiting room, you may return this card to the stage rested in it's original stage position."
     GainEffect
     {
-        *FreeEncore
+        Auto: OnSentFromStageToWaitingRoom
+        {
+            Question Return this card to the stage in it's original position, rested?
+            If Yes
+            {
+                Revive
+            }
+        }
     }
 
     TargetBattleOpponent
@@ -1602,6 +1737,44 @@ Text Auto: FORCE [(1) Discard a character] At the start of your climax phase, yo
 ActivationRequirement LocationContains OpponentStage 2 IsCharacter
 EndCard
 
+Character: SW/S49-054re
+Name Kylo Ren
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Soul 2
+Power 10000
+Trait1 The Force Awakens
+Auto: OnPlay
+{
+    PayCost 1 Discard 1 Any
+    {
+        OpponentSearchLocationForTargets WaitingRoom 1 1 IsClimax
+		MoveCard OpponentRevealed
+		OpponentRefresh
+		TargetLocation OpponentRevealed
+		MoveCard OpponentWaitingRoom
+    }
+}
+Text Auto: [(1) Discard a card] When this is placed on stage from hand, you may pay the cost. If you do, your opponent chooses 1 climax from their waiting room, and shuffles all other cards from their waiting room into their deck. 
+Auto: OnSentFromStageToWaitingRoom
+{
+    Question_Obvious Return this card to your hand & put up to 1 red character from your waiting room into your hand?
+    If Yes
+    {
+        TargetSelf
+        MoveCard Hand
+        TargetLocation WaitingRoom
+        ChooseCardsFromTargets 0 1 IsCharacter && IsColor Red
+        If HasTarget
+        {
+            MoveCard Stock
+        }
+    }
+}
+EndCard
+
 Character: SW/S49-055
 Name "Dark Sith Lord" Darth Vader
 Color R
@@ -1659,6 +1832,79 @@ Auto: StartClimaxPhase
 }
 Text Auto: FORCE [(1) Discard a character] At the start of your climax phase, you may pay the cost. If you do, choose two of your opponent's characters, then stand them and swap their positions.
 ActivationRequirement LocationContains OpponentStage 2 IsCharacter
+EndCard
+
+Character: SW/S49-055re
+Name "Dark Sith Lord" Darth Vader
+Color R
+Level 3
+Cost 2
+Trigger Soul
+Soul 2
+Power 10000
+Trait1 The Empire Strikes Back
+Auto: OnPlay
+{
+    TargetLocation OpponentStage
+    SetXValue TargetCount
+    Peek Deck X
+
+    // Pick one to put in your hand
+    ChooseCardsFromTargets 0 1 Any
+    If HasTarget
+    {
+        MoveCard Hand
+    }
+
+    // Move the rest to the waiting room
+    TargetLocation ScryArea
+    MoveCard WaitingRoom
+}
+Text Auto: When this card is placed onto the stage from your hand, you may look at up to the top X cards of your deck, choose one card from among them, put it into your hand, and the rest into your waiting room. X is the number of characters your opponent has.
+Auto: OnAttack
+{
+    If Climax I am your father.
+    {
+        Peek OpponentDeck 2
+        
+        ResolveInAnyOrder Choose cards to send to the waiting room.|Choose the order of cards.
+        {
+            Option
+            {
+                TargetLocation ScryArea
+                ChooseCardsFromTargets 0 2 Any
+                MoveCard OpponentWaitingRoom
+            }
+            Option
+            {
+                TargetLocation ScryArea
+                Reorder
+            }
+        }
+
+        EndPeek
+
+        Peek Deck 2
+        
+        ResolveInAnyOrder Choose cards to send to the waiting room.|Choose the order of cards.
+        {
+            Option
+            {
+                TargetLocation ScryArea
+                ChooseCardsFromTargets 0 2 Any
+                MoveCard OpponentWaitingRoom
+            }
+            Option
+            {
+                TargetLocation ScryArea
+                Reorder
+            }
+        }
+
+        EndPeek
+    }
+}
+Text Auto: When this card attacks, if "I am your father." is in your climax zone, look at the top two cards of your opponent's deck, and put any number of them back on top in any order, and send the rest to the waiting room. Then, look at the top two cards of your deck, put any number of them back on top in any order, and send the rest to the waiting room.
 EndCard
 
 Character: SW/S49-056
@@ -1837,11 +2083,7 @@ Level 1
 Cost 0
 Power 4500
 Trait1 A New Hope
-Auto: OnPlay
-{
-    GainPower 1500
-}
-Text Auto: When this card is placed onto the stage from your hand, this card gets +1500 power until end of turn.
+*OnPlayGainPower(1500)
 Auto: OnOpponentReverse
 {
     If Climax You are beaten.
@@ -1851,6 +2093,36 @@ Auto: OnOpponentReverse
 }
 Text Auto: CxCombo When this card's battle opponent becomes reversed, if 'You are beaten.' is in your climax zone, you may choose a character in your waiting room and return it too your hand.
 ActivationRequirement Climax You are beaten.
+Combo You are beaten.
+EndCard
+
+Character: SW/S49-060re
+Name "Tainted by Darkness" Darth Vader
+Color R
+Level 1
+Cost 0
+Power 4000
+Trait1 A New Hope
+*OnPlayGainPower(2000)
+Auto: OnAttack
+{
+    If Climax You are beaten. &&& StageContains 1 IsCharacter && Other && IsColor Red
+    {
+        Mill 2
+        SetXValue TotalLevel
+
+        TargetLocation WaitingRoom
+        NarrowTargets IsColor Red && Compare ThatCardsLevel X OrLess
+        ChooseCharacterFromTargets_Optional Choose a character to return to your hand.
+        If HasTarget
+        {
+            MoveCard Hand
+        }
+    }
+}
+Text Auto: CxCombo When this card attacks, if 'You are beaten.' is in your climax zone, put two cards from the top of your deck into the waiting room. Then, choose up to 1 level X or lower red character, and put it into your hand. X is the sum of the levels of the cards placed into the waiting room by this effect.
+ActivationRequirement Climax You are beaten. &&& StageContains 1 IsCharacter && Other && IsColor Red
+Combo You are beaten.
 EndCard
 
 Character: SW/S49-061
@@ -2257,6 +2529,24 @@ Auto: OnAttack
 Text Auto: When this card attacks, it gets +X power until end of turn, where X is the number of your other red characters multiplied by 500.
 EndCard
 
+Character: SW/S49-075re
+Name "New Vanguard" Stormtrooper
+Color R
+Level 1
+Cost 0
+Trigger Soul
+Trait1 The Force Awakens
+Power 3000
+DeckLimit 50
+Cont: GiveSelf
+{
+    SetXToNumberOfCharacters InLocation CenterStage && Other && NameEquals "New Vanguard" Stormtrooper
+    MultiplyXValue 2000
+    GainPower X
+}
+Text: For each of your other '"New Vanguard" Stormtrooper's in your center stage, this card gets +2000 power.
+EndCard
+
 Character: SW/S49-076
 Name Scout Trooper
 Color R
@@ -2424,6 +2714,12 @@ Trigger DoubleSoul
 *RedStockSoul
 EndCard
 
+Climax: SW/S49-083re
+Name I am your father.
+Color R
+*DoorClimax
+EndCard
+
 Climax: SW/S49-084
 Name You are beaten.
 Color R
@@ -2529,6 +2825,40 @@ Auto: OnAttack
 Text Auto: When this card attacks, if 'The Force Awakens' is in your climax zone, look at up to the top two cards of your deck, pick one, put it in your hand, and send the rest to your waiting room. This card gains the following ability until the end of your opponent's next turn: "Cont: Opposing character gets -1 soul."
 EndCard
 
+Character: SW/S49-088re
+Name "Awakening" Rey
+Color B
+Level 3
+Cost 2
+Trigger Soul
+Power 9500
+Soul 2
+Trait1 The Force Awakens
+*OnPlayGainPower(1500)
+Auto: OnPlay
+{
+    PayCost MarkerFromWaitingRoom 1 NameEquals Lightsaber
+    {
+        Burn 1
+    }
+}
+Text Auto: [Put a 'Lightsaber' from your waiting room underneath this card as a marker.] When this card is placed onto the stage from your hand, you may pay the cost. If you do, deal 1 damage to your opponent.
+Auto: OnEndOfAttack
+{
+    If Climax The Force Awakens
+    {
+        PayCost 2 Discard 2 Any
+        {
+            TargetSelf
+            Stand
+        }
+    }
+}
+Text Auto: CxCombo [(2) Discard 2 cards] At the end of this card's attack, if 'The Force Awakens' is in your climax zone, you may pay the cost. If you do, stand this card.
+Combo The Force Awakens
+ActivationRequirement Climax The Force Awakens
+EndCard
+
 Character: SW/S49-089
 Name "Dream-Chasing Youth" Luke
 Color B
@@ -2564,6 +2894,50 @@ Auto: OnOpponentReverse
 Text Auto: [(2) Discard a blue character] This ability activates up to once per turn. If 'A New Hope' is in your climax zone and this card has a marker underneath it, you may pay the cost. If you do, stand this card.
 ActivationRequirement Climax A New Hope &&& LocationContains Marker 1 OrMore
 TimesPerTurn 1
+EndCard
+
+Character: SW/S49-089re
+Name "Dream-Chasing Youth" Luke
+Color B
+Level 3
+Cost 2
+Power 10000
+Trigger Soul
+Soul 2
+Trait1 A New Hope
+Auto: OnPlay
+{
+    Question_Obvious Heal 1 damage?
+    If Yes
+    {
+        Heal
+    }
+
+    TargetLocation WaitingRoom
+    ChooseCardsFromTargets 0 1 NameEquals Lightsaber
+    If HasTarget
+    {
+        Marker_FaceUp
+    }
+}
+Text Auto: When this card is placed onto the stage from your hand, you may put one card from the top of your clock into your waiting room, then you may choose a card named 'Lightsaber' in your waiting room, and put it face-up underneath this card as a marker.
+Auto: OnEndOfAttack
+{
+    If Climax A New Hope
+    {
+        PayCost SendMarker WaitingRoom
+        {
+            TargetBottom OpponentDeck 4
+            MoveCard OpponentWaitingRoom
+            NarrowTargets Climax
+            SetXValue TargetCount
+            Burn X
+        }
+    }
+}
+Text Auto: CxCombo [Discard one marker underneath this card] At the end of this card's attack, if 'A New Hope' is in your climax zone, you may pay the cost. If you do, put 4 cards from the bottom of your opponent's deck into the waiting room, and deal 1 damage for each climax put into the waiting room this way.
+Combo A New Hope
+ActivationRequirement Climax A New Hope
 EndCard
 
 Character: SW/S49-090
@@ -2696,6 +3070,33 @@ Auto: OnAttack
     }
 }
 Text Auto: CxCombo When this card attacks, if 'Return of the Jedi' is in the climax zone, reveal the top card of your deck. If it is either a blue character or a card named 'Lightsaber', put it into your hand. (Otherwise, return it to the top of your deck)
+ActivationRequirement Climax Return of the Jedi
+Combo Return of the Jedi
+EndCard
+
+Character: SW/S49-094re
+Name "Moment of Counterattack" Luke
+Color B
+Level 1
+Cost 0
+Power 5500
+Trait1 Return of the Jedi
+*CannotSideAttack
+Auto: OnAttack
+{
+    If Climax Return of the Jedi
+    {
+        RevealExactly Deck 4
+        ChooseCardsFromTargets 0 1 IsCharacter && IsColor Blue ||| NameEquals Lightsaber
+        If HasTarget
+        {
+            MoveCard Hand
+        }
+        TargetLocation ScryArea
+        MoveCard WaitingRoom
+    }
+}
+Text Auto: CxCombo When this card attacks, if 'Return of the Jedi' is in the climax zone, look at the top 4 cards of your deck. If it is either a blue character or a card named 'Lightsaber', put it into your hand. (Otherwise, return it to the top of your deck)
 ActivationRequirement Climax Return of the Jedi
 Combo Return of the Jedi
 EndCard
@@ -2870,6 +3271,31 @@ Trait1 The Force Awakens
 *OnPlayMill2RestIfClimax
 EndCard
 
+Character: SW/S49-100re
+Name "Beloved Partner" C-3PO
+Color B
+Level 1
+Cost 0
+Power 2500
+Trait1 The Force Awakens
+Cont: GiveSelf
+{
+    If MyTurn
+    {
+        GainPower 4000
+    }
+}
+Text Cont: During your turn, this card gets +4000 power.
+Auto: OnAttack
+{
+    If Compare BattleOpponentsLevel 2 Exactly
+    {
+        GainPower 6000
+    }
+}
+Text Auto: When this card attacks, if it's battle opponent is level 2, this card gets +6000 power.
+EndCard
+
 Character: SW/S49-101
 Name Obi-Wan Kenobi
 Color B
@@ -2999,6 +3425,37 @@ Auto: OnPlay
     }
 }
 Text Auto: [Discard a climax] When this card is placed onto the stage from your hand, you may pay the cost. If you do, choose a character with a FORCE ability in your deck and return it to your hand.
+EndCard
+
+Character: SW/S49-104re
+Name "Jedi Master" Yoda
+Color B
+Level 0
+Cost 0
+Power 1500
+Trait1 The Empire Strikes Back
+Cont: GiveSelf
+{
+    If MyTurn
+    {
+        GainPower 1000
+    }
+}
+Text Cont: During your turn, this card gets +1000 power.
+Auto: OnSentFromStageToWaitingRoom
+{
+    PayCost Discard 1 Any
+    {
+        RevealUpTo Deck 4
+        ChooseCardsFromTargets 0 1 Compare ThatCardsLevel 1 OrMore
+        If HasTarget
+        {
+            MoveCard Hand
+        }
+        TargetLocation ScryArea
+        MoveCard WaitingRoom
+    }
+}
 EndCard
 
 Character: SW/S49-105
@@ -3249,6 +3706,24 @@ ActivationRequirement StageContains 2 IsCharacter && IsColor Blue
 Text COUNTER If you have two or fewer blue characters, this card cannot be played.\nYou may draw two cards, and if you do, discard two cards.\nChoose one of your characters, and that character gets +2000 power until end of turn.
 EndCard
 
+Event: SW/S49-113re
+Name Lightsaber
+Color B
+Level 1
+Cost 0
+Effect:
+{
+    TargetLocation Stage
+    ChooseCharacterFromTargets Choose a character to give the following ability until end of turn: "Auto: When this card attacks, perform two trigger checks on that trigger step."
+    If HasTarget
+    {
+        GainSpecialEffect DoubleTrigger
+    }
+}
+Text Choose one of your characters to give the following ability until end of turn: "Auto: When this card attacks, perform two trigger checks on that trigger step."
+ActivationRequirement StageContains 1 IsCharacter
+EndCard
+
 Event: SW/S49-114
 Name Lightsaber
 Color B
@@ -3271,6 +3746,25 @@ Effect:
 }
 ActivationRequirement StageContains 2 IsCharacter && HasTrait The Force Awakens
 Text COUNTER If you have two or fewer <The Force Awakens> characters, this card cannot be played.\nYou may draw two cards, and if you do, discard two cards.\nChoose one of your characters, and that character gets +2000 power until end of turn.
+EndCard
+
+Event: SW/S49-114re
+Name Lightsaber
+Color B
+Level 2
+Cost 0
+Counter
+Effect:
+{
+    TargetLocation Stage
+    ChooseCharacterFromTargets Choose a character to return to your hand.
+    If HasTarget
+    {
+        MoveCard Hand
+    }
+}
+Text Counter: Choose one of your characters. Return that character to your hand.
+ActivationRequirement StageContains 1 IsCharacter
 EndCard
 
 Event: SW/S49-115
@@ -3335,6 +3829,12 @@ Climax: SW/S49-120
 Name Return of the Jedi
 Color B
 *BlueStockSoul
+EndCard
+
+Climax: SW/S49-120re
+Name Return of the Jedi
+Color B
+*GateClimax
 EndCard
 
 Character: SW/S49-121

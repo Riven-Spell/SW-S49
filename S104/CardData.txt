@@ -1,0 +1,177 @@
+Character: Dsw/S104-002
+Name "Solitary Bounty Hunter" Mandalorian
+Color Y
+Power 10500
+Level 3
+Cost 2
+Trigger Soul
+Soul 2
+Trait1 Celebration
+Trait2 Mandalorian
+Auto: OnPlay
+{
+    TargetLocation Hand
+    NarrowTargets Compare ThatCardsLevel 3 OrLess
+    ChooseCharacterFromTargets Choose a character to place onto the stage.
+    If HasTarget 
+    {
+        PlaceOnStage False True True False
+    }
+
+    TargetSelf
+    GainEffect
+    {
+        Auto: OnOpponentReverse
+        {
+            PayCost 2
+            {
+                Heal
+            }
+        }
+        Text Auto: [(2)] When this card's battle opponent is reversed, you may pay the cost. If you do, put the top card of your clock into your waiting room.
+    }
+}
+Text Auto: When this card is placed onto the stage from your hand, you may choose a character level 3 or lower in your hand, and place it onto the stage. This character gets the following effect until end of turn: "Auto: [(2)] When this card's battle opponent is reversed, you may pay the cost. If you do, put the top card of your clock into your waiting room."
+Auto: OnDamageCanceled
+{
+    If Climax Mandalorian
+    {
+        If StageContains 2 Other && IsCharacter
+        {
+            Question_Obvious Deal 2 damage to your opponent?
+            If Yes
+            {
+                Burn 2
+            }
+        }
+    }
+}
+Text Auto: CxCombo This effect activates up to 1 time per turn. If "Mandalorian" is in your climax zone, and you have two or more other characters, you may deal 2 damage to your opponent.
+TimesPerTurn 1
+Combo Mandalorian
+ActivationRequirement Climax Mandalorian &&& StageContains 2 Other && IsCharacter
+EndCard
+
+Character: Dsw/S104-014
+Name "Orphan with the Force" Grogu
+Color Y
+Power 3500
+Level 3
+Cost 2
+Trigger Soul
+Soul 2
+Trait1 Celebration
+Trait2 Mandalorian
+*2000Assist
+*Healer
+Auto: StartClimaxPhase
+{
+    If LocationContains OpponentStage 2 IsCharacter
+    {
+        PayCost 1 Discard 1 Any
+        {
+            TriggerCustomEvent Force
+            TargetLocation OpponentStage
+            ChooseCharactersFromTargets 2 2 Choose two characters to swap.
+            Stand
+            Exchange
+        }
+    }
+}
+Text Auto: FORCE [(1) Discard a character] At the start of your climax phase, you may pay the cost. If you do, choose two of your opponent's characters and swap their positions.
+ActivationRequirement LocationContains OpponentStage 2 IsCharacter
+EndCard
+
+Climax: Dsw/S104-025
+Name Mandalorian
+*ChoiceClimax
+EndCard
+
+Character: Dsw/S104-073
+Name "Unparalleled Force" Anakin
+Color R
+Level 2
+Cost 1
+Trigger Soul
+Power 7500
+Trait1 Celebration
+Trait2 Revenge of the Sith
+Auto: OnOpponentReverse
+{
+    TargetLocation OpponentStage
+    ChooseCharacterFromTargets Choose a character to gain the effect: "Cont: This card cannot move to another stage slot."
+    If HasTarget
+    {
+        UntilEndOfOpponentsTurn
+        GainSpecialEffect CannotMove
+    }
+}
+Text Auto: When this card's battle opponent is reversed in battle, you may choose another one of your opponent's characters to gain the following effect until the end of their next turn: "Cont: This card cannot move to another stage slot."
+Auto: StartClimaxPhase
+{
+    If LocationContains Facing 1 Any &&& LocationContains OpponentStage 1 Not InLocation Facing
+    {
+        PayCost 1 Discard 1 Any
+        {
+            TriggerCustomEvent Force
+
+            TargetLocation Facing
+            SaveTargets
+
+            TargetLocation OpponentStage
+            // Trim battle opponent, because it's our other target
+            NarrowTargets Not InSavedTargets
+
+            ChooseCharacterFromTargets Choose a character to swap with this card's battle opponent
+            // Restore the battle opponent to the target list
+            AddSavedToCurrentTargets
+
+            // Swap & stand
+            Exchange
+            Stand
+        }
+    }
+}
+Text Auto: FORCE [(1) Discard a card] At the start of your climax phase, you may pay the cost. If you do, choose the opposing character of this card and one of your opponent's other level 1 or lower characters, then stand and swap them.
+ActivationRequirement LocationContains Facing 1 Any &&& LocationContains OpponentStage 1 Not InLocation Facing
+EndCard
+
+Character: Dsw/S104-080
+Name "Destined to Save the Universe" Luke
+Color B
+Level 0
+Cost 0
+Power 1000
+Trait1 Celebration
+Trait2 A New Hope
+Auto: OnPlay
+{
+    Mill 2
+    If TargetsContain 1 Climax
+    {
+        TargetLocation WaitingRoom
+        ChooseCardsFromTargets 0 1 IsColor Blue
+        If HasTarget
+        {
+            MoveCard Stock
+        }
+    }
+}
+Text Auto: When this card is placed onto the stage from your hand, put the top two cards of your deck into your waiting room. If one of those cards was a climax, you may choose a blue card in your waiting room, and put it in your stock.
+Auto: OnPlay
+{
+    PayCost 1 Discard 1 Any
+    {
+        SearchWaitingRoom IsColor Blue || HasTrait A New Hope
+        TargetLocation Stage
+        NarrowTargets Other
+        NarrowTargets IsColor Blue || HasTrait A New Hope
+        ChooseCharacterFromTargets Choose a character to get +1000 power.
+        If HasTarget
+        {
+            GainPower 1000
+        }
+    }
+}
+Text Auto: [(1) Discard a card] When this card is placed onto the stage from your hand, you may pay the cost. If you do, search your waiting room for a blue or <A New Hope> character and put it into your hand. Then, choose another blue or <A New Hope> character on your stage, and that character gets +1000 power until end of turn.
+EndCard

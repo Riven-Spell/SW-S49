@@ -1678,7 +1678,7 @@ Cont: GiveSelf
         }
     }
 }
-Text Cont: If you have 3 or more other red characters, this gets +1500 power and you do not receive damage from effects of your opponent's character's Auto abilities during battles involving this card.
+Text Cont: If you have 3 or more other red characters, this gets +1500 power and you do not receive damage from effects of your opponent's character's auto abilities during battles involving this card.
 *Healer
 Auto: OnFrontalAttacked
 {
@@ -1705,7 +1705,7 @@ Cont: GiveSelf
     MultiplyXValue 500
     GainPower X
 }
-Text Cont: For each of your other red characters, this gets +500 power.
+Text Cont: For each of your other red characters, this card gets +500 power.
 Cont: GiveFacing
 {
     LoseSoul 1
@@ -1790,7 +1790,7 @@ Auto: OnPlay
     *OptionalDraw
     Discard 1 Any
 }
-Text Auto: When this is placed onto your stage from your hand, draw up to 2 cards and discard a card from your hand to the waiting room.
+Text Auto: When this card is placed onto your stage from your hand, draw up to 2 cards and discard a card from your hand to the waiting room.
 Auto: OnAttack
 {
     If Climax I am your father.
@@ -1814,7 +1814,7 @@ Auto: OnAttack
         }
     }
 }
-Text Auto: CxCombo [(2) Discard a card] When this attacks, if 'I am your father.' is in your climax zone, you may pay the cost. If you do, deal 1 damage to your opponent, and this gets +2500 power and the following ability until end of turn: "Auto: When this card's battle opponent becomes reversed, you may deal 1 damage to your opponent."
+Text Auto: CxCombo [(2) Discard a card] When this card attacks, if 'I am your father.' is in your climax zone, you may pay the cost. If you do, deal 1 damage to your opponent, and this card gets +2500 power and the following ability until end of turn: "Auto: When this card's battle opponent becomes reversed, you may deal 1 damage to your opponent."
 Combo I am your father.
 Auto: StartClimaxPhase
 {
@@ -1918,7 +1918,10 @@ Auto: OnOtherReversed
 {
     TargetLocation Stage
     ChooseCharacterFromTargets Choose a character to get +500 power.
-    GainPower 500
+    If HasTarget
+    {
+        GainPower 500
+    }
 }
 Text Auto: When one of your other characters gets reversed in battle, choose one of your characters, and that character gets +500 power until end of turn.
 Act: 1 RestSelf
@@ -1947,20 +1950,7 @@ Auto: OnOpponentReverse
     }
 }
 Text Auto: [(1) Put the top card of your deck in your clock] When this card's battle opponent becomes reversed, you may pay the cost. If you do, search your waiting room for a character and put it in your hand.
-Auto: OnReversed
-{
-    If Compare BattleOpponentsLevel 0 OrLess
-    {
-        Question_Obvious Reverse the opponent character?
-        If Yes
-        {
-            TargetBattleOpponent
-            Reverse
-        }
-    }
-}
-Text Auto: When this card is reversed in battle, if it's battle opponent is level 0 or lower, you may reverse that character.
-ActivationRequirement Compare BattleOpponentsLevel 0 OrLess
+*RedLevel0Bomb
 EndCard
 
 Character: SW/S49-058
@@ -1976,20 +1966,7 @@ Cont: GiveSelf
     {
         GainEffect
         {
-            Auto: OnReversed
-            {
-                If Compare BattleOpponentsLevel 1 OrLess
-                {
-                    Question_Obvious Reverse battle opponent?
-                    If Yes
-                    {
-                        TargetBattleOpponent
-                        Reverse
-                    }
-                }
-            }
-            Text Auto: When this becomes reversed, if the level of the battle opponent is 1 or lower, you may reverse that character.
-            ActivationRequirement Compare BattleOpponentsLevel 1 OrLess
+            *RedLevel1Bomb
         }
     }
 }
@@ -2045,7 +2022,7 @@ Auto: OnReversed
     OpponentChooseCardsFromTargets 0 1
     MoveCard Deck
 }
-Text Auto: When this card is reversed, your opponent may choose a character in your waiting room and put it on top of your deck.
+Text Auto: When this card is reversed in battle, your opponent may choose a character in your waiting room and put it on top of your deck.
 Auto: StartClimaxPhase
 {
     If LocationContains Facing 1 Any &&& LocationContains OpponentStage 1 Not InLocation Facing && Compare ThatCardsLevel 1 OrLess

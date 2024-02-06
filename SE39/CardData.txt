@@ -102,7 +102,7 @@ ActivationRequirement LocationContains WaitingRoom 1 NameEquals Lightsaber
 EndCard
 
 Character: SW/SE39-005
-Name "Legendary Wookie Warrior" Chewbacca
+Name "Legendary Wookiee Warrior" Chewbacca
 Color Y
 Level 0
 Cost 0
@@ -178,7 +178,7 @@ ActivationRequirement StageContains 1 "Secret Mission" Leia
 EndCard
 
 Character: SW/SE39-009
-Name "Crime Lord of Tatooine"
+Name "Crime Lord of Tatooine" Jabba
 Color G
 Level 0
 Cost 0
@@ -299,7 +299,7 @@ EndCard
 
 Character: SW/SE39-013
 Name "The Chosen One" Anakin
-Color B
+Color R
 Level 1
 Cost 0
 Power 4500
@@ -558,26 +558,33 @@ Auto: OnAttack
 {
     TargetLocation Stage
     NarrowTargets Other && IsColor Blue || Other && HasTrait Return of the Jedi
-    ChooseCharacterFromTargets Choose a character to get +X power until end of turn, where X is 500 times the number of your other blue or <<Return of the Jedi>> characters
+    ChooseCharacterFromTargets Choose a character to get +X power until end of turn, where X is 500 times the number of your other blue or <Return of the Jedi> characters
 
     SetXToNumberOfCharacters Not ThisIsTargeted && IsColor Blue || Not ThisIsTargeted && HasTrait Return of the Jedi
     MultiplyXValue 500
     GainPower X
 }
-Text Auto: When this card attacks, choose one of your other blue or <<Return of the Jedi>> characters. That character gets +X power until end of turn, where X is 500 multiplied by the number of other blue or <<Return of the Jedi>> characters
+Text Auto: When this card attacks, choose one of your other blue or <Return of the Jedi> characters. That character gets +X power until end of turn, where X is 500 multiplied by the number of other blue or <Return of the Jedi> characters
 ActivationRequirement StageContains 1 Other && IsColor Blue || Other && HasTrait Return of the Jedi
 Auto: OnAttack
 {
     TargetLocation Stage
     GainEffect
     {
-        Auto: OnTriggerCheckClimax
+        Auto: OnThisTriggerCheck
         {
-            SearchWaitingRoom IsCharacter && IsColor Blue || IsCharacter && HasTrait Return of the Jedi
+            IfOther IsClimax
+            {
+                PayCost Discard 1 IsClimax
+                {
+                    SearchWaitingRoom IsCharacter && IsColor Blue || IsCharacter && HasTrait Return of the Jedi
+                }
+            }
         }
+        Text Auto: [Discard a climax] When this card's trigger check hits a climax, you may pay the cost. If you do, choose a blue or <Return of the Jedi> character in your waiting room and return it to your hand.
     }
 }
-Text Auto: When this card attacks, give all your characters the following ability until end of turn: "Auto: [Discard a climax] When this card's trigger check hits a climax, you may pay the cost. If you do, choose a blue or <<Return of the Jedi>> character in your waiting room and return it to your hand."
+Text Auto: When this card attacks, give all your characters the following ability until end of turn: "Auto: [Discard a climax] When this card's trigger check hits a climax, you may pay the cost. If you do, choose a blue or <Return of the Jedi> character in your waiting room and return it to your hand."
 EndCard
 
 Character: SW/SE39-023
@@ -708,26 +715,32 @@ Auto: OnPlay
 {
     Peek Deck 3
     ChooseCardsFromTargets 0 1 Any
-    MoveCard Hand
-    TargetLocation ScryArea
-    MoveCard WaitingRoom
+    If HasTarget
+    {
+        MoveCard Hand
+        TargetLocation ScryArea
+        MoveCard WaitingRoom
+    }
 }
+Text Auto: When this card is placed onto the stage from your hand, you may look at up to the top 3 cards of your deck. Choose up to one of the cards, and put it in your hand. Send the rest to the waiting room.
 Auto: OnAttack
 {
     If Climax Duel on Mustafar
     {
         PayCost 1
         {
+            TargetSelf
             GainSpecialEffect DoubleTrigger
             GainEffect
             {
                 Auto: OnThisTriggerCheck
                 {
-                    If LocationContains Trigger 1 HasTrigger Soul
+                    IfOther HasTrigger Soul
                     {
                         Burn 3
                     }
                 }
+                Text Auto: When this card's trigger check reveals a card with a soul trigger icon, you may deal 3 damage to your opponent.
             }
         }
     }

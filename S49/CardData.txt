@@ -699,7 +699,7 @@ Trait1 The Force Awakens
 EndCard
 
 Character SW/S49-010
-Name "Roar of Wookie" Chewbacca
+Name "Roar of Wookiee" Chewbacca
 Color Y
 Level 1
 Cost 0
@@ -717,7 +717,7 @@ Text: Cont: This card cannot frontal attack if it's battle opponent is a higher 
 EndCard
 
 Character SW/S49-010re
-Name "Roar of Wookie" Chewbacca
+Name "Roar of Wookiee" Chewbacca
 Color Y
 Level 3
 Cost 2
@@ -1031,13 +1031,13 @@ Power 4000
 Trait1 A New Hope
 Cont: GiveSelf
 {
-    If StageContains 1 NameEquals "Wookie" Chewbacca
+    If StageContains 1 NameEquals "Wookiee" Chewbacca
     {
         GainPower 3000
         GainSoul 1
     }
 }
-Text Cont: If you have another character named '"Wookie" Chewbacca', this card gets +3000 power and +1 soul.
+Text Cont: If you have another character named '"Wookiee" Chewbacca', this card gets +3000 power and +1 soul.
 Cont: GiveSelf
 {
     If LocationContains Memory 1 NameEquals Millennium Falcon
@@ -1057,7 +1057,7 @@ Text Auto: When this card's battle opponent becomes reversed, if it is level 2 o
 EndCard
 
 Character: SW/S49-025
-Name "Wookie" Chewbacca
+Name "Wookiee" Chewbacca
 Color Y
 Level 2
 Cost 1
@@ -1183,15 +1183,14 @@ Effect:
     ChooseCardsFromTargets 0 1 NameEquals "Rescue Operation" Han Solo
     SaveTargets
     TargetLocation Deck
-    ChooseCardsFromTargets 0 1 NameEquals "Wookie" Chewbacca
+    ChooseCardsFromTargets 0 1 NameEquals "Wookiee" Chewbacca
     AddSavedToCurrentTargets
-    LoadTargets
     PlaceOnStage False True True False
     TargetSelf
     MoveCard Memory
 }
 ActivationRequirement StageContains 1 IsColor Yellow
-Text If you have no yellow characters, this card cannot be played from your hand.\nSearch your deck for up to one character named '"Rescue Operation" Han Solo' and up to one character named '"Wookie" Chewbacca', put them in separate stage positions, and shuffle your deck.\nSend this card to memory.
+Text If you have no yellow characters, this card cannot be played from your hand.\nSearch your deck for up to one character named '"Rescue Operation" Han Solo' and up to one character named '"Wookiee" Chewbacca', put them in separate stage positions, and shuffle your deck.\nSend this card to memory.
 EndCard
 
 Climax: SW/S49-031
@@ -1242,7 +1241,7 @@ Auto: OnPlay
     }
 }
 Text Auto: [(1) Discard a card from your hand] When this card is placed from your hand to the stage, you may pay the cost. If you do, choose a card in your clock and return it to your hand, then send the top card of your deck to the clock.
-ActivationRequirement LocationContains Clock 1 OrMore
+ActivationRequirement LocationContains Clock 1 Any
 *GreenLevel0Bomb
 EndCard
 
@@ -2859,7 +2858,7 @@ Text Auto: When this card is placed onto the stage from your hand, you may choos
 ActivationRequirement LocationContains WaitingRoom 1 NameEquals Lightsaber
 Auto: OnOpponentReverse
 {
-    If Climax A New Hope &&& LocationContains Marker 1 OrMore
+    If Climax A New Hope &&& LocationContains Marker 1 Any
     {
         PayCost 2 Discard 1 IsCharacter && IsColor Blue
         {
@@ -2868,7 +2867,7 @@ Auto: OnOpponentReverse
         }
     }
 }
-Text Auto: [(2) Discard a blue character] This ability activates up to once per turn. If 'A New Hope' is in your climax zone and this card has a marker underneath it, you may pay the cost. If you do, stand this card.
+Text Auto: CxCombo [(2) Discard a blue character] This ability activates up to once per turn. If 'A New Hope' is in your climax zone and this card has a marker underneath it, you may pay the cost. If you do, stand this card.
 ActivationRequirement Climax A New Hope &&& LocationContains Marker 1 OrMore
 TimesPerTurn 1
 EndCard
@@ -3039,7 +3038,7 @@ Auto: OnAttack
     If Climax Return of the Jedi
     {
         RevealExactly Deck 1
-        If IsCharacter && IsColor Blue ||| NameEquals Lightsaber
+        IfTarget IsCharacter && IsColor Blue || NameEquals Lightsaber
         {
             MoveCard Hand
         }
@@ -3064,7 +3063,7 @@ Auto: OnAttack
     If Climax Return of the Jedi
     {
         RevealExactly Deck 4
-        ChooseCardsFromTargets 0 1 IsCharacter && IsColor Blue ||| NameEquals Lightsaber
+        ChooseCardsFromTargets 0 1 IsCharacter && IsColor Blue || NameEquals Lightsaber
         If HasTarget
         {
             MoveCard Hand
@@ -3376,8 +3375,9 @@ Trait1 The Force Awakens
 *Level3Assist
 Auto: OnPlay
 {
-    RevealExactly Deck 1
-    If Compare ThatCardsLevel 1 OrLess
+    TargetTop Deck 1
+    Reveal
+    If Compare TargetCardsLevel 1 OrLess
     {
         MoveCard Stock
     }
